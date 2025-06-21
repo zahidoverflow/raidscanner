@@ -9,3 +9,8 @@ gitpython
 prompt_toolkit
 pyyaml
 Flask
+streamlit
+pandas
+plotly
+streamlit-option-menu
+streamlit-aggrid
