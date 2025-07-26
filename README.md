@@ -1,4 +1,4 @@
-> **vulnascanner** is an easy-to-use tool that finds web issues like `LFI` - `OR` - `SQLi` - `XSS` - `CRLF`.
+> **Vulnerability Scanner** is an easy-to-use tool that finds web issues like `LFI` - `OR` - `SQLi` - `XSS` - `CRLF`.
 
 | Features                          | About                                                                       |
 |-----------------------------------|-----------------------------------------------------------------------------|
@@ -33,10 +33,7 @@
 ### Clone the repository
 
 ```bash
-git clone https://github.com/coffinxp/loxs.git
-```
-```bash
-cd loxs
+cd vulnascanner
 ```
 
 ### Install the requirements
@@ -47,13 +44,8 @@ pip3 install -r requirements.txt
 ### Run the Script
 
 ```bash
-python3 loxs.py
+python3 main.py
 ```
-<!-- to update the tool to the latest version
-```bash
-just edit the config.yml file with your tool directory
-after pressing 5 and exiting from the tool run the tool again it will run with an updated version
-``` -->
 
 ----
 
@@ -115,17 +107,5 @@ sudo mv chromedriver /usr/bin
 <hr>
 
 > [!WARNING]  
-> Loxs is intended for educational and ethical hacking purposes only. It should only be used to test systems you own or have explicit permission to test. Unauthorized use of third-party websites or systems without consent is illegal and unethical.
-
-<br>
-
-<p align="center">
-<img src="https://github.com/user-attachments/assets/9ec3fed0-45ff-4cb3-988c-f8cd66e85082">
-</p>
-
-
-<br>
-
-
-
+> This scanner is intended for educational and ethical hacking purposes only. It should only be used to test systems you own or have explicit permission to test. Unauthorized use of third-party websites or systems without consent is illegal and unethical.
 

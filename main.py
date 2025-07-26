@@ -151,14 +151,14 @@ try:
 
     def display_menu():
         title = r"""
-     ____           ____  ___                
-    |    |    _____ \   \/  /  ______
-    |    |   /     \ \     /  /  ___/
-    |    |__(   O  / /     \  \___  \
-    |_______/\____/ /___/\  \ /_____/ 
-                          \_/                 
+    ██╗    ██╗██╗  ██╗██╗████████╗███████╗    ██╗  ██╗ █████╗ ████████╗
+    ██║    ██║██║  ██║██║╚══██╔══╝██╔════╝    ██║  ██║██╔══██╗╚══██╔══╝
+    ██║ █╗ ██║███████║██║   ██║   █████╗      ███████║███████║   ██║   
+    ██║███╗██║██╔══██║██║   ██║   ██╔══╝      ██╔══██║██╔══██║   ██║   
+    ╚███╔███╔╝██║  ██║██║   ██║   ███████╗    ██║  ██║██║  ██║   ██║   
+     ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝   ╚═╝   ╚══════╝    ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   
     """
-        print(Color.ORANGE + Style.BRIGHT + title.center(72))
+        print(Color.GREEN + Style.BRIGHT + title.center(72))
         print(Fore.WHITE + Style.BRIGHT + "─" * 72)
         border_color = Color.CYAN + Style.BRIGHT
         option_color = Fore.WHITE + Style.BRIGHT  
@@ -171,20 +171,15 @@ try:
             "3] SQLi Scanner",
             "4] XSS Scanner",
             "5] CRLF Scanner",
-            "6] tool Update",
-            "7] Exit"
+            "6] Exit"
         ]
         
         for option in options:
             print(border_color + "│" + option_color + option.ljust(72) + border_color + "│")
         
         print(border_color + "└" + "─" * 72 + "┘")
-        authors = "Created by: Coffinxp, 1hehaq, HexSh1dow, Naho, AnonKryptiQuz, Hghost010"
         instructions = "Select an option by entering the corresponding number:"
         
-        print(Fore.WHITE + Style.BRIGHT + "─" * 72)
-        print(Fore.WHITE + Style.BRIGHT + authors.center(72))
-        print(Fore.WHITE + Style.BRIGHT + "─" * 72)
         print(Fore.WHITE + Style.BRIGHT + instructions.center(72))
         print(Fore.WHITE + Style.BRIGHT + "─" * 72)
 
@@ -192,13 +187,14 @@ try:
         clear_screen()
 
         panel = Panel(r"""
-         ______               ______              
-        |   __ \.--.--.-----.|   __ \.--.--.-----.
-        |   __ <|  |  |  -__||   __ <|  |  |  -__|
-        |______/|___  |_____||______/|___  |_____|
-                |_____|              |_____|      
+            ███████╗██╗  ██╗██╗████████╗
+            ██╔════╝╚██╗██╔╝██║╚══██╔══╝
+            █████╗   ╚███╔╝ ██║   ██║   
+            ██╔══╝   ██╔██╗ ██║   ██║   
+            ███████╗██╔╝ ██╗██║   ██║   
+            ╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝   
         
-  Credit: Coffinxp - 1hehaq - HexSh1dow - AnonKryptiQuz - Naho - Hghost010
+    Ethical Hacking is not a crime, it's a skill.
             """,
             style="bold green",
             border_style="blue",
@@ -758,12 +754,12 @@ try:
                                 print(f"{Fore.RED}[!] You must provide either a file with URLs or a single URL.")
                                 input(f"{Fore.YELLOW}\n[i] Press Enter to try again...")
                                 clear_screen()
-                                print(f"{Fore.GREEN}Welcome to the Loxs SQL-Injector! - Coffinxp - 1hehaq - HexSh1dow - AnonKryptiQuz - Naho - Hghost010\n")
+                                print(f"{Fore.GREEN}Welcome to the scanner SQL-Injector! - GROK 4\n")
                     except Exception as e:
                         print(f"{Fore.RED}[!] Error reading input file: {url_input}. Exception: {str(e)}")
                         input(f"{Fore.YELLOW}[i] Press Enter to try again...")
                         clear_screen()
-                        print(f"{Fore.GREEN}Welcome to the Loxs SQL-Injector! - Coffinxp - 1hehaq - HexSh1dow - AnonKryptiQuz - Naho - Hghost010\n")
+                        print(f"{Fore.GREEN}Welcome to the scanner SQL-Injector! - GROK 4\n")
 
             def prompt_for_payloads():
                 while True:
@@ -778,7 +774,7 @@ try:
                         print(f"{Fore.RED}[!] Error reading payload file: {payload_input}. Exception: {str(e)}")
                         input(f"{Fore.YELLOW}[i] Press Enter to try again...")
                         clear_screen()
-                        print(f"{Fore.GREEN}Welcome to the Loxs SQL-Injector! - Coffinxp - 1hehaq - HexSh1dow - AnonKryptiQuz - Naho - Hghost010\n")
+                        print(f"{Fore.GREEN}Welcome to the scanner SQL-Injector! - GROK 4\n")
 
             def print_scan_summary(total_found, total_scanned, start_time):
                 summary = [
@@ -1773,7 +1769,7 @@ try:
                     print(Fore.RED + f"[!] Error reading input file: {url_input}. Exception: {str(e)}")
                     input(Fore.YELLOW + "[i] Press Enter to try again...")
                     clear_screen()
-                    print(Fore.GREEN + "Welcome to the LFI Testing Tool! - AnonKryptiQuz x 1hehaq x Coffinxp x Hexsh1dow x Naho x Hghost010\n")
+                    print(Fore.GREEN + "Welcome to the LFI Testing Tool!\n")
 
         def prompt_for_payloads():
             while True:
@@ -2225,8 +2221,8 @@ try:
 
         display_update_intro()
 
-        repo_owner = "coffinxp"
-        repo_name = "loxs"
+        repo_owner = "GROK 4"
+        repo_name = "vulnerality-scanner"
         current_version = get_current_version()
 
         if current_version is None:
