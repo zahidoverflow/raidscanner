@@ -1,4 +1,4 @@
-> **VulnaScanner** is an easy-to-use tool that finds web issues like `LFI` - `OR` - `SQLi` - `XSS` - `CRLF`.
+> **vulnascanner** is an easy-to-use tool that finds web issues like `LFI` - `OR` - `SQLi` - `XSS` - `CRLF`.
 
 | Features                          | About                                                                       |
 |-----------------------------------|-----------------------------------------------------------------------------|
