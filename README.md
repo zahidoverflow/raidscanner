@@ -1,4 +1,4 @@
-**Vulnerability Scanner** is an easy-to-use tool that finds web issues like `LFI` - `OR` - `SQLi` - `XSS` - `CRLF`.
+### **Vulnerability Scanner** is an easy-to-use tool that finds web issues like `LFI` - `OR` - `SQLi` - `XSS` - `CRLF`.
 
 | Features                          | About                                                                       |
 |-----------------------------------|-----------------------------------------------------------------------------|
@@ -108,5 +108,6 @@ sudo mv chromedriver /usr/bin
 
 > [!WARNING]  
 > This scanner is intended for educational and ethical hacking purposes only. It should only be used to test systems you own or have explicit permission to test. Unauthorized use of third-party websites or systems without consent is illegal and unethical.
+
 
 
