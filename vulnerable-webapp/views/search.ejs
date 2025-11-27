@@ -1,0 +1,45 @@
+<%- include('header') %>
+
+<div class="card">
+  <h1>Search Courses</h1>
+  
+  <form action="/search" method="GET">
+    <div class="form-group">
+      <input type="text" name="q" placeholder="Search by course name or code..." value="<%= query %>" style="font-size: 1.1rem;">
+    </div>
+    <button type="submit" class="btn">Search</button>
+  </form>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="error" style="margin-top: 1rem;">
+      <strong>Database Error:</strong> <%= error %>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">This might indicate a SQL injection attempt!</p>
+    </div>
+  <% } %>
+</div>
+
+<% if (results && results.length > 0) { %>
+  <div class="card">
+    <h2>Search Results (<%= results.length %>)</h2>
+    
+    <% results.forEach(course => { %>
+      <div style="border-left: 4px solid #667eea; padding-left: 1rem; margin-bottom: 1.5rem;">
+        <h3 style="color: #667eea;"><%= course.course_code %> - <%= course.course_name %></h3>
+        <p><strong>Instructor:</strong> <%= course.instructor %></p>
+        <p><strong>Credits:</strong> <%= course.credits %></p>
+      </div>
+    <% }); %>
+  </div>
+<% } else if (query) { %>
+  <div class="card">
+    <p>No results found for "<%= query %>"</p>
+  </div>
+<% } %>
+
+<div class="card" style="background: #fff3cd; border: 1px solid #ffc107;">
+  <p style="color: #856404;">
+    ⚠️ <strong>Vulnerability:</strong> This search is vulnerable to SQL injection. Try: <code>' UNION SELECT 1,2,3,4,5 --</code>
+  </p>
+</div>
+
+<%- include('footer') %>

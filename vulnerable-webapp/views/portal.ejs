@@ -1,0 +1,40 @@
+<%- include('header') %>
+
+<div class="card" style="max-width: 500px; margin: 0 auto;">
+  <h1>Student Portal Login</h1>
+  <p style="margin-bottom: 2rem;">Access your student dashboard and university resources.</p>
+
+  <% if (error) { %>
+    <div class="error"><%= error %></div>
+  <% } %>
+
+  <form action="/portal/login" method="POST">
+    <div class="form-group">
+      <label for="student_id">Student ID</label>
+      <input type="text" id="student_id" name="student_id" placeholder="IST2021001" required>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required>
+    </div>
+
+    <button type="submit" class="btn" style="width: 100%;">Login</button>
+  </form>
+
+  <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ddd; text-align: center;">
+    <p style="font-size: 0.9rem; color: #666;">
+      For testing: <br>
+      <code>Student ID: IST2021001</code><br>
+      <code>Password: password123</code>
+    </p>
+  </div>
+
+  <div style="margin-top: 1rem; padding: 1rem; background: #fff3cd; border-radius: 5px; border: 1px solid #ffc107;">
+    <p style="font-size: 0.85rem; color: #856404;">
+      ⚠️ <strong>Vulnerability:</strong> This form is vulnerable to SQL injection. Try: <code>' OR '1'='1' --</code>
+    </p>
+  </div>
+</div>
+
+<%- include('footer') %>

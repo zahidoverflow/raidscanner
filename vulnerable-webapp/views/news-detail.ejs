@@ -1,0 +1,18 @@
+<%- include('header') %>
+
+<div class="card">
+  <h1><%= news.title %></h1>
+  <p style="color: #999; margin-bottom: 1rem;">📅 <%= news.date %></p>
+  <p style="font-size: 1.1rem; line-height: 1.8;"><%= news.content %></p>
+</div>
+
+<div class="card">
+  <h2>Comments</h2>
+  <p style="color: #666; font-style: italic;">Comments feature coming soon...</p>
+</div>
+
+<div class="card">
+  <a href="/" class="btn btn-secondary">← Back to Home</a>
+</div>
+
+<%- include('footer') %>

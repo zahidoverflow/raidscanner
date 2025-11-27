@@ -1,0 +1,27 @@
+<%- include('header') %>
+
+<div class="card">
+  <h1>Course Catalog</h1>
+  <p>Browse our comprehensive selection of courses across various disciplines.</p>
+</div>
+
+<% if (courses && courses.length > 0) { %>
+  <% courses.forEach(course => { %>
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: start;">
+        <div>
+          <h2 style="color: #667eea;"><%= course.course_code %> - <%= course.course_name %></h2>
+          <p style="margin: 0.5rem 0;"><strong>Instructor:</strong> <%= course.instructor %></p>
+          <p><strong>Credits:</strong> <%= course.credits %></p>
+        </div>
+        <button class="btn">Enroll</button>
+      </div>
+    </div>
+  <% }); %>
+<% } else { %>
+  <div class="card">
+    <p>No courses available at the moment.</p>
+  </div>
+<% } %>
+
+<%- include('footer') %>

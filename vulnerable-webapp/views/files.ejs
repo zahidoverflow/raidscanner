@@ -1,0 +1,32 @@
+<%- include('header') %>
+
+<div class="card">
+  <h1>Document Library</h1>
+  <p>Access course materials and university documents.</p>
+</div>
+
+<div class="card">
+  <h2>Available Documents</h2>
+  
+  <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+    <a href="/files?file=syllabus.txt" style="display: block; padding: 1rem; background: #f8f9fa; border-radius: 5px; text-decoration: none; color: #333; border: 1px solid #ddd;">
+      📄 Course Syllabus
+    </a>
+    
+    <a href="/files?file=schedule.txt" style="display: block; padding: 1rem; background: #f8f9fa; border-radius: 5px; text-decoration: none; color: #333; border: 1px solid #ddd;">
+      📅 Academic Schedule
+    </a>
+    
+    <a href="/files?file=handbook.txt" style="display: block; padding: 1rem; background: #f8f9fa; border-radius: 5px; text-decoration: none; color: #333; border: 1px solid #ddd;">
+      📚 Student Handbook
+    </a>
+  </div>
+</div>
+
+<div class="card" style="background: #fff3cd; border: 1px solid #ffc107;">
+  <p style="color: #856404;">
+    ⚠️ <strong>Vulnerability:</strong> This file viewer is vulnerable to LFI (Local File Inclusion). Try: <code>?file=../server.js</code>
+  </p>
+</div>
+
+<%- include('footer') %>
