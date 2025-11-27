@@ -4,8 +4,23 @@
 [![Docker Image Size](https://img.shields.io/docker/image-size/zahidoverflow/raidscanner/latest)](https://hub.docker.com/r/zahidoverflow/raidscanner)
 [![Docker Pulls](https://img.shields.io/docker/pulls/zahidoverflow/raidscanner)](https://hub.docker.com/r/zahidoverflow/raidscanner)
 
+## 🎨 New: Web-Based GUI
+
+RaidScanner now features a modern web interface! Run the tool through your browser with real-time updates.
+
+**Quick Start:**
+```bash
+docker-compose up raidscanner-web
+# Access at http://localhost:5000
+```
+
+👉 **[See Web GUI Documentation](WEB_GUI.md)** for detailed setup and usage.
+
+## Features
+
 | Features                          | About                                                                       |
 |-----------------------------------|-----------------------------------------------------------------------------|
+| `🌐 Web GUI`                      | Modern web interface with real-time updates (NEW!)                          |
 | `LFI Scanner`                     | Detect Local File Inclusion vulnerabilities.                                |
 | `OR Scanner`                      | Identify Open Redirect vulnerabilities.                                     |
 | `SQL Scanner`                     | Detect SQL Injection vulnerabilities.                                       |
@@ -26,7 +41,7 @@
 
 | Language                          | Packages                                                                    |
 |-----------------------------------|-----------------------------------------------------------------------------|
-| ***Python***| `Python 3.x` `webdriver_manager` `selenium` `aiohttp` `beautifulsoup4` `colorama` `rich` `requests` `gitpython` `prompt_toolkit` `pyyaml` `Flask`|
+| ***Python***| `Python 3.x` `webdriver_manager` `selenium` `aiohttp` `beautifulsoup4` `colorama` `rich` `requests` `gitpython` `prompt_toolkit` `pyyaml` `Flask` `flask-socketio`|
 
 <br>
 <hr>
@@ -38,10 +53,20 @@
 
 **Pull from Docker Hub (fastest):**
 ```bash
+# CLI Mode
 docker pull zahidoverflow/raidscanner:latest
 docker run -it --rm \
   -v $(pwd)/output:/app/output \
   -v $(pwd)/reports:/app/reports \
+  --shm-size=2g \
+  zahidoverflow/raidscanner:latest
+
+# Web GUI Mode
+docker run -d \
+  -p 5000:5000 \
+  -v $(pwd)/output:/app/output \
+  -v $(pwd)/reports:/app/reports \
+  -e MODE=web \
   --shm-size=2g \
   zahidoverflow/raidscanner:latest
 ```

@@ -62,17 +62,23 @@ RUN pip install --upgrade pip==24.3.1 setuptools==75.6.0 wheel==0.45.1 \
     && pip list
 
 # Copy application files
-COPY main.py filter.sh ./
+COPY main.py app.py filter.sh start.sh ./
 COPY payloads/ ./payloads/
+COPY core/ ./core/
+COPY utils/ ./utils/
+COPY web/ ./web/
 COPY chromedriver-linux64/ /usr/local/bin/
 
 # Set permissions
-RUN chmod +x filter.sh 2>/dev/null || true \
+RUN chmod +x filter.sh start.sh 2>/dev/null || true \
     && if [ -f /usr/local/bin/chromedriver ]; then chmod +x /usr/local/bin/chromedriver; fi
 
 # Create necessary directories with proper permissions
 RUN mkdir -p /app/output /app/reports \
     && chmod 777 /app/output /app/reports
+
+# Expose port for web interface
+EXPOSE 5000
 
 # Health check (optional but recommended)
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
@@ -83,5 +89,6 @@ RUN useradd -m -u 1000 scanner \
     && chown -R scanner:scanner /app
 USER scanner
 
-# Start Xvfb and run the application
-CMD ["/bin/bash", "-c", "Xvfb :99 -screen 0 1920x1080x24 > /dev/null 2>&1 & sleep 1 && python3 main.py"]
+# Start Xvfb and run the application (default: CLI mode)
+# To run web mode: docker run -p 5000:5000 -e MODE=web raidscanner
+CMD ["/bin/bash", "-c", "Xvfb :99 -screen 0 1920x1080x24 > /dev/null 2>&1 & sleep 1 && if [ \"$MODE\" = \"web\" ]; then python3 app.py; else python3 main.py; fi"]
