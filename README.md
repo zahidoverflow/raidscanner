@@ -30,19 +30,44 @@
 
 ## Installation
 
-### Clone the repository
+### Option 1: Docker (Recommended - Easy & Portable)
 
+**Quick Start:**
 ```bash
-cd vulnascanner
+# Build and run with docker-compose
+docker-compose build
+docker-compose run --rm raidscanner
+
+# Or use the convenience script
+chmod +x docker-run.sh
+./docker-run.sh
 ```
 
-### Install the requirements
+📖 **See [DOCKER.md](DOCKER.md) for complete Docker documentation**
 
+**Benefits:**
+- ✅ No manual dependency installation
+- ✅ Isolated environment
+- ✅ Works on Windows, Mac, Linux
+- ✅ Pre-configured Chrome & ChromeDriver
+- ✅ Easy to share and deploy
+
+---
+
+### Option 2: Manual Installation
+
+**Clone the repository:**
+```bash
+git clone https://github.com/zahidoverflow/raidscanner.git
+cd raidscanner
+```
+
+**Install the requirements:**
 ```bash
 pip3 install -r requirements.txt
 ```
-### Run the Script
 
+**Run the Script:**
 ```bash
 python3 main.py
 ```

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  raidscanner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: raidscanner
+    stdin_open: true
+    tty: true
+    volumes:
+      # Mount output directory to persist results
+      - ./output:/app/output
+      - ./reports:/app/reports
+      # Mount payloads directory (optional, if you want to modify them)
+      - ./payloads:/app/payloads:ro
+    environment:
+      - DISPLAY=:99
+      - PYTHONUNBUFFERED=1
+    # Shared memory size for Chrome
+    shm_size: '2gb'
+    networks:
+      - raidscanner_net
+
+networks:
+  raidscanner_net:
+    driver: bridge
