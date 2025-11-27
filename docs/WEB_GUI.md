@@ -33,16 +33,32 @@ RaidScanner now features a modern, cross-platform web-based GUI built with Flask
 ### Option 1: Docker (Recommended)
 
 ```bash
-# Run web interface only
-docker compose up raidscanner-web
+# Run web interface in background
+docker compose up -d raidscanner-web
 
 # Or run both CLI and Web
-docker compose up
+docker compose up -d
+
+# View logs
+docker compose logs -f raidscanner-web
 ```
 
 Access the web interface at: **http://localhost:5000**
 
-### Option 2: Direct Python Execution (Advanced - Not Recommended)
+### Option 2: Docker Hub Image
+
+```bash
+# Pull and run
+docker pull zahidoverflow/raidscanner:latest
+docker run -d -p 5000:5000 \
+  -v $(pwd)/output:/app/output \
+  -v $(pwd)/reports:/app/reports \
+  --shm-size=2g \
+  --name raidscanner-web \
+  zahidoverflow/raidscanner:latest
+```
+
+### Option 3: Direct Python Execution (Advanced - Not Recommended)
 
 ⚠️ **Note**: This requires manual installation of all dependencies on your host machine. Use Docker (Option 1) for easier setup.
 

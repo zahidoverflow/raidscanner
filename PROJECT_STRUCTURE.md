@@ -6,7 +6,7 @@
 raidscanner/
 ├── .docker/                    # Docker configuration
 │   ├── Dockerfile              # Container build definition
-│   ├── docker compose.yml      # Multi-service orchestration
+│   ├── compose.yml             # Docker Compose configuration (V2)
 │   └── .dockerignore           # Docker build exclusions
 │
 ├── .git/                       # Git version control
@@ -22,17 +22,12 @@ raidscanner/
 │   └── payload_loader.py       # Payload management
 │
 ├── docs/                       # Documentation
-│   ├── README.md               # Main documentation
+│   ├── README.md               # Complete user documentation
 │   ├── WEB_GUI.md              # Web interface guide
-│   ├── DOCKER.md               # Docker guide
-│   ├── QUICKSTART.md           # Quick start guide
-│   ├── ARCHITECTURE.md         # System architecture
-│   ├── WORKFLOW.md             # Development workflow
-│   ├── IMPLEMENTATION_SUMMARY.md
-│   ├── DEPENDENCIES.md         # Dependency information
-│   ├── CHECKLIST.md
-│   ├── DOCKER_README.md
-│   └── DOCKER_SETUP.md
+│   ├── DOCKER.md               # Docker deployment guide
+│   ├── QUICKSTART.md           # 5-minute quick start
+│   ├── ARCHITECTURE.md         # System design & architecture
+│   └── IMPLEMENTATION_SUMMARY.md  # Development summary
 │
 ├── output/                     # Scan results (auto-generated)
 │   └── (scan results)
@@ -76,28 +71,21 @@ raidscanner/
 │           └── main.js         # Frontend JavaScript
 │
 ├── .gitignore                  # Git exclusions
+├── README.md                   # Main project README (GitHub landing page)
 ├── app.py                      # Flask web application entry point
 ├── main.py                     # CLI application entry point
-├── docker compose.yml          # Symlink to .docker/docker compose.yml
+├── compose.yml                 # Symlink to .docker/compose.yml
 ├── requirements.txt            # Python dependencies (all)
 ├── requirements-docker.txt     # Docker-specific dependencies
 ├── requirements-gui.txt        # GUI-specific dependencies
 ├── requirements-lock.txt       # Pinned dependency versions
-└── PROJECT_STRUCTURE.md        # This file
+└── PROJECT_STRUCTURE.md        # This file - project organization guide
 ```
 
-## File Descriptions
+## Documentation Structure
 
-### Root Level Files
-
-- **app.py**: Flask web application entry point (web GUI mode)
-- **main.py**: CLI application entry point (terminal mode)
-- **docker compose.yml**: Symlink for easy access to Docker Compose config
-
-### Configuration Files
-
-- **requirements.txt**: All Python dependencies (for local development)
-- **requirements-docker.txt**: Docker-optimized dependencies (Linux compatible)
+### Root Level
+- **README.md**: Main project documentation - installation, usage, features (GitHub landing page)
 - **requirements-gui.txt**: Additional GUI-specific packages
 - **requirements-lock.txt**: Pinned versions for reproducible builds
 
@@ -124,11 +112,13 @@ Helper modules:
 
 ### Documentation (`docs/`)
 
-All project documentation:
-- User guides
-- API documentation
-- Development workflows
-- Docker setup instructions
+Comprehensive project documentation:
+- **README.md**: Complete user documentation with all features
+- **QUICKSTART.md**: 5-minute quick start guide
+- **WEB_GUI.md**: Web interface guide and API reference
+- **DOCKER.md**: Complete Docker deployment guide
+- **ARCHITECTURE.md**: System design and components
+- **IMPLEMENTATION_SUMMARY.md**: Development history
 
 ### Scripts (`scripts/`)
 
@@ -155,7 +145,82 @@ Pre-compiled binaries:
 - **output/**: Raw scan results (auto-generated)
 - **reports/**: HTML/JSON reports (auto-generated)
 
-## Development Workflow
+## Common Commands Reference
+
+### Quick Start
+```bash
+# Web GUI (Recommended)
+docker compose up -d raidscanner-web    # Start in background
+# Access: http://localhost:5000
+
+# CLI Mode
+docker compose run --rm raidscanner-cli  # Interactive terminal
+
+# Both Services
+docker compose up -d                     # Start all services
+```
+
+### Docker Compose Commands
+```bash
+# Service Management
+docker compose up -d raidscanner-web     # Start web (background)
+docker compose up raidscanner-cli        # Start CLI (foreground)
+docker compose down                      # Stop all services
+docker compose restart raidscanner-web   # Restart web service
+
+# Logs & Monitoring
+docker compose logs -f raidscanner-web   # Follow web logs
+docker compose logs --tail=100           # Last 100 log lines
+docker compose ps                        # List running services
+
+# Building & Updating
+docker compose build                     # Build images
+docker compose build --no-cache          # Rebuild from scratch
+docker compose pull                      # Pull latest images
+
+# Cleanup
+docker compose down --volumes            # Remove volumes
+docker compose down --rmi all            # Remove images
+```
+
+### Direct Docker Commands
+```bash
+# Pull from Docker Hub
+docker pull zahidoverflow/raidscanner:latest
+
+# Run Web GUI
+docker run -d -p 5000:5000 \
+  -v $(pwd)/output:/app/output \
+  -v $(pwd)/reports:/app/reports \
+  --shm-size=2g \
+  --name raidscanner-web \
+  zahidoverflow/raidscanner:latest
+
+# Run CLI
+docker run -it --rm \
+  -v $(pwd)/output:/app/output \
+  -v $(pwd)/reports:/app/reports \
+  --shm-size=2g \
+  zahidoverflow/raidscanner:latest
+
+# Container Management
+docker ps                                # List running containers
+docker stop raidscanner-web              # Stop container
+docker rm raidscanner-web                # Remove container
+docker logs -f raidscanner-web           # View logs
+```
+
+### Helper Scripts
+```bash
+# Linux/Mac
+chmod +x scripts/docker-run.sh
+./scripts/docker-run.sh
+
+# Windows
+scripts\docker-run.bat
+```
+
+### Development Workflow
 
 ### Local Development
 ```bash
@@ -171,12 +236,28 @@ python app.py
 
 ### Docker Development
 ```bash
-# Build and run
-docker compose up raidscanner-web
+# Build and run web GUI
+docker compose up -d raidscanner-web
 
 # Or CLI mode
-docker compose up raidscanner-cli
+docker compose run --rm raidscanner-cli
+
+# View logs
+docker compose logs -f
+
+# Rebuild after changes
+docker compose build --no-cache
 ```
+
+## Quick Reference URLs
+
+| Resource | URL |
+|----------|-----|
+| Web GUI | http://localhost:5000 |
+| Reports | http://localhost:5000/reports |
+| Docker Hub | https://hub.docker.com/r/zahidoverflow/raidscanner |
+| GitHub | https://github.com/zahidoverflow/raidscanner |
+| Documentation | See `docs/` directory |
 
 ## Key Principles
 

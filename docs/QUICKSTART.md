@@ -6,11 +6,13 @@
 
 **1. Start Web Interface:**
 ```bash
-docker compose up raidscanner-web
+docker compose up -d raidscanner-web
 ```
 
 **2. Open Browser:**
-Navigate to: http://localhost:5000
+```
+http://localhost:5000
+```
 
 **3. Use the Interface:**
 - Click on a scanner card (LFI or SQLi)
@@ -28,10 +30,10 @@ Click the "Reports" card to see scan history
 
 **Start CLI:**
 ```bash
-docker compose up raidscanner-cli
+docker compose run --rm raidscanner-cli
 ```
 
-Follow the interactive menu.
+Follow the interactive menu to select scanner type and configure options.
 
 ---
 
@@ -62,17 +64,20 @@ docker compose build
 ## Quick Test
 
 ### Test LFI Scanner (Web GUI)
-1. Start web: `docker compose up raidscanner-web`
-2. Open: http://localhost:5000
-3. Click "LFI Scanner" card
+1. Start web: `docker compose up -d raidscanner-web`
+2. Open browser: http://localhost:5000
+3. Click **"LFI Scanner"** card
 4. Enter test URL: `https://example.com?page=test`
-5. Click "Start Scan"
+5. Adjust threads (default: 5)
+6. Click **"Start Scan"**
+7. Watch real-time results!
 
 ### Test SQLi Scanner (Web GUI)
-1. Click "SQLi Scanner" card
+1. Click **"SQLi Scanner"** card
 2. Enter test URL: `https://example.com?id=1`
 3. Set threads: 5
-4. Click "Start Scan"
+4. Click **"Start Scan"**
+5. Monitor progress and vulnerabilities
 
 ---
 

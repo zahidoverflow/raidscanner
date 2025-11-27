@@ -8,32 +8,43 @@
 
 ### Build and Run
 
-**Option 1: Using docker compose (Recommended)**
+**Option 1: Using Docker Compose (Recommended)**
 ```bash
 # Build the image
 docker compose build
 
-# Run the scanner interactively
-docker compose run --rm raidscanner
+# Run Web GUI
+docker compose up -d raidscanner-web
+
+# Or run CLI interactively
+docker compose run --rm raidscanner-cli
 ```
 
-**Option 2: Using the run script**
+**Option 2: Using Docker Hub Image**
 ```bash
-chmod +x docker-run.sh
-./docker-run.sh
-```
+# Pull latest image
+docker pull zahidoverflow/raidscanner:latest
 
-**Option 3: Using Docker directly**
-```bash
-# Build the image
-docker build -t raidscanner:latest .
+# Run Web GUI
+docker run -d -p 5000:5000 \
+  -v $(pwd)/output:/app/output \
+  -v $(pwd)/reports:/app/reports \
+  --shm-size=2g \
+  --name raidscanner-web \
+  zahidoverflow/raidscanner:latest
 
-# Run the container
+# Run CLI
 docker run -it --rm \
   -v $(pwd)/output:/app/output \
   -v $(pwd)/reports:/app/reports \
   --shm-size=2g \
-  raidscanner:latest
+  zahidoverflow/raidscanner:latest
+```
+
+**Option 3: Using Helper Script**
+```bash
+chmod +x scripts/docker-run.sh
+./scripts/docker-run.sh
 ```
 
 ---

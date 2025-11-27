@@ -53,33 +53,45 @@ docker compose up raidscanner-web
 
 **Pull from Docker Hub (fastest):**
 ```bash
-# CLI Mode
+# Web GUI Mode (Recommended)
 docker pull zahidoverflow/raidscanner:latest
+docker run -d -p 5000:5000 \
+  -v $(pwd)/output:/app/output \
+  -v $(pwd)/reports:/app/reports \
+  --shm-size=2g \
+  --name raidscanner-web \
+  zahidoverflow/raidscanner:latest
+
+# Access at: http://localhost:5000
+```
+
+```bash
+# CLI Mode
 docker run -it --rm \
   -v $(pwd)/output:/app/output \
   -v $(pwd)/reports:/app/reports \
   --shm-size=2g \
   zahidoverflow/raidscanner:latest
-
-# Web GUI Mode
-docker run -d \
-  -p 5000:5000 \
-  -v $(pwd)/output:/app/output \
-  -v $(pwd)/reports:/app/reports \
-  -e MODE=web \
-  --shm-size=2g \
-  zahidoverflow/raidscanner:latest
 ```
 
-**Or build locally:**
+**Or build locally with Docker Compose:**
 ```bash
-# Build and run with docker compose
-docker compose build
-docker compose run --rm raidscanner
+# Clone repository
+git clone https://github.com/zahidoverflow/raidscanner.git
+cd raidscanner
 
-# Or use the convenience script
-chmod +x docker-run.sh
-./docker-run.sh
+# Build and start Web GUI
+docker compose build
+docker compose up -d raidscanner-web
+
+# Access at: http://localhost:5000
+```
+
+**Helper Scripts:**
+```bash
+# Use the convenience script (Linux/Mac)
+chmod +x scripts/docker-run.sh
+./scripts/docker-run.sh
 ```
 
 📖 **See [DOCKER.md](DOCKER.md) for complete Docker documentation**
