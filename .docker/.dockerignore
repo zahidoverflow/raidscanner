@@ -1,3 +1,13 @@
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
 # Python
 __pycache__/
 *.py[cod]
@@ -22,14 +32,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Virtual environments
-venv/
-ENV/
-env/
-.venv
+MANIFEST
 
 # IDE
 .vscode/
@@ -49,8 +52,9 @@ env/
 .Trashes
 ehthumbs.db
 Thumbs.db
+desktop.ini
 
-# Project specific
+# Output (mounted as volumes)
 output/
 reports/
 *.html
@@ -58,11 +62,28 @@ reports/
 # Logs
 *.log
 logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Documentation (not needed in container)
+README.md
+DOCKER*.md
+CHECKLIST.md
+*.md
+
+# Scripts (except filter.sh)
+docker-*.sh
+docker-*.bat
+test-*.sh
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
 
 # Temporary files
 *.tmp
 temp/
 tmp/
-
-# Docker volumes
-volumes/
+.cache/
