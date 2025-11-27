@@ -90,6 +90,29 @@ body {
   .card {
     padding: 1.5rem;
   }
+
+  .card h2 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.75rem 10px;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .card h2 {
+    font-size: 1.2rem;
+  }
+
+  .warning-banner {
+    font-size: 0.75rem;
+    padding: 0.4rem;
+  }
 }
 
 .form-group {
