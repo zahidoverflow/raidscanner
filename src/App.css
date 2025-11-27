@@ -77,6 +77,21 @@ body {
   gap: 2rem;
 }
 
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem 15px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+}
+
 .form-group {
   margin-bottom: 1.5rem;
 }

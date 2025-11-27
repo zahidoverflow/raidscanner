@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import './Header.css'
 
 function Header() {
+  const [menuOpen, setMenuOpen] = useState(false)
+
   return (
     <>
       <div className="top-bar">
@@ -37,13 +40,16 @@ function Header() {
             </div>
             <div className="header-right">
               <button className="payment-btn">Online Payment System</button>
+              <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+                {menuOpen ? '✕' : '☰'}
+              </button>
               <nav>
-                <ul>
-                  <li><Link to="/">Home</Link></li>
-                  <li><Link to="/about">About</Link></li>
-                  <li><Link to="/courses">Academics</Link></li>
-                  <li><Link to="/portal">Student Portal</Link></li>
-                  <li><Link to="/search">Search</Link></li>
+                <ul className={menuOpen ? 'active' : ''}>
+                  <li><Link to="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
+                  <li><Link to="/about" onClick={() => setMenuOpen(false)}>About</Link></li>
+                  <li><Link to="/courses" onClick={() => setMenuOpen(false)}>Academics</Link></li>
+                  <li><Link to="/portal" onClick={() => setMenuOpen(false)}>Student Portal</Link></li>
+                  <li><Link to="/search" onClick={() => setMenuOpen(false)}>Search</Link></li>
                 </ul>
               </nav>
             </div>
