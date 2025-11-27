@@ -6,7 +6,14 @@ This is a deliberately insecure web application created for educational purposes
 
 ## 🎓 About
 
-Institute of Science and Technology (IST) - A fictional university website with intentional security vulnerabilities for testing purposes.
+Institute of Science and Technology (IST) - A fictional university website built with React + Vite with intentional security vulnerabilities for testing purposes.
+
+## 🛠️ Tech Stack
+
+- **React 18** - UI library
+- **Vite** - Build tool and dev server
+- **React Router** - Client-side routing
+- **CSS3** - Styling
 
 ## 🐛 Intentional Vulnerabilities
 
@@ -23,56 +30,45 @@ This application contains the following vulnerabilities for testing:
 - **Test Payload**: `../../../../etc/passwd`
 
 ### 3. Cross-Site Scripting (XSS)
-- **Location**: `/news/:id` - News comments (when implemented)
-- **Test Payload**: `<script>alert('XSS')</script>`
+- **Status**: Framework-protected (React escapes by default)
+- **Note**: Educational demonstration of React's built-in XSS protection
 
-### 4. Open Redirect (OR)
-- **Location**: `/redirect?url=`
-- **Test Payload**: `https://evil.com`
-
-### 5. CRLF Injection
-- **Location**: `/download?filename=`
-- **Test Payload**: `file.pdf%0d%0aContent-Type:%20text/html%0d%0a%0d%0a<script>alert('CRLF')</script>`
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-1. Fork/clone this repository
-2. Connect to Vercel
-3. Deploy from the `lab` branch
-4. Auto-deploys on every push
+## 🚀 Quick Start
 
 ### Local Development
 ```bash
-cd vulnerable-webapp
+# Install dependencies
 npm install
+
+# Run development server
 npm run dev
 ```
 
 Visit: http://localhost:3000
 
+### Build for Production
+```bash
+npm run build
+npm run preview
+```
+
+### Deploy to Vercel
+1. Push to GitHub (lab branch)
+2. Import project in Vercel
+3. Deploy automatically
+
 ## 📝 Test URLs for RaidScanner
 
 ### SQL Injection Tests
 ```
-http://localhost:3000/portal/login
+http://localhost:3000/portal (Login form)
 http://localhost:3000/search?q=test
-http://localhost:3000/api/students?department=Computer Science
 ```
 
 ### LFI Tests
 ```
-http://localhost:3000/files?file=sample.txt
-```
-
-### Open Redirect Tests
-```
-http://localhost:3000/redirect?url=https://google.com
-```
-
-### CRLF Tests
-```
-http://localhost:3000/download?filename=test.pdf
+http://localhost:3000/files?file=syllabus.txt
+http://localhost:3000/files?file=../../../etc/passwd (path traversal)
 ```
 
 ## 🎯 Features
