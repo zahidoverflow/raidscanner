@@ -1,328 +1,127 @@
-# 🛡️ RaidScanner
+# IST Vulnerable Web Application
 
-[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-zahidoverflow%2Fraidscanner-blue?logo=docker)](https://hub.docker.com/r/zahidoverflow/raidscanner)
-[![Docker Image Size](https://img.shields.io/docker/image-size/zahidoverflow/raidscanner/latest)](https://hub.docker.com/r/zahidoverflow/raidscanner)
-[![Docker Pulls](https://img.shields.io/docker/pulls/zahidoverflow/raidscanner)](https://hub.docker.com/r/zahidoverflow/raidscanner)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+⚠️ **WARNING: INTENTIONALLY VULNERABLE APPLICATION** ⚠️
 
-A modern, automated vulnerability scanner designed for ethical hacking and security testing. RaidScanner detects common web vulnerabilities including Local File Inclusion (LFI), SQL Injection (SQLi), Cross-Site Scripting (XSS), Open Redirect (OR), and CRLF Injection.
+This is a deliberately insecure web application created for educational purposes to test the RaidScanner vulnerability scanner.
 
-## ✨ Features
+## 🎓 About
 
-- 🌐 **Dual Interface**: Modern web GUI + traditional CLI
-- 🚀 **Real-time Updates**: Live scan progress via WebSocket
-- 🎯 **Multiple Scanners**: LFI, SQLi, XSS, OR, CRLF detection
-- ⚡ **Multi-threaded**: High-performance concurrent scanning
-- 📊 **Rich Reports**: HTML and JSON export formats
-- 🐳 **Docker Ready**: Pre-built images on Docker Hub
-- 🎨 **Modern UI**: TailwindCSS-based responsive design
-- 🔧 **Customizable**: Adjustable payloads and success criteria
+Institute of Science and Technology (IST) - A fictional university website with intentional security vulnerabilities for testing purposes.
 
-## 🚀 Quick Start
+## 🐛 Intentional Vulnerabilities
 
-### Prerequisites
+This application contains the following vulnerabilities for testing:
 
-- Docker Engine 20.10+
-- Docker Compose V2 (2.0+)
+### 1. SQL Injection (SQLi)
+- **Location**: `/portal/login` - Login form
+- **Location**: `/search?q=` - Course search
+- **Location**: `/api/students?department=` - API endpoint
+- **Test Payload**: `' OR '1'='1' --`
 
-### Installation & Usage
+### 2. Local File Inclusion (LFI)
+- **Location**: `/files?file=` - Document viewer
+- **Test Payload**: `../../../../etc/passwd`
 
-**1. Pull and run the pre-built image (fastest):**
+### 3. Cross-Site Scripting (XSS)
+- **Location**: `/news/:id` - News comments (when implemented)
+- **Test Payload**: `<script>alert('XSS')</script>`
 
+### 4. Open Redirect (OR)
+- **Location**: `/redirect?url=`
+- **Test Payload**: `https://evil.com`
+
+### 5. CRLF Injection
+- **Location**: `/download?filename=`
+- **Test Payload**: `file.pdf%0d%0aContent-Type:%20text/html%0d%0a%0d%0a<script>alert('CRLF')</script>`
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+1. Fork/clone this repository
+2. Connect to Vercel
+3. Deploy from the `lab` branch
+4. Auto-deploys on every push
+
+### Local Development
 ```bash
-# Web GUI Mode (Recommended)
-docker run -d -p 5000:5000 \
-  -v $(pwd)/output:/app/output \
-  -v $(pwd)/reports:/app/reports \
-  --shm-size=2g \
-  --name raidscanner-web \
-  zahidoverflow/raidscanner:latest
-
-# Access at: http://localhost:5000
+cd vulnerable-webapp
+npm install
+npm run dev
 ```
 
-```bash
-# CLI Mode
-docker run -it --rm \
-  -v $(pwd)/output:/app/output \
-  -v $(pwd)/reports:/app/reports \
-  --shm-size=2g \
-  zahidoverflow/raidscanner:latest
+Visit: http://localhost:3000
+
+## 📝 Test URLs for RaidScanner
+
+### SQL Injection Tests
+```
+http://localhost:3000/portal/login
+http://localhost:3000/search?q=test
+http://localhost:3000/api/students?department=Computer Science
 ```
 
-**2. Or clone and use Docker Compose:**
-
-```bash
-git clone https://github.com/zahidoverflow/raidscanner.git
-cd raidscanner
-
-# Start Web GUI
-docker compose up -d raidscanner-web
-
-# Access at: http://localhost:5000
+### LFI Tests
+```
+http://localhost:3000/files?file=sample.txt
 ```
 
-That's it! No manual dependency installation required. 🎉
-
-## 📖 Documentation
-
-| Document | Description |
-|----------|-------------|
-| [🚀 Quick Start Guide](docs/QUICKSTART.md) | Get started in 5 minutes |
-| [🌐 Web GUI Guide](docs/WEB_GUI.md) | Web interface documentation |
-| [🐳 Docker Guide](docs/DOCKER.md) | Complete Docker reference |
-| [🏗️ Architecture](docs/ARCHITECTURE.md) | System design and components |
-
-## 🎯 Usage Examples
-
-### Web GUI Mode
-
-1. **Start the web interface:**
-   ```bash
-   docker compose up -d raidscanner-web
-   ```
-
-2. **Open your browser:** http://localhost:5000
-
-3. **Select a scanner** (LFI or SQLi)
-
-4. **Enter target URLs** (one per line)
-
-5. **Adjust threads** (1-10) and click **Start Scan**
-
-6. **Monitor real-time results** and download reports
-
-### CLI Mode
-
-```bash
-# Interactive CLI
-docker compose run --rm raidscanner-cli
-
-# Or direct run
-docker run -it --rm \
-  -v $(pwd)/output:/app/output \
-  -v $(pwd)/reports:/app/reports \
-  --shm-size=2g \
-  zahidoverflow/raidscanner:latest
+### Open Redirect Tests
+```
+http://localhost:3000/redirect?url=https://google.com
 ```
 
-Follow the interactive menu to select scanner type, provide URLs, and configure options.
-
-## 🔍 Supported Scanners
-
-| Scanner | Status | Detection Method | Use Case |
-|---------|--------|------------------|----------|
-| **LFI** | ✅ Ready | Pattern matching | Detect Local File Inclusion |
-| **SQLi** | ✅ Ready | Time-based blind | SQL Injection detection |
-| **XSS** | ⏳ Coming Soon | Selenium automation | Cross-Site Scripting |
-| **OR** | ⏳ Coming Soon | Redirect detection | Open Redirect |
-| **CRLF** | ⏳ Coming Soon | Header injection | HTTP Header Injection |
-
-## 📊 Output & Reports
-
-RaidScanner generates comprehensive reports in multiple formats:
-
-- **HTML Reports**: Visual, styled reports with vulnerability details
-- **JSON Export**: Machine-readable format for automation
-- **Console Output**: Real-time colored terminal output
-- **File Output**: Saved vulnerable URLs for further analysis
-
-Reports are saved to:
-- `./reports/` - HTML and JSON reports
-- `./output/` - Filtered vulnerable URLs
-
-## 🛠️ Configuration
-
-### Docker Compose Commands
-
-```bash
-# Start services
-docker compose up -d raidscanner-web       # Web GUI (background)
-docker compose up raidscanner-cli          # CLI (interactive)
-
-# View logs
-docker compose logs -f raidscanner-web
-
-# Stop services
-docker compose down
-
-# Rebuild after changes
-docker compose build --no-cache
-
-# Pull latest image
-docker compose pull
+### CRLF Tests
+```
+http://localhost:3000/download?filename=test.pdf
 ```
 
-### Environment Variables
+## 🎯 Features
 
-```bash
-# Set mode (web or cli)
-docker run -e MODE=web zahidoverflow/raidscanner:latest
+- **Student Portal**: Login system with vulnerable authentication
+- **Course Catalog**: Browse available courses
+- **Search Function**: Vulnerable search implementation
+- **File Viewer**: Document access with LFI vulnerability
+- **News Section**: Campus news and announcements
+- **API Endpoints**: RESTful API with SQL injection points
 
-# Adjust shared memory (for Chrome/Selenium)
-docker run --shm-size=4g zahidoverflow/raidscanner:latest
-```
-
-### Custom Payloads
-
-```bash
-# Mount custom payloads directory
-docker run -it \
-  -v $(pwd)/custom-payloads:/app/payloads:ro \
-  zahidoverflow/raidscanner:latest
-```
-
-## 🏗️ Architecture
+## 📚 Sample Credentials
 
 ```
-raidscanner/
-├── core/                 # Scanning engines
-│   ├── scanner_engine.py
-│   ├── report_generator.py
-│   └── payload_loader.py
-├── web/                  # Web interface
-│   ├── templates/
-│   └── static/
-├── payloads/             # Attack payloads
-├── scripts/              # Helper scripts
-├── .docker/              # Docker configuration
-└── docs/                 # Documentation
+Student ID: IST2021001
+Password: password123
+
+Admin:
+Student ID: IST2020000
+Password: admin123
 ```
-
-**Technologies:**
-- Python 3.11+
-- Flask 3.0 + Socket.IO (Web)
-- Selenium + ChromeDriver (Browser automation)
-- TailwindCSS (UI)
-- Docker (Containerization)
-
-## 📦 Installation Methods
-
-### Method 1: Docker Hub (Recommended)
-
-```bash
-# Pull latest
-docker pull zahidoverflow/raidscanner:latest
-
-# Or specific version
-docker pull zahidoverflow/raidscanner:v2.0-web
-```
-
-**Benefits:**
-- ✅ No build time
-- ✅ Pre-configured environment
-- ✅ Works on Windows, Mac, Linux
-- ✅ Isolated dependencies
-
-### Method 2: Docker Compose (Development)
-
-```bash
-git clone https://github.com/zahidoverflow/raidscanner.git
-cd raidscanner
-docker compose build
-docker compose up
-```
-
-### Method 3: Manual Installation (Not Recommended)
-
-⚠️ **Warning**: Manual installation requires Chrome, ChromeDriver, and Python dependencies on your host. Use Docker for easier setup.
-
-<details>
-<summary>Click to expand manual installation steps</summary>
-
-```bash
-# Clone repository
-git clone https://github.com/zahidoverflow/raidscanner.git
-cd raidscanner
-
-# Install Python dependencies
-pip install -r requirements.txt
-
-# Install Chrome
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo dpkg -i google-chrome-stable_current_amd64.deb
-
-# Install ChromeDriver
-wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.119/linux64/chromedriver-linux64.zip
-unzip chromedriver-linux64.zip
-sudo mv chromedriver-linux64/chromedriver /usr/bin/
-
-# Run CLI
-python main.py
-
-# Or run Web GUI
-python app.py
-```
-</details>
-
-## 🔧 Troubleshooting
-
-### Port Already in Use
-```bash
-# Change port in .docker/compose.yml
-ports:
-  - "8080:5000"  # Change 5000 to 8080
-```
-
-### Chrome/Selenium Errors
-```bash
-# Increase shared memory
-docker compose up -d --shm-size=4g
-```
-
-### Permission Issues
-```bash
-# Fix output directory permissions
-mkdir -p output reports
-chmod 777 output reports
-```
-
-### Container Won't Start
-```bash
-# Check logs
-docker compose logs -f raidscanner-web
-
-# Restart services
-docker compose restart
-```
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit issues, feature requests, or pull requests.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## ⚠️ Disclaimer
 
-**IMPORTANT**: This tool is for educational and authorized security testing purposes only.
+**DO NOT deploy this application in a production environment!**
 
-- ✅ Only scan systems you **own** or have **explicit written permission** to test
-- ❌ Unauthorized scanning of third-party systems is **illegal**
-- ⚖️ Users are responsible for complying with all applicable laws
+This application is:
+- ❌ NOT secure
+- ❌ NOT for production use
+- ✅ For educational purposes only
+- ✅ For security testing with RaidScanner
+- ✅ For learning about web vulnerabilities
 
-The developers assume no liability for misuse or damage caused by this software.
+## 📖 Educational Purpose
 
-## 🔗 Links
+This application is part of a university final year project to demonstrate:
+1. Common web application vulnerabilities
+2. Automated vulnerability scanning techniques
+3. Security testing methodologies
+4. Secure coding practices (by showing what NOT to do)
 
-- **GitHub Repository**: https://github.com/zahidoverflow/raidscanner
-- **Docker Hub**: https://hub.docker.com/r/zahidoverflow/raidscanner
-- **Issues**: https://github.com/zahidoverflow/raidscanner/issues
-- **Documentation**: [docs/](docs/)
+## 🔒 Security Notes
 
-## 📧 Contact
+All vulnerabilities are intentional and documented. Use this application only in controlled environments for:
+- Security training
+- Scanner testing
+- Penetration testing practice
+- Academic research
 
-For questions, suggestions, or security concerns, please open an issue on GitHub.
+## 📜 License
 
----
-
-**Built with ❤️ for the security community**
-
-*Happy Ethical Hacking! 🔍🛡️*
+MIT License - Educational Use Only

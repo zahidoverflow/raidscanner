@@ -1,6 +1,0 @@
-# Web GUI Additional Requirements
-flask==3.0.3
-flask-cors==4.0.1
-flask-socketio==5.3.6
-python-socketio==5.11.0
-eventlet==0.36.1
