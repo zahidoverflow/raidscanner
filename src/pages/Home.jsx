@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import './Home.css'
 
 function Home() {
   const news = [
@@ -9,40 +10,48 @@ function Home() {
 
   return (
     <>
-      <div className="card">
-        <h1>Welcome to Institute of Science and Technology</h1>
-        <p>Empowering minds, shaping futures through excellence in education and research.</p>
-      </div>
-
-      <div className="grid">
-        <div className="card">
-          <h2>🎓 About IST</h2>
-          <p>Leading institution in technology and science education, fostering innovation and research excellence since 1995.</p>
-          <Link to="/about" className="btn" style={{ marginTop: '1rem' }}>Learn More</Link>
-        </div>
-
-        <div className="card">
-          <h2>📚 Academic Programs</h2>
-          <p>Explore our comprehensive range of undergraduate and graduate programs in Computer Science, IT, and Engineering.</p>
-          <Link to="/courses" className="btn" style={{ marginTop: '1rem' }}>View Courses</Link>
-        </div>
-
-        <div className="card">
-          <h2>👨‍🎓 Student Portal</h2>
-          <p>Access your student dashboard, grades, schedules, and university resources.</p>
-          <Link to="/portal" className="btn" style={{ marginTop: '1rem' }}>Login</Link>
-        </div>
-      </div>
-
-      <div className="card">
-        <h2>📰 Latest News & Announcements</h2>
-        {news.map(item => (
-          <div key={item.id} style={{ borderLeft: '4px solid #667eea', paddingLeft: '1rem', marginBottom: '1.5rem' }}>
-            <h3 style={{ color: '#667eea', marginBottom: '0.5rem' }}>{item.title}</h3>
-            <p style={{ color: '#666', marginBottom: '0.5rem' }}>{item.content}</p>
-            <small style={{ color: '#999' }}>📅 {item.date}</small>
+      <div className="hero-section">
+        <img src="/ist-front-side.png" alt="IST Campus" className="hero-image" />
+        <div className="hero-overlay">
+          <div className="hero-content">
+            <h1>Welcome to Institute of Science and Technology</h1>
+            <p>A National University Affiliated Institution</p>
+            <p className="hero-subtitle">Empowering minds, shaping futures through excellence in education and research</p>
           </div>
-        ))}
+        </div>
+      </div>
+
+      <div className="container" style={{ paddingTop: '3rem' }}>
+        <div className="grid">
+          <div className="card">
+            <h2>🎓 About IST</h2>
+            <p>Leading institution in technology and science education, fostering innovation and research excellence since 1995.</p>
+            <Link to="/about" className="btn" style={{ marginTop: '1rem' }}>Learn More</Link>
+          </div>
+
+          <div className="card">
+            <h2>📚 Academic Programs</h2>
+            <p>Explore our comprehensive range of undergraduate and graduate programs in Computer Science, IT, and Engineering.</p>
+            <Link to="/courses" className="btn" style={{ marginTop: '1rem' }}>View Courses</Link>
+          </div>
+
+          <div className="card">
+            <h2>👨‍🎓 Student Portal</h2>
+            <p>Access your student dashboard, grades, schedules, and university resources.</p>
+            <Link to="/portal" className="btn" style={{ marginTop: '1rem' }}>Login</Link>
+          </div>
+        </div>
+
+        <div className="card">
+          <h2>📰 Latest News & Announcements</h2>
+          {news.map(item => (
+            <div key={item.id} style={{ borderLeft: '4px solid #ff6600', paddingLeft: '1rem', marginBottom: '1.5rem' }}>
+              <h3 style={{ color: '#ff6600', marginBottom: '0.5rem' }}>{item.title}</h3>
+              <p style={{ color: '#666', marginBottom: '0.5rem' }}>{item.content}</p>
+              <small style={{ color: '#999' }}>📅 {item.date}</small>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   )
