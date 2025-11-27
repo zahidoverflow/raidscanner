@@ -94,7 +94,9 @@ chmod +x docker-run.sh
 
 ---
 
-### Option 2: Manual Installation
+### Option 2: Manual Installation (Advanced Users Only)
+
+⚠️ **Note**: Manual installation requires installing Chrome, ChromeDriver, and Python dependencies on your host machine. Docker (Option 1) is **strongly recommended** for easier setup and portability.
 
 **Clone the repository:**
 ```bash
@@ -107,9 +109,15 @@ cd raidscanner
 pip3 install -r requirements.txt
 ```
 
+**Install Chrome and ChromeDriver** (see sections below)
+
 **Run the Script:**
 ```bash
+# CLI Mode
 python3 main.py
+
+# Web GUI Mode
+python3 app.py
 ```
 
 ----
@@ -133,13 +141,12 @@ python3 main.py
 
 ----
 
-### Chrome Installation
+### Chrome Installation (Only for Manual Setup)
+
+⚠️ **Skip this if using Docker** - Chrome is already included in the Docker image.
 
 ```bash
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-```
-
-```bash
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 ```
 
@@ -147,26 +154,19 @@ sudo dpkg -i google-chrome-stable_current_amd64.deb
 
 ```bash
 sudo apt -f install
-```
-
-```bash
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 ```
 
 ----
 
-### Chrome Driver Installation
+### Chrome Driver Installation (Only for Manual Setup)
+
+⚠️ **Skip this if using Docker** - ChromeDriver is already included in the Docker image.
 
 ```bash
 wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.119/linux64/chromedriver-linux64.zip
-```
-```bash
 unzip chromedriver-linux64.zip
-```
-```bash
 cd chromedriver-linux64 
-```
-```bash
 sudo mv chromedriver /usr/bin
 ```
 <hr>

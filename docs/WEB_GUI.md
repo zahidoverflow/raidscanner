@@ -42,21 +42,24 @@ docker-compose up
 
 Access the web interface at: **http://localhost:5000**
 
-### Option 2: Direct Python Execution
+### Option 2: Direct Python Execution (Advanced - Not Recommended)
+
+⚠️ **Note**: This requires manual installation of all dependencies on your host machine. Use Docker (Option 1) for easier setup.
 
 ```bash
-# Install dependencies
+# Install dependencies (requires Chrome and ChromeDriver installed)
 pip install -r requirements.txt
 
 # Start web server
 python app.py
 ```
 
-### Option 3: Using Start Script
+### Option 3: Using Start Script (Inside Container)
 
 ```bash
-chmod +x start.sh
-./start.sh
+# This script runs inside the Docker container
+docker exec -it raidscanner-web bash
+./scripts/start.sh
 # Select option 1 for Web Interface
 ```
 

@@ -38,9 +38,11 @@ Follow the interactive menu.
 ## First Time Setup
 
 ### Prerequisites
-- Docker installed
-- Docker Compose installed
-- Internet connection
+- ✅ Docker installed
+- ✅ Docker Compose installed
+- ✅ Internet connection
+
+**That's it! No Python, Chrome, or other dependencies needed on your host machine.**
 
 ### Installation
 ```bash
