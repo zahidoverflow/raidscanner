@@ -6,7 +6,7 @@
 
 **1. Start Web Interface:**
 ```bash
-docker-compose up raidscanner-web
+docker compose up raidscanner-web
 ```
 
 **2. Open Browser:**
@@ -28,7 +28,7 @@ Click the "Reports" card to see scan history
 
 **Start CLI:**
 ```bash
-docker-compose up raidscanner-cli
+docker compose up raidscanner-cli
 ```
 
 Follow the interactive menu.
@@ -54,7 +54,7 @@ cd raidscanner
 docker pull zahidoverflow/raidscanner:latest
 
 # OR build locally
-docker-compose build
+docker compose build
 ```
 
 ---
@@ -62,7 +62,7 @@ docker-compose build
 ## Quick Test
 
 ### Test LFI Scanner (Web GUI)
-1. Start web: `docker-compose up raidscanner-web`
+1. Start web: `docker compose up raidscanner-web`
 2. Open: http://localhost:5000
 3. Click "LFI Scanner" card
 4. Enter test URL: `https://example.com?page=test`
@@ -81,25 +81,25 @@ docker-compose build
 ### Docker Commands
 ```bash
 # Start web interface
-docker-compose up raidscanner-web
+docker compose up raidscanner-web
 
 # Start CLI mode
-docker-compose up raidscanner-cli
+docker compose up raidscanner-cli
 
 # Start both
-docker-compose up
+docker compose up
 
 # Run in background
-docker-compose up -d raidscanner-web
+docker compose up -d raidscanner-web
 
 # Stop services
-docker-compose down
+docker compose down
 
 # View logs
-docker-compose logs -f raidscanner-web
+docker compose logs -f raidscanner-web
 
 # Rebuild after changes
-docker-compose build --no-cache
+docker compose build --no-cache
 ```
 
 ### Direct Docker Run
@@ -129,7 +129,7 @@ netstat -an | grep 5000
 docker ps
 
 # Check logs
-docker-compose logs raidscanner-web
+docker compose logs raidscanner-web
 ```
 
 ### Can't Connect to Scanner
@@ -221,7 +221,7 @@ chmod 777 output reports
 - **Docker Hub**: https://hub.docker.com/r/zahidoverflow/raidscanner
 
 ### Common Issues
-1. **"Port 5000 already in use"**: Change port in docker-compose.yml
+1. **"Port 5000 already in use"**: Change port in docker compose.yml
 2. **"Connection refused"**: Check if container is running
 3. **"Chrome error"**: Container needs more memory (increase shm_size)
 

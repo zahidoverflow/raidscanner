@@ -129,7 +129,7 @@ Updated **Dockerfile**:
 - Environment variable support (MODE=web/cli)
 - Conditional startup command
 
-Updated **docker-compose.yml**:
+Updated **docker compose.yml**:
 - Two services configuration:
   - `raidscanner-cli`: CLI mode (interactive)
   - `raidscanner-web`: Web GUI mode (port 5000)
@@ -304,10 +304,10 @@ raidscanner/
 ### Docker Testing
 ```bash
 # Build and run
-docker-compose up raidscanner-web
+docker compose up raidscanner-web
 
 # Test CLI mode
-docker-compose up raidscanner-cli
+docker compose up raidscanner-cli
 
 # Access web at http://localhost:5000
 ```
@@ -403,7 +403,7 @@ python app.py
 
 ### Production (Docker)
 ```bash
-docker-compose up -d raidscanner-web
+docker compose up -d raidscanner-web
 ```
 
 ### Production (Nginx Reverse Proxy)
@@ -443,7 +443,7 @@ The implementation follows the WORKFLOW.md specifications and provides a solid f
 
 **Next Recommended Action**: Test the web interface by running:
 ```bash
-docker-compose up raidscanner-web
+docker compose up raidscanner-web
 # Then open http://localhost:5000 in your browser
 ```
 
@@ -463,7 +463,7 @@ docker-compose up raidscanner-web
 
 ### Core Docker Files (3)
 - [x] `Dockerfile` - Container image definition
-- [x] `docker-compose.yml` - Container orchestration config
+- [x] `docker compose.yml` - Container orchestration config
 - [x] `.dockerignore` - Build optimization
 
 ### Executable Scripts (4)
@@ -495,7 +495,7 @@ docker-compose up raidscanner-web
 2. **Verify Installation**
    ```bash
    docker --version
-   docker-compose --version
+   docker compose --version
    ```
 
 3. **Test Setup** (optional but recommended)
@@ -505,13 +505,13 @@ docker-compose up raidscanner-web
 
 4. **Build Image**
    ```bash
-   docker-compose build
+   docker compose build
    ```
    Expected time: 5-10 minutes (first time)
 
 5. **First Run**
    ```bash
-   docker-compose run --rm raidscanner
+   docker compose run --rm raidscanner
    ```
 
 ---
@@ -522,7 +522,7 @@ docker-compose up raidscanner-web
 
 - [ ] Prepare target URLs (single URL or file)
 - [ ] Select appropriate payload file from `./payloads/`
-- [ ] Run: `docker-compose run --rm raidscanner`
+- [ ] Run: `docker compose run --rm raidscanner`
 - [ ] Select vulnerability type from menu
 - [ ] Provide URL(s) and payload file path
 - [ ] Configure threads (0-10)
@@ -538,26 +538,26 @@ docker-compose up raidscanner-web
 
 1. **Container Starts**
    ```bash
-   docker-compose run --rm --entrypoint /bin/bash raidscanner
+   docker compose run --rm --entrypoint /bin/bash raidscanner
    # Should open a bash shell inside container
    # Type 'exit' to quit
    ```
 
 2. **Python Works**
    ```bash
-   docker-compose run --rm --entrypoint python3 raidscanner --version
+   docker compose run --rm --entrypoint python3 raidscanner --version
    # Should show Python 3.11.x
    ```
 
 3. **Chrome Available**
    ```bash
-   docker-compose run --rm --entrypoint /bin/bash raidscanner -c "google-chrome --version"
+   docker compose run --rm --entrypoint /bin/bash raidscanner -c "google-chrome --version"
    # Should show Chrome version
    ```
 
 4. **Dependencies Installed**
    ```bash
-   docker-compose run --rm --entrypoint pip3 raidscanner list
+   docker compose run --rm --entrypoint pip3 raidscanner list
    # Should list all packages from requirements.txt
    ```
 
@@ -569,17 +569,17 @@ docker-compose up raidscanner-web
 
 - [ ] What Docker containers are
 - [ ] How volumes work (data persistence)
-- [ ] Basic docker-compose commands
+- [ ] Basic docker compose commands
 - [ ] How to read Docker logs
 - [ ] When to rebuild vs. rerun
 
 ### Key Commands to Remember:
 
-- [ ] `docker-compose build` - Build/rebuild image
-- [ ] `docker-compose run --rm raidscanner` - Run scanner
-- [ ] `docker-compose down` - Stop and remove containers
+- [ ] `docker compose build` - Build/rebuild image
+- [ ] `docker compose run --rm raidscanner` - Run scanner
+- [ ] `docker compose down` - Stop and remove containers
 - [ ] `docker system prune -f` - Clean up unused resources
-- [ ] `docker-compose logs` - View logs
+- [ ] `docker compose logs` - View logs
 
 ---
 
@@ -624,7 +624,7 @@ If something goes wrong:
 You've successfully dockerized RaidScanner when:
 
 - [x] All 11 files created and committed
-- [ ] `docker-compose build` completes without errors
+- [ ] `docker compose build` completes without errors
 - [ ] Scanner runs inside container
 - [ ] Scans complete successfully
 - [ ] Results save to host machine
@@ -674,7 +674,7 @@ You've successfully dockerized RaidScanner when:
 - Container is stateless - data only in mounted volumes
 - Chrome runs headless via Xvfb virtual display
 - Default thread count: 5 (configurable)
-- Shared memory: 2GB (adjustable in docker-compose.yml)
+- Shared memory: 2GB (adjustable in docker compose.yml)
 
 ---
 

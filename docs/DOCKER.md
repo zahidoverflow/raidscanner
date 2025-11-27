@@ -8,13 +8,13 @@
 
 ### Build and Run
 
-**Option 1: Using docker-compose (Recommended)**
+**Option 1: Using docker compose (Recommended)**
 ```bash
 # Build the image
-docker-compose build
+docker compose build
 
 # Run the scanner interactively
-docker-compose run --rm raidscanner
+docker compose run --rm raidscanner
 ```
 
 **Option 2: Using the run script**
@@ -62,25 +62,25 @@ The Docker setup includes these mounted directories:
 
 ### Run with Custom Payloads
 ```bash
-docker-compose run --rm \
+docker compose run --rm \
   -v $(pwd)/custom-payloads:/app/custom-payloads:ro \
   raidscanner
 ```
 
 ### Access Container Shell
 ```bash
-docker-compose run --rm --entrypoint /bin/bash raidscanner
+docker compose run --rm --entrypoint /bin/bash raidscanner
 ```
 
 ### Run filter.sh Script
 ```bash
-docker-compose run --rm --entrypoint /bin/bash raidscanner -c "./filter.sh"
+docker compose run --rm --entrypoint /bin/bash raidscanner -c "./filter.sh"
 ```
 
 ### Clean Up
 ```bash
 # Remove containers
-docker-compose down
+docker compose down
 
 # Remove image
 docker rmi raidscanner:latest
@@ -96,7 +96,7 @@ docker volume prune
 ### Chrome/Selenium Issues
 If you encounter Chrome errors, increase shared memory:
 ```yaml
-# In docker-compose.yml
+# In compose.yml
 shm_size: '4gb'
 ```
 
@@ -109,14 +109,14 @@ sudo chown -R $USER:$USER output/ reports/
 ### Network Issues
 If scanning external sites fails, check your network:
 ```bash
-docker-compose run --rm raidscanner ping -c 3 google.com
+docker compose run --rm raidscanner ping -c 3 google.com
 ```
 
 ---
 
 ## Environment Variables
 
-You can customize the environment in `docker-compose.yml`:
+You can customize the environment in `compose.yml`:
 
 ```yaml
 environment:
@@ -155,7 +155,7 @@ COPY --from=builder /app /app
 ## Support
 
 For issues related to:
-- **Docker setup**: Check Docker logs with `docker-compose logs`
+- **Docker setup**: Check Docker logs with `docker compose logs`
 - **Scanner functionality**: Review main application logs
 - **Chrome/Selenium**: Ensure adequate memory allocation
 
@@ -188,7 +188,7 @@ Your RaidScanner project is now fully Dockerized! Here's what was created:
    - All Python dependencies pre-installed
    - Working directory: `/app`
 
-2. **`docker-compose.yml`**
+2. **`docker compose.yml`**
    - Service configuration for RaidScanner
    - Volume mounts for output, reports, and payloads
    - Network configuration
@@ -248,8 +248,8 @@ docker-run.bat
 
 ### Manual:
 ```bash
-docker-compose build
-docker-compose run --rm raidscanner
+docker compose build
+docker compose run --rm raidscanner
 ```
 
 ---
@@ -270,7 +270,7 @@ docker-compose run --rm raidscanner
 ```
 raidscanner/
 ├── Dockerfile              # Docker image definition
-├── docker-compose.yml      # Container orchestration
+├── compose.yml             # Container orchestration
 ├── .dockerignore          # Build exclusions
 ├── docker-run.sh          # Linux/Mac run script
 ├── docker-run.bat         # Windows run script
@@ -294,33 +294,33 @@ raidscanner/
 
 ### Build the image:
 ```bash
-docker-compose build
+docker compose build
 ```
 
 ### Run the scanner:
 ```bash
-docker-compose run --rm raidscanner
+docker compose run --rm raidscanner
 ```
 
 ### Access container shell:
 ```bash
-docker-compose run --rm --entrypoint /bin/bash raidscanner
+docker compose run --rm --entrypoint /bin/bash raidscanner
 ```
 
 ### Run filter script:
 ```bash
-docker-compose run --rm --entrypoint /bin/bash raidscanner -c "./filter.sh"
+docker compose run --rm --entrypoint /bin/bash raidscanner -c "./filter.sh"
 ```
 
 ### Clean up:
 ```bash
-docker-compose down
+docker compose down
 docker system prune -f
 ```
 
 ### View logs:
 ```bash
-docker-compose logs -f
+docker compose logs -f
 ```
 
 ---
@@ -329,8 +329,8 @@ docker-compose logs -f
 
 1. **Test the setup:**
    ```bash
-   docker-compose build
-   docker-compose run --rm raidscanner
+   docker compose build
+   docker compose run --rm raidscanner
    ```
 
 2. **Run a scan:**
@@ -373,7 +373,7 @@ docker-compose logs -f
 - Try building with `--no-cache` flag
 
 **Chrome crashes?**
-- Increase shared memory in docker-compose.yml
+- Increase shared memory in docker compose.yml
 - Check system resources (RAM)
 
 **Permission issues?**
@@ -383,7 +383,7 @@ docker-compose logs -f
 **Network issues?**
 - Verify Docker network settings
 - Check firewall rules
-- Test with `docker-compose run --rm raidscanner ping google.com`
+- Test with `docker compose run --rm raidscanner ping google.com`
 
 ---
 
@@ -416,7 +416,7 @@ Your RaidScanner project has been fully dockerized with the following additions:
 ### 📦 Files Created:
 
 1. **`Dockerfile`** - Defines the container image with Python 3.11, Chrome, ChromeDriver, and all dependencies
-2. **`docker-compose.yml`** - Orchestrates the container with volume mounts and network settings
+2. **`docker compose.yml`** - Orchestrates the container with volume mounts and network settings
 3. **`.dockerignore`** - Optimizes Docker builds by excluding unnecessary files
 4. **`docker-run.sh`** - Quick run script for Linux/Mac users
 5. **`docker-run.bat`** - Quick run script for Windows users
@@ -442,8 +442,8 @@ Your RaidScanner project has been fully dockerized with the following additions:
    ```cmd
    # Double-click docker-run.bat
    # OR in terminal:
-   docker-compose build
-   docker-compose run --rm raidscanner
+   docker compose build
+   docker compose run --rm raidscanner
    ```
 
 ### For Linux/Mac Users:
@@ -463,8 +463,8 @@ Your RaidScanner project has been fully dockerized with the following additions:
    ./docker-run.sh
    
    # OR manually:
-   docker-compose build
-   docker-compose run --rm raidscanner
+   docker compose build
+   docker compose run --rm raidscanner
    ```
 
 ---
@@ -486,19 +486,19 @@ Your RaidScanner project has been fully dockerized with the following additions:
 ### Basic Commands:
 ```bash
 # Build the Docker image
-docker-compose build
+docker compose build
 
 # Run the scanner interactively
-docker-compose run --rm raidscanner
+docker compose run --rm raidscanner
 
 # Access container shell
-docker-compose run --rm --entrypoint /bin/bash raidscanner
+docker compose run --rm --entrypoint /bin/bash raidscanner
 
 # Run the URL filter script
-docker-compose run --rm --entrypoint /bin/bash raidscanner -c "./filter.sh"
+docker compose run --rm --entrypoint /bin/bash raidscanner -c "./filter.sh"
 
 # Clean up
-docker-compose down
+docker compose down
 docker system prune -f
 ```
 
@@ -535,13 +535,13 @@ All scan results are automatically saved to your host machine!
 ## 🔧 Configuration
 
 ### Adjust Memory for Chrome:
-Edit `docker-compose.yml` and change:
+Edit `docker compose.yml` and change:
 ```yaml
 shm_size: '4gb'  # Increase if Chrome crashes
 ```
 
 ### Add Environment Variables:
-Edit `docker-compose.yml`:
+Edit `docker compose.yml`:
 ```yaml
 environment:
   - DISPLAY=:99
@@ -563,7 +563,7 @@ If you see "Docker daemon is not running" in WSL2:
 ### Build Failures:
 ```bash
 # Clear cache and rebuild
-docker-compose build --no-cache
+docker compose build --no-cache
 ```
 
 ### Permission Issues:
@@ -573,7 +573,7 @@ chmod +x docker-run.sh docker-commands.sh test-docker-setup.sh filter.sh
 ```
 
 ### Chrome/Selenium Crashes:
-- Increase `shm_size` in docker-compose.yml
+- Increase `shm_size` in docker compose.yml
 - Check available RAM (minimum 2GB recommended)
 
 ---
@@ -595,7 +595,7 @@ chmod +x docker-run.sh docker-commands.sh test-docker-setup.sh filter.sh
    - Xvfb virtual display server
    - Your RaidScanner code
 
-2. **docker-compose.yml** handles:
+2. **docker compose.yml** handles:
    - Building the image
    - Running the container
    - Mounting directories for persistent storage
@@ -638,8 +638,8 @@ docker push yourusername/raidscanner:latest
 ## ✨ Next Steps
 
 1. **Test the setup**: Run `./test-docker-setup.sh`
-2. **Build the image**: `docker-compose build`
-3. **Run your first scan**: `docker-compose run --rm raidscanner`
+2. **Build the image**: `docker compose build`
+3. **Run your first scan**: `docker compose run --rm raidscanner`
 4. **Check results**: Look in `./output/` and `./reports/`
 5. **Share with others**: Commit Docker files to your repo
 
@@ -792,7 +792,7 @@ COPY main.py .  # ← Only rebuilds if main.py changes
 
 ```bash
 # Inside container
-docker-compose run --rm --entrypoint pip raidscanner list --outdated
+docker compose run --rm --entrypoint pip raidscanner list --outdated
 
 # Local development
 pip list --outdated
@@ -805,7 +805,7 @@ pip list --outdated
 webdriver_manager==4.0.3  # Updated version
 
 # Rebuild image
-docker-compose build --no-cache
+docker compose build --no-cache
 ```
 
 ### **Update All (Carefully!):**
@@ -825,7 +825,7 @@ pip freeze > requirements-lock.txt
 
 ```bash
 # Check for known vulnerabilities
-docker-compose run --rm --entrypoint pip raidscanner audit
+docker compose run --rm --entrypoint pip raidscanner audit
 
 # Or use safety
 pip install safety
@@ -836,7 +836,7 @@ safety check -r requirements-docker.txt
 
 ```bash
 # Check licenses
-docker-compose run --rm --entrypoint pip-licenses raidscanner
+docker compose run --rm --entrypoint pip-licenses raidscanner
 
 # Install if needed
 pip install pip-licenses
@@ -883,7 +883,7 @@ raidscanner/
 
 ```bash
 # Clear pip cache
-docker-compose build --no-cache
+docker compose build --no-cache
 
 # Use lockfile for exact versions
 pip install -r requirements-lock.txt
@@ -954,13 +954,13 @@ pip install -r requirements-docker.txt
 python3 main.py
 
 # 4. Rebuild Docker
-docker-compose build
+docker compose build
 
 # 5. Test in Docker
-docker-compose run --rm raidscanner
+docker compose run --rm raidscanner
 
 # 6. Update lockfile
-docker-compose run --rm --entrypoint pip raidscanner freeze > requirements-lock.txt
+docker compose run --rm --entrypoint pip raidscanner freeze > requirements-lock.txt
 
 # 7. Commit changes
 git commit -am "Update dependencies"

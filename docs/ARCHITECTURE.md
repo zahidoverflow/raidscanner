@@ -224,7 +224,7 @@ raidscanner/
 ├── 📄 start.sh                    # Startup script
 │
 ├── 🐳 Dockerfile                  # Container definition
-├── 🐳 docker-compose.yml          # Multi-service orchestration
+├── 🐳 docker compose.yml          # Multi-service orchestration
 │
 ├── 📦 requirements.txt            # Python dependencies
 ├── 📦 requirements-docker.txt     # Docker-specific deps

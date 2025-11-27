@@ -5,7 +5,7 @@
 
 # Docker
 Dockerfile
-docker-compose.yml
+compose.yml
 .dockerignore
 
 # Python

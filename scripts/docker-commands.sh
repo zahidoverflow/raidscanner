@@ -10,38 +10,38 @@ echo ""
 case "${1}" in
   build)
     echo "Building Docker image..."
-    docker-compose build
+    docker compose build
     ;;
   
   run)
     echo "Running RaidScanner..."
-    docker-compose run --rm raidscanner
+    docker compose run --rm raidscanner
     ;;
   
   shell)
     echo "Opening shell in container..."
-    docker-compose run --rm --entrypoint /bin/bash raidscanner
+    docker compose run --rm --entrypoint /bin/bash raidscanner
     ;;
   
   filter)
     echo "Running filter.sh script..."
-    docker-compose run --rm --entrypoint /bin/bash raidscanner -c "./filter.sh"
+    docker compose run --rm --entrypoint /bin/bash raidscanner -c "./filter.sh"
     ;;
   
   clean)
     echo "Cleaning up Docker resources..."
-    docker-compose down
+    docker compose down
     docker system prune -f
     ;;
   
   logs)
     echo "Showing container logs..."
-    docker-compose logs -f
+    docker compose logs -f
     ;;
   
   update)
     echo "Rebuilding image (no cache)..."
-    docker-compose build --no-cache
+    docker compose build --no-cache
     ;;
   
   *)

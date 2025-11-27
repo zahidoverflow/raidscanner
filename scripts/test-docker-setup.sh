@@ -41,16 +41,16 @@ else
     ((FAILED++))
 fi
 
-# Test 3: Check if docker-compose is installed
-echo -n "3. Checking docker-compose... "
-if command -v docker-compose &> /dev/null; then
+# Test 3: Check if docker compose is installed
+echo -n "3. Checking docker compose... "
+if command -v docker compose &> /dev/null; then
     echo -e "${GREEN}✓ PASSED${NC}"
-    COMPOSE_VERSION=$(docker-compose --version)
+    COMPOSE_VERSION=$(docker compose --version)
     echo "   $COMPOSE_VERSION"
     ((PASSED++))
 else
     echo -e "${RED}✗ FAILED${NC}"
-    echo "   docker-compose is not installed."
+    echo "   docker compose is not installed."
     ((FAILED++))
 fi
 
@@ -65,14 +65,14 @@ else
     ((FAILED++))
 fi
 
-# Test 5: Check if docker-compose.yml exists
-echo -n "5. Checking docker-compose.yml... "
-if [ -f "docker-compose.yml" ]; then
+# Test 5: Check if docker compose.yml exists
+echo -n "5. Checking docker compose.yml... "
+if [ -f "docker compose.yml" ]; then
     echo -e "${GREEN}✓ PASSED${NC}"
     ((PASSED++))
 else
     echo -e "${RED}✗ FAILED${NC}"
-    echo "   docker-compose.yml not found."
+    echo "   docker compose.yml not found."
     ((FAILED++))
 fi
 
@@ -111,14 +111,14 @@ else
     ((PASSED++))
 fi
 
-# Test 9: Validate docker-compose.yml syntax
-echo -n "9. Validating docker-compose.yml... "
-if docker-compose config &> /dev/null; then
+# Test 9: Validate docker compose.yml syntax
+echo -n "9. Validating docker compose.yml... "
+if docker compose config &> /dev/null; then
     echo -e "${GREEN}✓ PASSED${NC}"
     ((PASSED++))
 else
     echo -e "${RED}✗ FAILED${NC}"
-    echo "   docker-compose.yml has syntax errors."
+    echo "   docker compose.yml has syntax errors."
     ((FAILED++))
 fi
 
@@ -148,8 +148,8 @@ if [ $FAILED -eq 0 ]; then
     echo -e "${GREEN}✓ All tests passed! Your Docker setup is ready.${NC}"
     echo ""
     echo "Next steps:"
-    echo "  1. Build the image: docker-compose build"
-    echo "  2. Run the scanner: docker-compose run --rm raidscanner"
+    echo "  1. Build the image: docker compose build"
+    echo "  2. Run the scanner: docker compose run --rm raidscanner"
     echo "  or simply run: ./docker-run.sh"
     exit 0
 else

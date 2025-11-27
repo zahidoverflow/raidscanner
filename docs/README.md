@@ -10,7 +10,7 @@ RaidScanner now features a modern web interface! Run the tool through your brows
 
 **Quick Start:**
 ```bash
-docker-compose up raidscanner-web
+docker compose up raidscanner-web
 # Access at http://localhost:5000
 ```
 
@@ -73,9 +73,9 @@ docker run -d \
 
 **Or build locally:**
 ```bash
-# Build and run with docker-compose
-docker-compose build
-docker-compose run --rm raidscanner
+# Build and run with docker compose
+docker compose build
+docker compose run --rm raidscanner
 
 # Or use the convenience script
 chmod +x docker-run.sh

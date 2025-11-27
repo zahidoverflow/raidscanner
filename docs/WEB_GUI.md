@@ -34,10 +34,10 @@ RaidScanner now features a modern, cross-platform web-based GUI built with Flask
 
 ```bash
 # Run web interface only
-docker-compose up raidscanner-web
+docker compose up raidscanner-web
 
 # Or run both CLI and Web
-docker-compose up
+docker compose up
 ```
 
 Access the web interface at: **http://localhost:5000**

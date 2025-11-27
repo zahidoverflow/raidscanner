@@ -6,7 +6,7 @@
 raidscanner/
 ├── .docker/                    # Docker configuration
 │   ├── Dockerfile              # Container build definition
-│   ├── docker-compose.yml      # Multi-service orchestration
+│   ├── docker compose.yml      # Multi-service orchestration
 │   └── .dockerignore           # Docker build exclusions
 │
 ├── .git/                       # Git version control
@@ -78,7 +78,7 @@ raidscanner/
 ├── .gitignore                  # Git exclusions
 ├── app.py                      # Flask web application entry point
 ├── main.py                     # CLI application entry point
-├── docker-compose.yml          # Symlink to .docker/docker-compose.yml
+├── docker compose.yml          # Symlink to .docker/docker compose.yml
 ├── requirements.txt            # Python dependencies (all)
 ├── requirements-docker.txt     # Docker-specific dependencies
 ├── requirements-gui.txt        # GUI-specific dependencies
@@ -92,7 +92,7 @@ raidscanner/
 
 - **app.py**: Flask web application entry point (web GUI mode)
 - **main.py**: CLI application entry point (terminal mode)
-- **docker-compose.yml**: Symlink for easy access to Docker Compose config
+- **docker compose.yml**: Symlink for easy access to Docker Compose config
 
 ### Configuration Files
 
@@ -141,7 +141,7 @@ Automation and helper scripts:
 
 Containerization files:
 - Dockerfile: Multi-stage build, optimized image
-- docker-compose.yml: Service orchestration
+- docker compose.yml: Service orchestration
 - .dockerignore: Build exclusions
 
 ### Binaries (`bin/`)
@@ -172,10 +172,10 @@ python app.py
 ### Docker Development
 ```bash
 # Build and run
-docker-compose up raidscanner-web
+docker compose up raidscanner-web
 
 # Or CLI mode
-docker-compose up raidscanner-cli
+docker compose up raidscanner-cli
 ```
 
 ## Key Principles
@@ -208,16 +208,16 @@ docker-compose up raidscanner-cli
 
 ### Building Docker Image
 ```bash
-docker-compose build
+docker compose build
 ```
 
 ### Running Services
 ```bash
 # Web interface
-docker-compose up raidscanner-web
+docker compose up raidscanner-web
 
 # CLI mode
-docker-compose up raidscanner-cli
+docker compose up raidscanner-cli
 ```
 
 ### Publishing
@@ -231,7 +231,7 @@ docker push zahidoverflow/raidscanner:v2.0
 
 ## Notes
 
-- Keep `docker-compose.yml` symlink in root for user convenience
+- Keep `docker compose.yml` symlink in root for user convenience
 - All documentation goes in `docs/`
 - All scripts go in `scripts/`
 - Binary files go in `bin/`
