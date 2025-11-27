@@ -1,12 +1,30 @@
-webdriver_manager
-selenium
-aiohttp
-beautifulsoup4
-colorama
-rich
-requests
-gitpython
-prompt_toolkit
-pyyaml
-Flask
-urllib3
+# Web Automation & Scraping
+webdriver_manager==4.0.2
+selenium==4.25.0
+
+# HTTP & Async
+aiohttp==3.10.10
+requests==2.32.3
+urllib3==2.2.3
+
+# HTML Parsing
+beautifulsoup4==4.12.3
+
+# CLI & Terminal
+colorama==0.4.6
+rich==13.9.4
+prompt_toolkit==3.0.48
+
+# Data & Configuration  
+pyyaml==6.0.2
+
+# Git Integration
+gitpython==3.1.43
+
+# Web Framework (if needed)
+Flask==3.0.3
+
+# Additional Dependencies
+packaging==24.2
+certifi==2024.8.30
+charset-normalizer==3.4.0

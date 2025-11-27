@@ -1,5 +1,5 @@
 # Git
-.git
+.git/
 .gitignore
 .gitattributes
 
@@ -32,6 +32,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
 # IDE
 .vscode/
@@ -39,18 +40,50 @@ wheels/
 *.swp
 *.swo
 *~
+.project
+.pydevproject
+.settings/
 
 # OS
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+desktop.ini
 
-# Output and reports (will be mounted as volumes)
+# Output (mounted as volumes)
 output/
 reports/
 *.html
 
 # Logs
 *.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Documentation
+# Documentation (not needed in container)
 README.md
+DOCKER*.md
+CHECKLIST.md
+*.md
+
+# Scripts (except filter.sh)
+docker-*.sh
+docker-*.bat
+test-*.sh
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+
+# Temporary files
+*.tmp
+temp/
+tmp/
+.cache/

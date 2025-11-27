@@ -1,10 +1,12 @@
-version: '3.8'
-
 services:
   raidscanner:
+    image: zahidoverflow/raidscanner:latest
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - PYTHON_VERSION=3.11
+        - BUILD_DATE=${BUILD_DATE:-unknown}
     container_name: raidscanner
     stdin_open: true
     tty: true
@@ -17,8 +19,17 @@ services:
     environment:
       - DISPLAY=:99
       - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
     # Shared memory size for Chrome
     shm_size: '2gb'
+    # Resource limits (optional but recommended)
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          memory: 1G
     networks:
       - raidscanner_net
 

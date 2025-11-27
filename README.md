@@ -1,5 +1,9 @@
 ### **Vulnerability Scanner** is an easy-to-use tool that finds web issues like `LFI` - `OR` - `SQLi` - `XSS` - `CRLF`.
 
+[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-zahidoverflow%2Fraidscanner-blue?logo=docker)](https://hub.docker.com/r/zahidoverflow/raidscanner)
+[![Docker Image Size](https://img.shields.io/docker/image-size/zahidoverflow/raidscanner/latest)](https://hub.docker.com/r/zahidoverflow/raidscanner)
+[![Docker Pulls](https://img.shields.io/docker/pulls/zahidoverflow/raidscanner)](https://hub.docker.com/r/zahidoverflow/raidscanner)
+
 | Features                          | About                                                                       |
 |-----------------------------------|-----------------------------------------------------------------------------|
 | `LFI Scanner`                     | Detect Local File Inclusion vulnerabilities.                                |
@@ -32,7 +36,17 @@
 
 ### Option 1: Docker (Recommended - Easy & Portable)
 
-**Quick Start:**
+**Pull from Docker Hub (fastest):**
+```bash
+docker pull zahidoverflow/raidscanner:latest
+docker run -it --rm \
+  -v $(pwd)/output:/app/output \
+  -v $(pwd)/reports:/app/reports \
+  --shm-size=2g \
+  zahidoverflow/raidscanner:latest
+```
+
+**Or build locally:**
 ```bash
 # Build and run with docker-compose
 docker-compose build
@@ -51,6 +65,7 @@ chmod +x docker-run.sh
 - ✅ Works on Windows, Mac, Linux
 - ✅ Pre-configured Chrome & ChromeDriver
 - ✅ Easy to share and deploy
+- ✅ Available on Docker Hub
 
 ---
 
