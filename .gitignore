@@ -66,3 +66,4 @@ tmp/
 
 # Docker volumes
 volumes/
+*.zip
