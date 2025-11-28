@@ -1,9 +1,10 @@
 .hero-section {
   position: relative;
   width: 100%;
+  max-width: 1200px;
   height: 400px;
   overflow: hidden;
-  margin-bottom: 0;
+  margin: 0 auto;
 }
 
 .hero-image {
