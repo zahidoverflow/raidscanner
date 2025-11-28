@@ -1,0 +1,69 @@
+services:
+  # CLI Mode Service
+  raidscanner-cli:
+    image: zahidoverflow/raidscanner:latest
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+      args:
+        - PYTHON_VERSION=3.11
+        - BUILD_DATE=${BUILD_DATE:-unknown}
+    container_name: raidscanner-cli
+    stdin_open: true
+    tty: true
+    volumes:
+      # Mount output directory to persist results
+      - ./output:/app/output
+      - ./reports:/app/reports
+      # Mount payloads directory (optional, if you want to modify them)
+      - ./payloads:/app/payloads:ro
+    environment:
+      - DISPLAY=:99
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - MODE=cli
+    # Shared memory size for Chrome
+    shm_size: '2gb'
+    # Resource limits (optional but recommended)
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          memory: 1G
+    networks:
+      - raidscanner_net
+
+  # Web GUI Service
+  raidscanner-web:
+    image: zahidoverflow/raidscanner:latest
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    container_name: raidscanner-web
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./output:/app/output
+      - ./reports:/app/reports
+      - ./payloads:/app/payloads:ro
+    environment:
+      - DISPLAY=:99
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - MODE=web
+    shm_size: '2gb'
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          memory: 1G
+    networks:
+      - raidscanner_net
+
+networks:
+  raidscanner_net:
+    driver: bridge

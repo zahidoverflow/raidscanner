@@ -511,7 +511,7 @@ docker compose up raidscanner-web
 
 5. **First Run**
    ```bash
-   docker compose run --rm raidscanner
+   docker compose run --rm raidscanner-cli
    ```
 
 ---
@@ -522,7 +522,7 @@ docker compose up raidscanner-web
 
 - [ ] Prepare target URLs (single URL or file)
 - [ ] Select appropriate payload file from `./payloads/`
-- [ ] Run: `docker compose run --rm raidscanner`
+- [ ] Run: `docker compose run --rm raidscanner-cli`
 - [ ] Select vulnerability type from menu
 - [ ] Provide URL(s) and payload file path
 - [ ] Configure threads (0-10)
@@ -538,26 +538,15 @@ docker compose up raidscanner-web
 
 1. **Container Starts**
    ```bash
-   docker compose run --rm --entrypoint /bin/bash raidscanner
+   docker compose run --rm --entrypoint /bin/bash raidscanner-cli
    # Should open a bash shell inside container
    # Type 'exit' to quit
    ```
 
 2. **Python Works**
    ```bash
-   docker compose run --rm --entrypoint python3 raidscanner --version
-   # Should show Python 3.11.x
-   ```
-
-3. **Chrome Available**
-   ```bash
-   docker compose run --rm --entrypoint /bin/bash raidscanner -c "google-chrome --version"
-   # Should show Chrome version
-   ```
-
-4. **Dependencies Installed**
-   ```bash
-   docker compose run --rm --entrypoint pip3 raidscanner list
+   docker compose run --rm --entrypoint python3 raidscanner-cli --version
+   docker compose run --rm --entrypoint pip3 raidscanner-cli list
    # Should list all packages from requirements.txt
    ```
 
@@ -576,7 +565,7 @@ docker compose up raidscanner-web
 ### Key Commands to Remember:
 
 - [ ] `docker compose build` - Build/rebuild image
-- [ ] `docker compose run --rm raidscanner` - Run scanner
+- [ ] `docker compose run --rm raidscanner-cli` - Run scanner
 - [ ] `docker compose down` - Stop and remove containers
 - [ ] `docker system prune -f` - Clean up unused resources
 - [ ] `docker compose logs` - View logs

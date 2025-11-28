@@ -80,7 +80,7 @@ docker compose run --rm \
 
 ### Access Container Shell
 ```bash
-docker compose run --rm --entrypoint /bin/bash raidscanner
+docker compose run --rm --entrypoint /bin/bash raidscanner-cli
 ```
 
 ### Run filter.sh Script
@@ -120,7 +120,7 @@ sudo chown -R $USER:$USER output/ reports/
 ### Network Issues
 If scanning external sites fails, check your network:
 ```bash
-docker compose run --rm raidscanner ping -c 3 google.com
+docker compose run --rm raidscanner-cli ping -c 3 google.com
 ```
 
 ---
@@ -260,7 +260,7 @@ docker-run.bat
 ### Manual:
 ```bash
 docker compose build
-docker compose run --rm raidscanner
+docker compose run --rm raidscanner-cli
 ```
 
 ---
@@ -310,12 +310,12 @@ docker compose build
 
 ### Run the scanner:
 ```bash
-docker compose run --rm raidscanner
+docker compose run --rm raidscanner-cli
 ```
 
 ### Access container shell:
 ```bash
-docker compose run --rm --entrypoint /bin/bash raidscanner
+docker compose run --rm --entrypoint /bin/bash raidscanner-cli
 ```
 
 ### Run filter script:
@@ -341,7 +341,7 @@ docker compose logs -f
 1. **Test the setup:**
    ```bash
    docker compose build
-   docker compose run --rm raidscanner
+   docker compose run --rm raidscanner-cli
    ```
 
 2. **Run a scan:**
@@ -394,7 +394,7 @@ docker compose logs -f
 **Network issues?**
 - Verify Docker network settings
 - Check firewall rules
-- Test with `docker compose run --rm raidscanner ping google.com`
+- Test with `docker compose run --rm raidscanner-cli ping google.com`
 
 ---
 
@@ -454,7 +454,7 @@ Your RaidScanner project has been fully dockerized with the following additions:
    # Double-click docker-run.bat
    # OR in terminal:
    docker compose build
-   docker compose run --rm raidscanner
+   docker compose run --rm raidscanner-cli
    ```
 
 ### For Linux/Mac Users:
@@ -475,7 +475,7 @@ Your RaidScanner project has been fully dockerized with the following additions:
    
    # OR manually:
    docker compose build
-   docker compose run --rm raidscanner
+   docker compose run --rm raidscanner-cli
    ```
 
 ---
@@ -500,10 +500,10 @@ Your RaidScanner project has been fully dockerized with the following additions:
 docker compose build
 
 # Run the scanner interactively
-docker compose run --rm raidscanner
+docker compose run --rm raidscanner-cli
 
 # Access container shell
-docker compose run --rm --entrypoint /bin/bash raidscanner
+docker compose run --rm --entrypoint /bin/bash raidscanner-cli
 
 # Run the URL filter script
 docker compose run --rm --entrypoint /bin/bash raidscanner -c "./filter.sh"
@@ -650,7 +650,7 @@ docker push yourusername/raidscanner:latest
 
 1. **Test the setup**: Run `./test-docker-setup.sh`
 2. **Build the image**: `docker compose build`
-3. **Run your first scan**: `docker compose run --rm raidscanner`
+3. **Run your first scan**: `docker compose run --rm raidscanner-cli`
 4. **Check results**: Look in `./output/` and `./reports/`
 5. **Share with others**: Commit Docker files to your repo
 
@@ -803,7 +803,7 @@ COPY main.py .  # ← Only rebuilds if main.py changes
 
 ```bash
 # Inside container
-docker compose run --rm --entrypoint pip raidscanner list --outdated
+docker compose run --rm --entrypoint pip raidscanner-cli list --outdated
 
 # Local development
 pip list --outdated
@@ -836,7 +836,7 @@ pip freeze > requirements-lock.txt
 
 ```bash
 # Check for known vulnerabilities
-docker compose run --rm --entrypoint pip raidscanner audit
+docker compose run --rm --entrypoint pip raidscanner-cli audit
 
 # Or use safety
 pip install safety
@@ -847,7 +847,7 @@ safety check -r requirements-docker.txt
 
 ```bash
 # Check licenses
-docker compose run --rm --entrypoint pip-licenses raidscanner
+docker compose run --rm --entrypoint pip-licenses raidscanner-cli
 
 # Install if needed
 pip install pip-licenses
@@ -968,10 +968,10 @@ python3 main.py
 docker compose build
 
 # 5. Test in Docker
-docker compose run --rm raidscanner
+docker compose run --rm raidscanner-cli
 
 # 6. Update lockfile
-docker compose run --rm --entrypoint pip raidscanner freeze > requirements-lock.txt
+docker compose run --rm --entrypoint pip raidscanner-cli freeze > requirements-lock.txt
 
 # 7. Commit changes
 git commit -am "Update dependencies"
