@@ -14,24 +14,24 @@ function Home() {
         <img src="/ist-front-side.png" alt="IST Campus" className="hero-image" />
       </div>
 
-      <div className="container" style={{ paddingTop: '3rem' }}>
+      <div className="container">
         <div className="grid">
           <div className="card">
             <h2>🎓 About IST</h2>
             <p>Leading institution in technology and science education, fostering innovation and research excellence since 1995.</p>
-            <Link to="/about" className="btn" style={{ marginTop: '1rem' }}>Learn More</Link>
+            <Link to="/about" className="btn">Learn More</Link>
           </div>
 
           <div className="card">
             <h2>📚 Academic Programs</h2>
             <p>Explore our comprehensive range of undergraduate and graduate programs in Computer Science, IT, and Engineering.</p>
-            <Link to="/courses" className="btn" style={{ marginTop: '1rem' }}>View Courses</Link>
+            <Link to="/courses" className="btn">View Courses</Link>
           </div>
 
           <div className="card">
             <h2>👨‍🎓 Student Portal</h2>
             <p>Access your student dashboard, grades, schedules, and university resources.</p>
-            <Link to="/portal" className="btn" style={{ marginTop: '1rem' }}>Login</Link>
+            <Link to="/portal" className="btn">Login</Link>
           </div>
         </div>
 
