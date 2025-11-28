@@ -8,7 +8,7 @@ function Header() {
   return (
     <>
       <div className="top-bar">
-        <div className="container">
+        <div>
           <div className="top-bar-content">
             <div className="top-left">
               <span>📧 info@ist.edu.bd</span>

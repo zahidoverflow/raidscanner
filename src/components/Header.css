@@ -2,16 +2,13 @@
   background: #ff6600;
   color: white;
   font-size: 0.85rem;
-  padding: 0.4rem 0;
 }
 
 .top-bar-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  padding: 10px 40px;
 }
 
 .top-left {
@@ -41,13 +38,12 @@
 
 .header {
   background: white;
-  padding: 1rem 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .header-content {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
@@ -139,14 +135,12 @@ nav a:hover {
   }
 
   .top-bar-content {
-    flex-direction: column;
     gap: 0.3rem;
     padding: 0.5rem 15px;
     text-align: center;
   }
 
   .top-left {
-    flex-direction: column;
     gap: 0.3rem;
   }
 
@@ -155,8 +149,8 @@ nav a:hover {
   }
 
   .top-right {
-    gap: 0.8rem;
-    font-size: 0.9rem;
+    gap: 10px;
+    font-size: 10px;
   }
 
   .header-content {
