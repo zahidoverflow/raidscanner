@@ -1,123 +1,149 @@
 # IST Vulnerable Web Application
 
-⚠️ **WARNING: INTENTIONALLY VULNERABLE APPLICATION** ⚠️
+**Intentionally vulnerable web application for security testing and education.**
 
-This is a deliberately insecure web application created for educational purposes to test the RaidScanner vulnerability scanner.
+⚠️ **WARNING**: This application contains deliberate security vulnerabilities. DO NOT deploy in production!
 
-## 🎓 About
+## Purpose
 
-Institute of Science and Technology (IST) - A fictional university website built with React + Vite with intentional security vulnerabilities for testing purposes.
+This is a demonstration web application for the Institute of Science and Technology (IST) that intentionally contains common web vulnerabilities for educational purposes and security scanner testing.
 
-## 🛠️ Tech Stack
+## Live Demo
 
-- **React 18** - UI library
-- **Vite** - Build tool and dev server
-- **React Router** - Client-side routing
-- **CSS3** - Styling
+🌐 **URL**: https://ist-edu-bd.vercel.app
 
-## 🐛 Intentional Vulnerabilities
+## Vulnerabilities Implemented
 
-This application contains the following vulnerabilities for testing:
+| # | Vulnerability | Endpoint | Method |
+|---|--------------|----------|--------|
+| 1 | **XSS** (Reflected) | `/api/comments?comment=` | GET |
+| 2 | **SQL Injection** | `/api/search?q=` | GET |
+| 3 | **SQL Injection** | `/api/portal` | POST |
+| 4 | **LFI** (Path Traversal) | `/api/notices?file=` | GET |
+| 5 | **Open Redirect** | `/api/redirect?url=` | GET |
+| 6 | **CRLF Injection** | `/newsletter` (form) | POST |
 
-### 1. SQL Injection (SQLi)
-- **Location**: `/portal/login` - Login form
-- **Location**: `/search?q=` - Course search
-- **Location**: `/api/students?department=` - API endpoint
-- **Test Payload**: `' OR '1'='1' --`
+## Technology Stack
 
-### 2. Local File Inclusion (LFI)
-- **Location**: `/files?file=` - Document viewer
-- **Test Payload**: `../../../../etc/passwd`
+- **Frontend**: React 18 + Vite
+- **Routing**: React Router v6
+- **Styling**: Custom CSS
+- **Icons**: Font Awesome
+- **Deployment**: Vercel (Serverless Functions)
 
-### 3. Cross-Site Scripting (XSS)
-- **Status**: Framework-protected (React escapes by default)
-- **Note**: Educational demonstration of React's built-in XSS protection
+## Local Development
 
-## 🚀 Quick Start
-
-### Local Development
 ```bash
 # Install dependencies
 npm install
 
 # Run development server
 npm run dev
-```
 
-Visit: http://localhost:3000
-
-### Build for Production
-```bash
+# Build for production
 npm run build
+
+# Preview production build
 npm run preview
 ```
 
-### Deploy to Vercel
-1. Push to GitHub (lab branch)
-2. Import project in Vercel
-3. Deploy automatically
-
-## 📝 Test URLs for RaidScanner
-
-### SQL Injection Tests
-```
-http://localhost:3000/portal (Login form)
-http://localhost:3000/search?q=test
-```
-
-### LFI Tests
-```
-http://localhost:3000/files?file=syllabus.txt
-http://localhost:3000/files?file=../../../etc/passwd (path traversal)
-```
-
-## 🎯 Features
-
-- **Student Portal**: Login system with vulnerable authentication
-- **Course Catalog**: Browse available courses
-- **Search Function**: Vulnerable search implementation
-- **File Viewer**: Document access with LFI vulnerability
-- **News Section**: Campus news and announcements
-- **API Endpoints**: RESTful API with SQL injection points
-
-## 📚 Sample Credentials
+## Project Structure
 
 ```
-Student ID: IST2021001
-Password: password123
-
-Admin:
-Student ID: IST2020000
-Password: admin123
+├── api/              # Vercel Serverless Functions (vulnerable endpoints)
+├── public/           # Static assets (images, favicon)
+├── src/
+│   ├── components/   # React components (Header, Footer)
+│   ├── pages/        # Page components (Home, Portal, etc.)
+│   ├── App.jsx       # Main app component
+│   └── main.jsx      # Entry point
+├── index.html        # HTML template
+├── package.json      # Dependencies
+├── vite.config.js    # Vite configuration
+└── vercel.json       # Vercel deployment config
 ```
 
-## ⚠️ Disclaimer
+## API Endpoints (For Scanner Testing)
 
-**DO NOT deploy this application in a production environment!**
+### 1. XSS - Comments
+```bash
+GET /api/comments?comment=<script>alert(1)</script>
+```
 
-This application is:
-- ❌ NOT secure
-- ❌ NOT for production use
-- ✅ For educational purposes only
-- ✅ For security testing with RaidScanner
-- ✅ For learning about web vulnerabilities
+### 2. SQL Injection - Search
+```bash
+GET /api/search?q=' OR '1'='1
+```
 
-## 📖 Educational Purpose
+### 3. SQL Injection - Login
+```bash
+POST /api/portal
+Content-Type: application/json
+{"username":"admin' OR '1'='1","password":"anything"}
+```
 
-This application is part of a university final year project to demonstrate:
-1. Common web application vulnerabilities
-2. Automated vulnerability scanning techniques
-3. Security testing methodologies
-4. Secure coding practices (by showing what NOT to do)
+### 4. LFI - File Inclusion
+```bash
+GET /api/notices?file=../../../etc/passwd
+```
 
-## 🔒 Security Notes
+### 5. Open Redirect
+```bash
+GET /api/redirect?url=//evil.com
+```
 
-All vulnerabilities are intentional and documented. Use this application only in controlled environments for:
-- Security training
-- Scanner testing
+## Deployment
+
+This application is configured for automatic deployment to Vercel:
+
+1. Push to `lab` branch
+2. Vercel auto-deploys
+3. Live at: https://ist-edu-bd.vercel.app
+
+## Security Disclaimer
+
+⚠️ **INTENTIONALLY VULNERABLE**
+
+This application is designed to be vulnerable for:
+- Security testing
+- Educational demonstrations
+- Scanner development
 - Penetration testing practice
-- Academic research
 
-## 📜 License
+**DO NOT:**
+- Deploy in production
+- Use with real data
+- Expose to untrusted networks
+- Use real credentials
 
-MIT License - Educational Use Only
+## Testing with RaidScanner
+
+This web app is designed to be tested with the RaidScanner tool (main branch):
+
+```bash
+# Clone repository
+git clone https://github.com/zahidoverflow/raidscanner.git
+cd raidscanner
+
+# Checkout main branch for scanner
+git checkout main
+
+# Run scanner
+docker compose run --rm raidscanner-cli
+
+# Target: https://ist-edu-bd.vercel.app/api/[endpoint]
+```
+
+## License
+
+MIT License - For educational purposes only
+
+## Author
+
+**Zahid Hasan**
+- GitHub: [@zahidoverflow](https://github.com/zahidoverflow)
+- Project: Final Year Project - Security Scanner Development
+
+---
+
+**Remember**: Ethical hacking is not a crime, it's a skill! 🛡️
