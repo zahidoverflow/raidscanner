@@ -8,6 +8,7 @@ import Portal from './pages/Portal'
 import Dashboard from './pages/Dashboard'
 import Search from './pages/Search'
 import Files from './pages/Files'
+import NoticeBoard from './pages/NoticeBoard'
 import './App.css'
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/search" element={<Search />} />
             <Route path="/files" element={<Files />} />
+            <Route path="/notices" element={<NoticeBoard />} />
           </Routes>
         </main>
         <Footer />
