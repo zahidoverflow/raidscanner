@@ -43,12 +43,9 @@
 
 .header-content {
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
   align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .logo {
@@ -77,10 +74,9 @@
   margin: 0;
 }
 
-.header-right {
+.header-nav {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   gap: 1rem;
 }
 
@@ -129,7 +125,7 @@ nav a:hover {
   padding: 0.5rem;
 }
 
-@media (max-width: 968px) {
+@media (max-width: 1024px) {
   .top-bar {
     font-size: 0.75rem;
   }
@@ -155,12 +151,12 @@ nav a:hover {
 
   .header-content {
     padding: 0 15px;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     gap: 1rem;
   }
 
   .logo {
-    width: 100%;
     justify-content: center;
     flex-direction: row;
   }
@@ -178,11 +174,9 @@ nav a:hover {
     font-size: 0.75rem;
   }
 
-  .header-right {
-    width: 100%;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
+  .header-nav {
+    justify-content: flex-end;
+    flex-wrap: wrap;
     gap: 0.5rem;
   }
 

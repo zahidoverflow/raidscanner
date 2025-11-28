@@ -8,7 +8,6 @@ function Header() {
   return (
     <>
       <div className="top-bar">
-        <div>
           <div className="top-bar-content">
             <div className="top-left">
               <span>📧 info@ist.edu.bd</span>
@@ -25,7 +24,6 @@ function Header() {
               <a href="#" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
             </div>
           </div>
-        </div>
       </div>
 
       <header className="header">
@@ -38,11 +36,7 @@ function Header() {
                 <p>a center of excellence for education</p>
               </div>
             </div>
-            <div className="header-right">
-              <button className="payment-btn">Online Payment System</button>
-              <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
-                {menuOpen ? '✕' : '☰'}
-              </button>
+            <div className="header-nav">
               <nav>
                 <ul className={menuOpen ? 'active' : ''}>
                   <li><Link to="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
@@ -56,6 +50,10 @@ function Header() {
                   <li><Link to="/newsletter" onClick={() => setMenuOpen(false)}>Newsletter</Link></li>
                 </ul>
               </nav>
+              <button className="payment-btn">Online Payment System</button>
+              <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+                {menuOpen ? '✕' : '☰'}
+              </button>
             </div>
           </div>
         </div>
