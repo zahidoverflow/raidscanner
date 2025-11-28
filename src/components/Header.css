@@ -42,7 +42,7 @@
 .header {
   background: white;
   padding: 1rem 0;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .header-content {
@@ -68,7 +68,7 @@
 }
 
 .logo-text h1 {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #ff6600;
   margin: 0;
@@ -169,19 +169,6 @@ nav a:hover {
     width: 100%;
     justify-content: center;
     flex-direction: row;
-  }
-
-  .logo-img {
-    width: 60px;
-    height: 60px;
-  }
-
-  .logo-text h1 {
-    font-size: 1.1rem;
-  }
-
-  .logo-text p {
-    font-size: 0.75rem;
   }
 
   .header-right {
