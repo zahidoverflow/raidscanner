@@ -62,7 +62,7 @@ RUN pip install --upgrade pip==24.3.1 setuptools==75.6.0 wheel==0.45.1 \
     && pip list
 
 # Copy application files
-COPY main.py app.py ./
+COPY main.py app.py scanner_cli.py ./
 COPY scripts/ ./scripts/
 COPY payloads/ ./payloads/
 COPY core/ ./core/
