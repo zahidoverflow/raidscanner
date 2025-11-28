@@ -12,13 +12,6 @@ function Home() {
     <>
       <div className="hero-section">
         <img src="/ist-front-side.png" alt="IST Campus" className="hero-image" />
-        <div className="hero-overlay">
-          <div className="hero-content">
-            <h1>Welcome to Institute of Science and Technology</h1>
-            <p>A National University Affiliated Institution</p>
-            <p className="hero-subtitle">Empowering minds, shaping futures through excellence in education and research</p>
-          </div>
-        </div>
       </div>
 
       <div className="container" style={{ paddingTop: '3rem' }}>
