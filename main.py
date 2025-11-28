@@ -938,23 +938,6 @@ try:
 
                     print_scan_summary(total_found, total_scanned, start_time)
                     save_results(vulnerable_urls, total_found, total_scanned, start_time)
-                except Exception as e:
-                    print(f"{Fore.RED}An error occurred: {str(e)}")
-                finally:
-                    if 'executor' in locals():
-                        executor.shutdown(wait=False)
-                    sys.exit(0)
-
-            if __name__ == "__main__":
-                try:
-                    main()
-                except KeyboardInterrupt:
-                    sys.exit(0)
-
-
-    def run_xss_scanner(scan_state=None):
-        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-        logging.getLogger('WDM').setLevel(logging.ERROR)
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
         console = Console()
 
