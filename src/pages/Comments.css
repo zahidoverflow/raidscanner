@@ -120,23 +120,6 @@
     padding: 1rem;
     background: #f8f9ff;
     border: 2px solid #e0e0e0;
-    border-radius: 6px;
-    text-decoration: none;
-    color: #333;
-    transition: all 0.3s ease;
-}
-
-.sample-list a:hover {
-    border-color: #667eea;
-    background: #fff;
-    transform: translateX(5px);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .comments-hero {
-        padding: 2rem 1rem;
-    }
 
     .comments-hero h1 {
         font-size: 2rem;
