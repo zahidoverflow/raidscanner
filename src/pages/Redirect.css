@@ -1,0 +1,210 @@
+.redirect-hero {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.redirect-hero.redirect-active {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.redirect-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.redirect-hero p {
+    font-size: 1.1rem;
+    opacity: 0.95;
+}
+
+.redirect-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.redirect-content h2 {
+    color: #f5576c;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.redirect-info {
+    background: #fff5f7;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 2rem;
+    border-left: 4px solid #f5576c;
+}
+
+.redirect-info p {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.redirect-info code {
+    background: #fff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 3px;
+    color: #f5576c;
+    font-family: 'Courier New', monospace;
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.redirect-box {
+    background: white;
+    border: 3px solid #f5576c;
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(245, 87, 108, 0.2);
+}
+
+.redirect-icon {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+    animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.redirect-details {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.redirect-details p {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.redirect-url {
+    display: block;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 6px;
+    color: #f5576c;
+    font-family: 'Courier New', monospace;
+    word-break: break-all;
+    margin-top: 0.5rem;
+    border: 1px solid #e0e0e0;
+}
+
+.redirect-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.redirect-actions .btn {
+    padding: 0.8rem 2rem;
+}
+
+.vuln-warning {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #fff3cd;
+    border-radius: 6px;
+    color: #856404;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.sample-redirects {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+}
+
+.sample-redirects h3 {
+    color: #f5576c;
+    margin-bottom: 1rem;
+}
+
+.sample-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.sample-list a {
+    padding: 1rem;
+    background: #fff5f7;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.sample-list a:hover {
+    border-color: #f5576c;
+    background: #fff;
+    transform: translateX(5px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .redirect-hero {
+        padding: 2rem 1rem;
+    }
+
+    .redirect-hero h1 {
+        font-size: 2rem;
+    }
+
+    .redirect-hero p {
+        font-size: 1rem;
+    }
+
+    .redirect-box {
+        padding: 2rem 1.5rem;
+    }
+
+    .redirect-icon {
+        font-size: 4rem;
+    }
+
+    .redirect-actions {
+        flex-direction: column;
+    }
+
+    .redirect-actions .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .redirect-hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .redirect-box {
+        padding: 1.5rem 1rem;
+    }
+
+    .redirect-icon {
+        font-size: 3rem;
+    }
+
+    .redirect-details {
+        padding: 1rem;
+    }
+}

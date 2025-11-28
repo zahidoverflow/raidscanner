@@ -9,6 +9,9 @@ import Dashboard from './pages/Dashboard'
 import Search from './pages/Search'
 import Files from './pages/Files'
 import NoticeBoard from './pages/NoticeBoard'
+import Comments from './pages/Comments'
+import Redirect from './pages/Redirect'
+import Newsletter from './pages/Newsletter'
 import './App.css'
 
 function App() {
@@ -29,6 +32,9 @@ function App() {
             <Route path="/search" element={<Search />} />
             <Route path="/files" element={<Files />} />
             <Route path="/notices" element={<NoticeBoard />} />
+            <Route path="/comments" element={<Comments />} />
+            <Route path="/redirect" element={<Redirect />} />
+            <Route path="/newsletter" element={<Newsletter />} />
           </Routes>
         </main>
         <Footer />
