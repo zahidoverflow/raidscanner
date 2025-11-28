@@ -1,24 +1,4 @@
-.top-bar {
-  background: #ff6600;
-  color: white;
-  font-size: 0.85rem;
-  padding: 0.4rem 0;
-}
-
-.top-bar-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.top-left {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+.top-bar {}
 
 .top-left .separator {
   opacity: 0.5;
@@ -39,26 +19,6 @@
   opacity: 0.8;
 }
 
-.header {
-  background: white;
-  padding: 1rem 0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 20px;
-  flex-wrap: wrap;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
 }
 
 .logo-img {
