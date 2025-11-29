@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /private/
+
+# Vulnerable API Endpoints (For Educational Scanning)
+Allow: /api/notices
+Allow: /api/comments
+Allow: /api/search
+Allow: /api/portal
+Allow: /api/redirect
+Allow: /api/newsletter

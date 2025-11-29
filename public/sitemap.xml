@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://ist-edu-bd.vercel.app/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://ist-edu-bd.vercel.app/api/notices?file=test.txt</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ist-edu-bd.vercel.app/api/comments?comment=test</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ist-edu-bd.vercel.app/api/search?q=test</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ist-edu-bd.vercel.app/api/redirect?url=http://example.com</loc>
+    <priority>0.8</priority>
+  </url>
+</urlset>
