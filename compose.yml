@@ -2,6 +2,9 @@ services:
   # CLI Mode Service
   raidscanner-cli:
     image: zahidoverflow/raidscanner:latest
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
     container_name: raidscanner-cli
     stdin_open: true
     tty: true
@@ -32,6 +35,9 @@ services:
   # Web GUI Service
   raidscanner-web:
     image: zahidoverflow/raidscanner:latest
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
     container_name: raidscanner-web
     ports:
       - "5000:5000"
