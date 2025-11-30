@@ -92,21 +92,6 @@ GET /api/notices?file=../../../etc/passwd
 GET /api/redirect?url=//evil.com
 ```
 
-## Deployment
-
-This application is configured for automatic deployment to Vercel:
-
-1. Push to `lab` branch
-2. Vercel auto-deploys
-3. Live at: https://ist-edu-bd.vercel.app
-
-## Security Disclaimer
-
-⚠️ **INTENTIONALLY VULNERABLE**
-
-This application is designed to be vulnerable for:
-- Security testing
-- Educational demonstrations
 - Scanner development
 - Penetration testing practice
 
