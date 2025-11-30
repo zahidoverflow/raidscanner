@@ -1,30 +1,42 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 function Portal() {
-  const [studentId, setStudentId] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [studentId, setStudentId] = useState(searchParams.get('username') || '')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const navigate = useNavigate()
 
+  // Update URL when studentId changes
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams)
+    if (studentId) {
+      params.set('username', studentId)
+    } else {
+      params.delete('username')
+    }
+    setSearchParams(params, { replace: true })
+  }, [studentId])
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    
+
     // VULNERABLE: Simulating SQL injection vulnerability
     // In a real backend, this would be: SELECT * FROM students WHERE student_id = '${studentId}' AND password = '${password}'
-    
-    if (studentId === "' OR '1'='1' --" || 
-        password === "' OR '1'='1' --" ||
-        (studentId === 'IST2021001' && password === 'password123') ||
-        (studentId === 'IST2020000' && password === 'admin123')) {
-      
+
+    if (studentId === "' OR '1'='1' --" ||
+      password === "' OR '1'='1' --" ||
+      (studentId === 'IST2021001' && password === 'password123') ||
+      (studentId === 'IST2020000' && password === 'admin123')) {
+
       const studentData = {
         name: studentId.includes("'") ? 'SQL Injection User' : 'John Doe',
         student_id: studentId.includes("'") ? 'BYPASSED' : studentId,
         email: 'john.doe@ist.edu',
         department: 'Computer Science'
       }
-      
+
       localStorage.setItem('student', JSON.stringify(studentData))
       navigate('/dashboard')
     } else {
@@ -42,25 +54,25 @@ function Portal() {
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="student_id">Student ID</label>
-          <input 
-            type="text" 
-            id="student_id" 
+          <input
+            type="text"
+            id="student_id"
             value={studentId}
             onChange={(e) => setStudentId(e.target.value)}
-            placeholder="IST2021001" 
-            required 
+            placeholder="IST2021001"
+            required
           />
         </div>
 
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input 
-            type="password" 
-            id="password" 
+          <input
+            type="password"
+            id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password" 
-            required 
+            placeholder="Enter your password"
+            required
           />
         </div>
 

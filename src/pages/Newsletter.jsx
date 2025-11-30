@@ -1,10 +1,23 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import './Newsletter.css'
 
 function Newsletter() {
-    const [email, setEmail] = useState('')
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [email, setEmail] = useState(searchParams.get('email') || '')
     const [submitted, setSubmitted] = useState(false)
     const [result, setResult] = useState(null)
+
+    // Update URL when email changes
+    useEffect(() => {
+        const params = new URLSearchParams(searchParams)
+        if (email) {
+            params.set('email', email)
+        } else {
+            params.delete('email')
+        }
+        setSearchParams(params, { replace: true })
+    }, [email])
 
     const handleSubmit = (e) => {
         e.preventDefault()

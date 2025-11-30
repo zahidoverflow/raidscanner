@@ -44,7 +44,28 @@ function Redirect() {
 
                         <div className="redirect-info">
                             <p>Use the <code>url</code> parameter to redirect to another site:</p>
-                            <code>/redirect?url=https://example.com</code>
+
+                            <form
+                                onSubmit={(e) => {
+                                    e.preventDefault()
+                                    const formData = new FormData(e.target)
+                                    const url = formData.get('url')
+                                    if (url) {
+                                        // Update URL param to trigger redirect
+                                        window.location.href = `/redirect?url=${encodeURIComponent(url)}`
+                                    }
+                                }}
+                                style={{ margin: '1rem 0', display: 'flex', gap: '0.5rem' }}
+                            >
+                                <input
+                                    name="url"
+                                    type="text"
+                                    placeholder="https://example.com"
+                                    className="email-input"
+                                    style={{ flex: 1 }}
+                                />
+                                <button type="submit" className="btn btn-primary">Go</button>
+                            </form>
                         </div>
 
                         <div className="vuln-hint">

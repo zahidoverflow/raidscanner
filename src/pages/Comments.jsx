@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import './Comments.css'
 
 function Comments() {
-    const [searchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
     const reflectedComment = searchParams.get('comment') || ''
 
     // Stored XSS - comments from localStorage
@@ -75,7 +75,28 @@ function Comments() {
 
                         <div className="comment-form-info">
                             <p>Test reflected XSS via URL parameter:</p>
-                            <code>/comments?comment=Your+comment+here</code>
+                            <form
+                                onSubmit={(e) => {
+                                    e.preventDefault()
+                                    const formData = new FormData(e.target)
+                                    const comment = formData.get('comment')
+                                    if (comment) {
+                                        // Update URL param
+                                        setSearchParams({ comment })
+                                    }
+                                }}
+                                style={{ margin: '1rem 0', display: 'flex', gap: '0.5rem' }}
+                            >
+                                <input
+                                    name="comment"
+                                    type="text"
+                                    placeholder="<script>alert(1)</script>"
+                                    defaultValue={reflectedComment}
+                                    className="email-input"
+                                    style={{ flex: 1 }}
+                                />
+                                <button type="submit" className="btn btn-primary">Test</button>
+                            </form>
                         </div>
 
                         {reflectedComment && (

@@ -1,7 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 function Search() {
-  const [query, setQuery] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const initialQuery = searchParams.get('q') || ''
+  const [query, setQuery] = useState(initialQuery)
   const [results, setResults] = useState([])
   const [error, setError] = useState('')
 
@@ -13,38 +16,49 @@ function Search() {
     { id: 5, code: 'IT202', name: 'Database Management Systems', instructor: 'Dr. James Wilson', credits: 3 }
   ]
 
-  const handleSearch = (e) => {
-    e.preventDefault()
+  // Update results when URL param changes
+  useEffect(() => {
+    const q = searchParams.get('q')
+    if (q) {
+      setQuery(q)
+      performSearch(q)
+    }
+  }, [searchParams])
+
+  const performSearch = (searchQuery) => {
     setError('')
 
     // VULNERABLE: Simulating SQL injection in search
-    // Real query would be: SELECT * FROM courses WHERE course_name LIKE '%${query}%' OR course_code LIKE '%${query}%'
-    
-    if (query.includes("'") || query.includes("UNION") || query.includes("--")) {
-      setError(`Database Error: Syntax error near '${query}'. This might indicate a SQL injection attempt!`)
+    if (searchQuery.includes("'") || searchQuery.includes("UNION") || searchQuery.includes("--")) {
+      setError(`Database Error: Syntax error near '${searchQuery}'. This might indicate a SQL injection attempt!`)
       setResults([])
     } else {
-      const filtered = allCourses.filter(course => 
-        course.name.toLowerCase().includes(query.toLowerCase()) ||
-        course.code.toLowerCase().includes(query.toLowerCase())
+      const filtered = allCourses.filter(course =>
+        course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        course.code.toLowerCase().includes(searchQuery.toLowerCase())
       )
       setResults(filtered)
     }
+  }
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    setSearchParams({ q: query })
   }
 
   return (
     <>
       <div className="card">
         <h1>Search Courses</h1>
-        
+
         <form onSubmit={handleSearch}>
           <div className="form-group">
-            <input 
-              type="text" 
+            <input
+              type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search by course name or code..." 
-              style={{ fontSize: '1.1rem' }} 
+              placeholder="Search by course name or code..."
+              style={{ fontSize: '1.1rem' }}
             />
           </div>
           <button type="submit" className="btn">Search</button>
@@ -61,7 +75,7 @@ function Search() {
       {results.length > 0 && (
         <div className="card">
           <h2>Search Results ({results.length})</h2>
-          
+
           {results.map(course => (
             <div key={course.id} style={{ borderLeft: '4px solid #667eea', paddingLeft: '1rem', marginBottom: '1.5rem' }}>
               <h3 style={{ color: '#667eea' }}>{course.code} - {course.name}</h3>
