@@ -88,7 +88,7 @@
 .injected-headers {
     margin-top: 1rem;
     padding-top: 1rem;
-    border-top: 1px solid rgba(0,0,0,0.1);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .header-injection {
@@ -103,7 +103,141 @@
 .crlf-explanation {
     margin-top: 1.5rem;
     padding-top: 1.5rem;
-    border-top: 1px solid rgba(0,0,0,0.1);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.crlf-explanation ul {
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.sample-emails {
+    margin-top: 2rem;
+}
+
+.sample-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.sample-btn {
+    background: #e2e8f0;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.newsletter-hero {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    padding: 3rem 1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.newsletter-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.newsletter-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.newsletter-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.newsletter-info {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #4facfe;
+}
+
+.newsletter-form {
+    margin-bottom: 2rem;
+}
+
+.email-input {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 0.5rem;
+}
+
+.email-input:focus {
+    outline: none;
+    border-color: #4facfe;
+    box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2);
+}
+
+.subscription-result {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    animation: fadeIn 0.5s ease;
+}
+
+.subscription-result.normal {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.subscription-result.vulnerable {
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+}
+
+.email-details {
+    margin-top: 1rem;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.email-value {
+    display: block;
+    background: #fff;
+    padding: 0.5rem;
+    border-radius: 3px;
+    margin-top: 0.25rem;
+    word-break: break-all;
+}
+
+.injected-headers {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.header-injection {
+    background: #2d3748;
+    color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+}
+
+.crlf-explanation {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .crlf-explanation ul {
@@ -137,60 +271,71 @@
     transform: translateY(-1px);
 }
 
-/* Popup Styles */
+/* Toast/Popup Styles */
 .popup-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    top: 20px;
+    right: 20px;
     z-index: 1000;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-start;
-    pointer-events: none; /* Allow clicking through overlay if needed, but usually we want to block */
-    pointer-events: auto;
+    pointer-events: none;
+    /* Allow clicking through to the page */
 }
 
 .popup-content {
     background: white;
-    width: 400px;
+    width: 350px;
     max-width: 90vw;
-    height: 100vh;
-    padding: 2rem;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
-    transform: translateX(100%);
-    animation: slideInRight 0.3s forwards;
-    overflow-y: auto;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateX(120%);
+    animation: slideInToast 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    pointer-events: auto;
+    /* Re-enable clicks on the toast itself */
     position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .popup-close {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 0.5rem;
+    right: 0.5rem;
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     cursor: pointer;
-    color: #666;
+    color: #999;
+    padding: 5px;
+    line-height: 1;
+    border-radius: 50%;
+    transition: all 0.2s;
 }
 
 .popup-close:hover {
-    color: #000;
+    color: #333;
+    background: rgba(0, 0, 0, 0.05);
 }
 
-@keyframes slideInRight {
+@keyframes slideInToast {
     from {
-        transform: translateX(100%);
+        transform: translateX(120%);
+        opacity: 0;
     }
+
     to {
         transform: translateX(0);
+        opacity: 1;
     }
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
