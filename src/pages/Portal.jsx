@@ -8,19 +8,19 @@ function Portal() {
   const [error, setError] = useState('')
   const navigate = useNavigate()
 
-  // Update URL when studentId changes
+  // Initialize from URL
   useEffect(() => {
-    const params = new URLSearchParams(searchParams)
-    if (studentId) {
-      params.set('username', studentId)
-    } else {
-      params.delete('username')
+    const username = searchParams.get('username')
+    if (username) {
+      setStudentId(username)
     }
-    setSearchParams(params, { replace: true })
-  }, [studentId])
+  }, [searchParams])
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    // Update URL on submit
+    setSearchParams({ username: studentId })
 
     // VULNERABLE: Simulating SQL injection vulnerability
     // In a real backend, this would be: SELECT * FROM students WHERE student_id = '${studentId}' AND password = '${password}'

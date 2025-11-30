@@ -7,20 +7,21 @@ function Newsletter() {
     const [email, setEmail] = useState(searchParams.get('email') || '')
     const [submitted, setSubmitted] = useState(false)
     const [result, setResult] = useState(null)
+    const [showPopup, setShowPopup] = useState(false)
 
-    // Update URL when email changes
+    // Initialize from URL
     useEffect(() => {
-        const params = new URLSearchParams(searchParams)
-        if (email) {
-            params.set('email', email)
-        } else {
-            params.delete('email')
+        const emailParam = searchParams.get('email')
+        if (emailParam) {
+            setEmail(emailParam)
         }
-        setSearchParams(params, { replace: true })
-    }, [email])
+    }, [searchParams])
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
+        // Update URL on submit
+        setSearchParams({ email })
 
         // VULNERABLE: Detect CRLF injection attempts
         const hasCRLF = email.includes('%0d%0a') || email.includes('%0D%0A') ||
@@ -43,6 +44,12 @@ function Newsletter() {
         if (!hasCRLF) {
             setSubmitted(true)
         }
+
+        setShowPopup(true)
+    }
+
+    const closePopup = () => {
+        setShowPopup(false)
     }
 
     return (
@@ -80,64 +87,6 @@ function Newsletter() {
                                 Subscribe Now
                             </button>
                         </form>
-
-                        {result && (
-                            <div className={`subscription-result ${result.hasCRLF ? 'vulnerable' : 'normal'}`}>
-                                <h3>{result.hasCRLF ? '⚠️ CRLF Injection Detected!' : '✅ Email Received'}</h3>
-
-                                <div className="email-details">
-                                    <p><strong>Submitted via:</strong> <code>POST</code> Request</p>
-                                    <p><strong>Email:</strong></p>
-                                    <code className="email-value">{result.actualEmail}</code>
-
-                                    {result.hasCRLF && result.injectedHeaders.length > 0 && (
-                                        <div className="injected-headers">
-                                            <p><strong>⚠️ Injected Headers Detected:</strong></p>
-                                            <pre className="header-injection">
-                                                {result.injectedHeaders.join('\n')}
-                                            </pre>
-                                            <p className="raw-input">
-                                                <strong>Raw Input:</strong><br />
-                                                <code>{result.rawInput}</code>
-                                            </p>
-                                        </div>
-                                    )}
-
-                                    {result.hasCRLF && (
-                                        <div className="crlf-explanation">
-                                            <h4>CRLF Injection Vulnerability</h4>
-                                            <p>This input contains CRLF (Carriage Return Line Feed) sequences:</p>
-                                            <ul>
-                                                <li><code>%0d%0a</code> - URL-encoded CRLF</li>
-                                                <li><code>\r\n</code> - Literal CRLF</li>
-                                            </ul>
-                                            <p><strong>Impact in Real Application:</strong></p>
-                                            <ul>
-                                                <li>🔴 Cookie injection (<code>Set-Cookie:</code>)</li>
-                                                <li>🔴 HTTP response splitting</li>
-                                                <li>🔴 Cache poisoning (<code>Content-Length: 0</code>)</li>
-                                                <li>🔴 Open redirect via Location header</li>
-                                                <li>🔴 XSS via injected Content-Type</li>
-                                            </ul>
-
-                                            <h4>Why POST Method?</h4>
-                                            <p>Newsletter forms typically use POST requests to submit data. This is more realistic than GET parameters because:</p>
-                                            <ul>
-                                                <li>Forms submit via POST in production</li>
-                                                <li>Email processing happens server-side</li>
-                                                <li>Headers are set based on form data</li>
-                                            </ul>
-                                        </div>
-                                    )}
-                                </div>
-
-                                {submitted && !result.hasCRLF && (
-                                    <div className="success-message">
-                                        ✅ Thank you for subscribing! You'll receive our newsletter.
-                                    </div>
-                                )}
-                            </div>
-                        )}
                     </div>
 
                     <div className="vuln-hint">
@@ -195,6 +144,63 @@ function Newsletter() {
                     </div>
                 </div>
             </div>
+
+            {/* Popup Result */}
+            {showPopup && result && (
+                <div className="popup-overlay" onClick={closePopup}>
+                    <div className="popup-content" onClick={e => e.stopPropagation()}>
+                        <button className="popup-close" onClick={closePopup}>&times;</button>
+
+                        <div className={`subscription-result ${result.hasCRLF ? 'vulnerable' : 'normal'}`} style={{ marginTop: 0 }}>
+                            <h3>{result.hasCRLF ? '⚠️ CRLF Injection Detected!' : '✅ Email Received'}</h3>
+
+                            <div className="email-details">
+                                <p><strong>Submitted via:</strong> <code>POST</code> Request</p>
+                                <p><strong>Email:</strong></p>
+                                <code className="email-value">{result.actualEmail}</code>
+
+                                {result.hasCRLF && result.injectedHeaders.length > 0 && (
+                                    <div className="injected-headers">
+                                        <p><strong>⚠️ Injected Headers Detected:</strong></p>
+                                        <pre className="header-injection">
+                                            {result.injectedHeaders.join('\n')}
+                                        </pre>
+                                        <p className="raw-input">
+                                            <strong>Raw Input:</strong><br />
+                                            <code>{result.rawInput}</code>
+                                        </p>
+                                    </div>
+                                )}
+
+                                {result.hasCRLF && (
+                                    <div className="crlf-explanation">
+                                        <h4>CRLF Injection Vulnerability</h4>
+                                        <p>This input contains CRLF (Carriage Return Line Feed) sequences:</p>
+                                        <ul>
+                                            <li><code>%0d%0a</code> - URL-encoded CRLF</li>
+                                            <li><code>\r\n</code> - Literal CRLF</li>
+                                        </ul>
+                                        <p><strong>Impact in Real Application:</strong></p>
+                                        <ul>
+                                            <li>🔴 Cookie injection (<code>Set-Cookie:</code>)</li>
+                                            <li>🔴 HTTP response splitting</li>
+                                            <li>🔴 Cache poisoning (<code>Content-Length: 0</code>)</li>
+                                            <li>🔴 Open redirect via Location header</li>
+                                            <li>🔴 XSS via injected Content-Type</li>
+                                        </ul>
+                                    </div>
+                                )}
+                            </div>
+
+                            {submitted && !result.hasCRLF && (
+                                <div className="success-message" style={{ marginTop: '1rem', padding: '1rem', background: '#e6fffa', borderRadius: '5px', color: '#2c7a7b' }}>
+                                    ✅ Thank you for subscribing! You'll receive our newsletter.
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     )
 }
