@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import './NoticeBoard.css'
 
 function NoticeBoard() {
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const fileParam = searchParams.get('file')
   const [selectedFile, setSelectedFile] = useState(fileParam || '')
   const [fileContent, setFileContent] = useState('')
@@ -109,9 +109,9 @@ Register at: events@ist.edu.bd`,
     // Simulate loading delay
     setTimeout(() => {
       // VULNERABLE: Path traversal detection
-      if (filename.includes('../') || filename.includes('..\\\\') || 
-          filename.includes('%2e%2e%2f') || filename.includes('%2e%2e%5c')) {
-        
+      if (filename.includes('../') || filename.includes('..\\\\') ||
+        filename.includes('%2e%2e%2f') || filename.includes('%2e%2e%5c')) {
+
         // Simulate LFI vulnerability - matches scanner payloads
         if (filename.includes('/etc/passwd') || filename.includes('\\\\windows\\\\system32')) {
           setError(`🔓 LFI VULNERABILITY DETECTED!
@@ -170,10 +170,10 @@ ${Object.keys(notices).join('\\n')}`)
             <h2>📋 All Notices</h2>
             <div className="notice-list">
               {Object.entries(notices).map(([filename, notice]) => (
-                <div 
+                <div
                   key={filename}
                   className={`notice-item ${selectedFile === filename ? 'active' : ''}`}
-                  onClick={() => handleFileLoad(filename)}
+                  onClick={() => setSearchParams({ file: filename })}
                 >
                   <h3>{notice.title}</h3>
                   <small>📅 {notice.date}</small>
