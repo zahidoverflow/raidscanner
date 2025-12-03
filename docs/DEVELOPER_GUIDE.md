@@ -59,23 +59,50 @@ RaidScanner follows a layered architecture:
 
 ```
 raidscanner/
-├── app.py                  # Flask Web Application
-├── main.py                 # CLI Application
-├── core/                   # Core Logic
-│   ├── scanner_engine.py   # Scanning implementation
-│   ├── report_generator.py # Report creation
-│   └── payload_loader.py   # Payload management
-├── utils/                  # Utilities
-│   ├── config.py           # Configuration
-│   └── platform_helper.py  # OS helpers
-├── web/                    # Frontend Assets
-│   ├── templates/          # HTML Templates
-│   └── static/             # JS/CSS
-├── payloads/               # Attack Vectors
-├── output/                 # Raw Output
-├── reports/                # Generated Reports
-├── Dockerfile              # Docker Image Definition
-└── compose.yml             # Docker Compose Config
+├── .docker/                    # Docker configuration
+│   ├── Dockerfile              # Container build definition
+│   ├── compose.yml             # Docker Compose configuration (V2)
+│   └── .dockerignore           # Docker build exclusions
+│
+├── bin/                        # Binary files and executables
+│   └── chromedriver-linux64/   # ChromeDriver for Linux
+│
+├── core/                       # Core scanning logic
+│   ├── scanner_engine.py       # Platform-agnostic scanners
+│   ├── report_generator.py     # Report creation (HTML/JSON)
+│   └── payload_loader.py       # Payload management
+│
+├── docs/                       # Documentation
+│   ├── USER_GUIDE.md           # Complete user documentation
+│   └── DEVELOPER_GUIDE.md      # Architecture & contribution guide
+│
+├── output/                     # Scan results (auto-generated)
+│
+├── payloads/                   # Attack payloads
+│   ├── lfi-payloads.txt
+│   ├── xss.txt
+│   └── sqli/
+│
+├── reports/                    # Generated reports (auto-generated)
+│
+├── scripts/                    # Utility scripts
+│   ├── start.sh                # Interactive startup script
+│   ├── docker-run.sh           # Run Docker container (Linux/Mac)
+│   └── docker-run.bat          # Run Docker container (Windows)
+│
+├── utils/                      # Utility modules
+│   ├── config.py               # Configuration management
+│   └── platform_helper.py      # Cross-platform compatibility
+│
+├── web/                        # Web interface
+│   ├── templates/              # HTML Templates
+│   └── static/                 # JS/CSS
+│
+├── app.py                      # Flask web application entry point
+├── main.py                     # CLI application entry point
+├── compose.yml                 # Symlink to .docker/compose.yml
+├── requirements.txt            # Python dependencies (all)
+└── requirements-docker.txt     # Docker-specific dependencies
 ```
 
 ---
@@ -126,19 +153,63 @@ The Web GUI exposes a REST API and WebSocket interface.
 
 ## Development Workflow
 
-### Adding New Scanners
+### Local Development
+```bash
+# Install dependencies
+pip install -r requirements.txt
 
-1.  **Backend (`core/scanner_engine.py`)**:
-    *   Implement `scan_<type>(self, urls, payloads, threads)` method.
-    *   Ensure it returns a list of results.
+# Run CLI mode
+python main.py
 
-2.  **API Route (`app.py`)**:
-    *   Add `@app.route('/api/scan/<type>', methods=['POST'])`.
-    *   Call the new scanner method in a background thread.
+# Run web GUI
+python app.py
+```
 
-3.  **Frontend (`web/templates/index.html`)**:
-    *   Add a new Card for the scanner.
-    *   Update `web/static/js/main.js` to handle the new type if necessary.
+### Docker Development
+```bash
+# Build and run web GUI
+docker compose up -d raidscanner-web
 
-4.  **Payloads**:
-    *   Add default payload file in `payloads/`.
+# Or CLI mode
+docker compose run --rm raidscanner-cli
+
+# View logs
+docker compose logs -f
+
+# Rebuild after changes
+docker compose build --no-cache
+```
+
+### Adding New Features
+
+#### New Scanner
+1. Add scanner logic to `core/scanner_engine.py`
+2. Add payloads to `payloads/`
+3. Create API endpoint in `app.py` (web mode)
+4. Add CLI option to `main.py` (CLI mode)
+
+#### New Web Page
+1. Create HTML in `web/templates/`
+2. Add static files to `web/static/`
+3. Add route in `app.py`
+
+#### New Script
+1. Add script to `scripts/`
+2. Make executable: `chmod +x scripts/your-script.sh`
+3. Document in `docs/`
+
+### Build & Deployment
+
+#### Building Docker Image
+```bash
+docker compose build
+```
+
+#### Publishing
+```bash
+# Tag image
+docker tag raidscanner:latest zahidoverflow/raidscanner:v2.0
+
+# Push to Docker Hub
+docker push zahidoverflow/raidscanner:v2.0
+```
