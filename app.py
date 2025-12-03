@@ -162,6 +162,103 @@ def scan_sqli():
         return jsonify({'success': False, 'error': str(e)}), 500
 
 
+@app.route('/api/scan/xss', methods=['POST'])
+def scan_xss():
+    """XSS Scan Endpoint"""
+    try:
+        data = request.json
+        urls = data.get('urls', [])
+        threads = data.get('threads', 3)
+        
+        if not urls:
+            return jsonify({'success': False, 'error': 'No URLs provided'}), 400
+        
+        payloads = payload_loader.load_xss_payloads()
+        
+        def progress_callback(progress_data):
+            socketio.emit('scan_progress', progress_data)
+        
+        scanner.add_progress_callback(progress_callback)
+        
+        def run_scan():
+            try:
+                results = scanner.scan_xss(urls, payloads, threads)
+                socketio.emit('scan_complete', {'success': True, 'results': results})
+            except Exception as e:
+                socketio.emit('scan_error', {'success': False, 'error': str(e)})
+        
+        thread = threading.Thread(target=run_scan, daemon=True)
+        thread.start()
+        
+        return jsonify({'success': True, 'message': 'Scan started'})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/scan/or', methods=['POST'])
+def scan_or():
+    """Open Redirect Scan Endpoint"""
+    try:
+        data = request.json
+        urls = data.get('urls', [])
+        threads = data.get('threads', 5)
+        
+        if not urls:
+            return jsonify({'success': False, 'error': 'No URLs provided'}), 400
+        
+        payloads = payload_loader.load_or_payloads()
+        
+        def progress_callback(progress_data):
+            socketio.emit('scan_progress', progress_data)
+        
+        scanner.add_progress_callback(progress_callback)
+        
+        def run_scan():
+            try:
+                results = scanner.scan_or(urls, payloads, threads)
+                socketio.emit('scan_complete', {'success': True, 'results': results})
+            except Exception as e:
+                socketio.emit('scan_error', {'success': False, 'error': str(e)})
+        
+        thread = threading.Thread(target=run_scan, daemon=True)
+        thread.start()
+        
+        return jsonify({'success': True, 'message': 'Scan started'})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/scan/crlf', methods=['POST'])
+def scan_crlf():
+    """CRLF Injection Scan Endpoint"""
+    try:
+        data = request.json
+        urls = data.get('urls', [])
+        threads = data.get('threads', 5)
+        
+        if not urls:
+            return jsonify({'success': False, 'error': 'No URLs provided'}), 400
+        
+        def progress_callback(progress_data):
+            socketio.emit('scan_progress', progress_data)
+        
+        scanner.add_progress_callback(progress_callback)
+        
+        def run_scan():
+            try:
+                results = scanner.scan_crlf(urls, threads)
+                socketio.emit('scan_complete', {'success': True, 'results': results})
+            except Exception as e:
+                socketio.emit('scan_error', {'success': False, 'error': str(e)})
+        
+        thread = threading.Thread(target=run_scan, daemon=True)
+        thread.start()
+        
+        return jsonify({'success': True, 'message': 'Scan started'})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
 @app.route('/api/reports', methods=['GET'])
 def get_reports():
     """List available reports"""

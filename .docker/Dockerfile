@@ -90,6 +90,7 @@ RUN useradd -m -u 1000 scanner \
     && chown -R scanner:scanner /app
 USER scanner
 
-# Start Xvfb and run the application (default: CLI mode)
-# To run web mode: docker run -p 5000:5000 -e MODE=web raidscanner
-CMD ["/bin/bash", "-c", "Xvfb :99 -screen 0 1920x1080x24 > /dev/null 2>&1 & sleep 1 && if [ \"$MODE\" = \"web\" ]; then python3 app.py; else python3 main.py; fi"]
+# Start Xvfb and run the application
+# Web mode: python3 app.py
+# CLI mode: python3 scanner_cli.py
+CMD ["/bin/bash", "-c", "Xvfb :99 -screen 0 1920x1080x24 > /dev/null 2>&1 & sleep 1 && if [ \"$MODE\" = \"web\" ]; then python3 app.py; else python3 scanner_cli.py; fi"]

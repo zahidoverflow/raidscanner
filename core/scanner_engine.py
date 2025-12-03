@@ -215,6 +215,299 @@ class ScannerEngine:
         
         return results
     
+    def scan_xss(self, urls: List[str], payloads: List[str], 
+                 threads: int = 3) -> Dict[str, Any]:
+        """
+        XSS Scanner using Selenium for DOM-based and Reflected XSS
+        Uses fewer threads due to Selenium resource requirements
+        """
+        results = {
+            'scan_type': 'XSS',
+            'start_time': time.time(),
+            'vulnerable_urls': [],
+            'total_found': 0,
+            'total_scanned': 0,
+            'results': []
+        }
+        
+        def check_xss(url: str, payload: str) -> Optional[dict]:
+            """Check single XSS payload"""
+            from selenium import webdriver
+            from selenium.webdriver.chrome.options import Options
+            from selenium.common.exceptions import TimeoutException, WebDriverException
+            from selenium.webdriver.support.ui import WebDriverWait
+            from selenium.webdriver.support import expected_conditions as EC
+            from utils.config import Config
+            
+            target_url = f"{url}{urllib.parse.quote(payload.strip())}"
+            driver = None
+            is_vulnerable = False
+            
+            try:
+                # Setup headless Chrome
+                chrome_options = Options()
+                for arg in Config.CHROME_OPTIONS:
+                    chrome_options.add_argument(arg)
+                
+                driver = webdriver.Chrome(options=chrome_options)
+                driver.set_page_load_timeout(10)
+                driver.get(target_url)
+                
+                # Check for alert (classic XSS indicator)
+                try:
+                    WebDriverWait(driver, 3).until(EC.alert_is_present())
+                    alert = driver.switch_to.alert
+                    alert.accept()
+                    is_vulnerable = True
+                except TimeoutException:
+                    # Also check if payload appears unescaped in source
+                    page_source = driver.page_source
+                    if payload.strip() in page_source:
+                        is_vulnerable = True
+                
+                results['total_scanned'] += 1
+                
+                if is_vulnerable:
+                    results['total_found'] += 1
+                    results['vulnerable_urls'].append(target_url)
+                
+                return {
+                    'url': target_url,
+                    'payload': payload.strip(),
+                    'vulnerable': is_vulnerable,
+                    'method': 'selenium'
+                }
+            except Exception as e:
+                results['total_scanned'] += 1
+                return {
+                    'url': target_url,
+                    'payload': payload.strip(),
+                    'vulnerable': False,
+                    'error': str(e)
+                }
+            finally:
+                if driver:
+                    try:
+                        driver.quit()
+                    except:
+                        pass
+        
+        # Scan all URLs (use fewer threads for Selenium)
+        with ThreadPoolExecutor(max_workers=min(threads, 3)) as executor:
+            for url in urls:
+                futures = [
+                    executor.submit(check_xss, url, payload) 
+                    for payload in payloads
+                ]
+                
+                for future in as_completed(futures):
+                    result = future.result()
+                    if result:
+                        results['results'].append(result)
+                        
+                        progress_data = {
+                            'type': 'xss',
+                            'current_url': url,
+                            'scanned': results['total_scanned'],
+                            'total': len(urls) * len(payloads),
+                            'found': results['total_found']
+                        }
+                        self._notify_progress(progress_data)
+        
+        results['end_time'] = time.time()
+        results['duration'] = int(results['end_time'] - results['start_time'])
+        
+        return results
+    
+    def scan_or(self, urls: List[str], payloads: List[str], 
+                threads: int = 5) -> Dict[str, Any]:
+        """
+        Open Redirect Scanner
+        Checks if Location header or meta refresh contains payload
+        """
+        results = {
+            'scan_type': 'Open Redirect',
+            'start_time': time.time(),
+            'vulnerable_urls': [],
+            'total_found': 0,
+            'total_scanned': 0,
+            'results': []
+        }
+        
+        def check_or(url: str, payload: str) -> Optional[dict]:
+            """Check single Open Redirect payload"""
+            target_url = f"{url}{urllib.parse.quote(payload.strip())}"
+            
+            try:
+                response = requests.get(
+                    target_url,
+                    headers={'User-Agent': self.get_random_user_agent()},
+                    timeout=10,
+                    allow_redirects=False
+                )
+                
+                is_vulnerable = False
+                redirect_location = None
+                
+                # Check Location header
+                if 'Location' in response.headers:
+                    location = response.headers['Location']
+                    # Check if our payload domain appears in redirect
+                    if payload.strip() in location:
+                        is_vulnerable = True
+                        redirect_location = location
+                
+                # Check meta refresh in HTML
+                if not is_vulnerable and response.status_code == 200:
+                    if payload.strip() in response.text:
+                        is_vulnerable = True
+                
+                results['total_scanned'] += 1
+                
+                if is_vulnerable:
+                    results['total_found'] += 1
+                    results['vulnerable_urls'].append(target_url)
+                
+                return {
+                    'url': target_url,
+                    'payload': payload.strip(),
+                    'vulnerable': is_vulnerable,
+                    'redirect_location': redirect_location,
+                    'status_code': response.status_code
+                }
+            except Exception as e:
+                results['total_scanned'] += 1
+                return {
+                    'url': target_url,
+                    'payload': payload.strip(),
+                    'vulnerable': False,
+                    'error': str(e)
+                }
+        
+        # Scan all URLs
+        with ThreadPoolExecutor(max_workers=threads) as executor:
+            for url in urls:
+                futures = [
+                    executor.submit(check_or, url, payload) 
+                    for payload in payloads
+                ]
+                
+                for future in as_completed(futures):
+                    result = future.result()
+                    if result:
+                        results['results'].append(result)
+                        
+                        progress_data = {
+                            'type': 'or',
+                            'current_url': url,
+                            'scanned': results['total_scanned'],
+                            'total': len(urls) * len(payloads),
+                            'found': results['total_found']
+                        }
+                        self._notify_progress(progress_data)
+        
+        results['end_time'] = time.time()
+        results['duration'] = int(results['end_time'] - results['start_time'])
+        
+        return results
+    
+    def scan_crlf(self, urls: List[str], threads: int = 5) -> Dict[str, Any]:
+        """
+        CRLF Injection Scanner
+        Tests for HTTP Response Splitting via CRLF sequences
+        """
+        # Generate CRLF payloads dynamically
+        payloads = [
+            '%0d%0aSet-Cookie:crlf=injection',
+            '%0aSet-Cookie:crlf=injection',
+            '%0dSet-Cookie:crlf=injection',
+            '%0d%0a%0d%0aHTTP/1.1%20200%20OK',
+            '%E5%98%8A%E5%98%8DSet-Cookie:crlf=injection',
+            '\r\nSet-Cookie:crlf=injection',
+            '\nSet-Cookie:crlf=injection',
+            '\rSet-Cookie:crlf=injection'
+        ]
+        
+        results = {
+            'scan_type': 'CRLF',
+            'start_time': time.time(),
+            'vulnerable_urls': [],
+            'total_found': 0,
+            'total_scanned': 0,
+            'results': []
+        }
+        
+        def check_crlf(url: str, payload: str) -> Optional[dict]:
+            """Check single CRLF payload"""
+            target_url = f"{url}{payload}"
+            
+            try:
+                response = requests.get(
+                    target_url,
+                    headers={'User-Agent': self.get_random_user_agent()},
+                    timeout=10,
+                    allow_redirects=False
+                )
+                
+                is_vulnerable = False
+                injected_header = None
+                
+                # Check if our injected header appears in response
+                if 'Set-Cookie' in response.headers:
+                    set_cookie = response.headers['Set-Cookie']
+                    if 'crlf=injection' in set_cookie:
+                        is_vulnerable = True
+                        injected_header = set_cookie
+                
+                results['total_scanned'] += 1
+                
+                if is_vulnerable:
+                    results['total_found'] += 1
+                    results['vulnerable_urls'].append(target_url)
+                
+                return {
+                    'url': target_url,
+                    'payload': payload,
+                    'vulnerable': is_vulnerable,
+                    'injected_header': injected_header,
+                    'status_code': response.status_code
+                }
+            except Exception as e:
+                results['total_scanned'] += 1
+                return {
+                    'url': target_url,
+                    'payload': payload,
+                    'vulnerable': False,
+                    'error': str(e)
+                }
+        
+        # Scan all URLs
+        with ThreadPoolExecutor(max_workers=threads) as executor:
+            for url in urls:
+                futures = [
+                    executor.submit(check_crlf, url, payload) 
+                    for payload in payloads
+                ]
+                
+                for future in as_completed(futures):
+                    result = future.result()
+                    if result:
+                        results['results'].append(result)
+                        
+                        progress_data = {
+                            'type': 'crlf',
+                            'current_url': url,
+                            'scanned': results['total_scanned'],
+                            'total': len(urls) * len(payloads),
+                            'found': results['total_found']
+                        }
+                        self._notify_progress(progress_data)
+        
+        results['end_time'] = time.time()
+        results['duration'] = int(results['end_time'] - results['start_time'])
+        
+        return results
+    
     def get_scan_summary(self) -> Dict[str, Any]:
         """Get current scan state summary"""
         return {

@@ -134,20 +134,32 @@ The Web GUI exposes a REST API and WebSocket interface.
 
 ### REST Endpoints
 
-*   **POST** `/api/scan/<type>` (e.g., `lfi`, `sqli`)
+*   **POST** `/api/scan/lfi`
+    *   Body: `{"urls": ["..."], "threads": 5, "success_criteria": ["root:x:0:"]}`
+    *   Starts an LFI scan
+*   **POST** `/api/scan/sqli`
     *   Body: `{"urls": ["..."], "threads": 5}`
-    *   Starts a scan.
+    *   Starts a SQL Injection scan (time-based)
+*   **POST** `/api/scan/xss`
+    *   Body: `{"urls": ["..."], "threads": 3}`
+    *   Starts an XSS scan (Selenium-based, uses fewer threads)
+*   **POST** `/api/scan/or`
+    *   Body: `{"urls": ["..."], "threads": 5}`
+    *   Starts an Open Redirect scan
+*   **POST** `/api/scan/crlf`
+    *   Body: `{"urls": ["..."], "threads": 5}`
+    *   Starts a CRLF Injection scan
 *   **GET** `/api/reports`
-    *   Returns list of generated reports.
+    *   Returns list of generated reports
 *   **GET** `/api/payloads`
-    *   Returns available payload files.
+    *   Returns available payload files
 
 ### WebSocket Events
 
-*   `connect`: Client connected.
-*   `scan_progress`: Emitted during scan. Contains `{progress, scanned, found, vulnerability}`.
-*   `scan_complete`: Emitted when scan finishes.
-*   `scan_error`: Emitted on failure.
+*   `connect`: Client connected
+*   `scan_progress`: Emitted during scan. Contains `{type, current_url, scanned, total, found}`
+*   `scan_complete`: Emitted when scan finishes with full results
+*   `scan_error`: Emitted on failure
 
 ---
 
