@@ -41,7 +41,11 @@ RaidScanner is now a **complete, production-ready** vulnerability scanner with d
 - ✅ Both CLI and Web modes work correctly
 - ✅ Proper volume mounts for payloads, output, and reports
 
-### 6. **Documentation** ✅
+### 6. **Scripts** ✅
+- ✅ Fixed `start.sh` to use `scanner_cli.py` instead of deleted `main.py`
+- ✅ All helper scripts updated and functional
+
+### 7. **Documentation** ✅
 - ✅ Updated `DEVELOPER_GUIDE.md` with complete API documentation
 - ✅ All 5 scanner endpoints documented
 - ✅ WebSocket events documented

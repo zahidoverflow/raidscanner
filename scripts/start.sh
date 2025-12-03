@@ -17,10 +17,10 @@ case $mode in
         ;;
     2)
         echo "Starting CLI Mode..."
-        python3 main.py
+        python3 scanner_cli.py
         ;;
     *)
         echo "Invalid selection. Starting CLI Mode..."
-        python3 main.py
+        python3 scanner_cli.py
         ;;
 esac

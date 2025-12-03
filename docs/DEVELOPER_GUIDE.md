@@ -124,7 +124,7 @@ The Docker setup ensures a consistent environment across platforms.
 1.  Installs system dependencies (Chrome, Xvfb).
 2.  Installs Python dependencies from `requirements-docker.txt`.
 3.  Copies application code.
-4.  Sets entrypoint to `start.sh` (or direct command).
+4.  Sets entrypoint based on MODE environment variable.
 
 ---
 
