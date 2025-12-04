@@ -36,12 +36,12 @@ def display_menu():
     clear_screen()
     
     panel = Panel(r"""
-     ██████╗██╗   ██╗██████╗ ███████╗██████╗     ███████╗███████╗ ██████╗██╗   ██╗██████╗ ██╗████████╗██╗   ██╗
-    ██╔════╝╚██╗ ██╔╝██╔══██╗██╔════╝██╔══██╗    ██╔════╝██╔════╝██╔════╝██║   ██║██╔══██╗██║╚══██╔══╝╚██╗ ██╔╝
-    ██║      ╚████╔╝ ██████╔╝█████╗  ██████╔╝    ███████╗█████╗  ██║     ██║   ██║██████╔╝██║   ██║    ╚████╔╝ 
-    ██║       ╚██╔╝  ██╔══██╗██╔══╝  ██╔══██╗    ╚════██║██╔══╝  ██║     ██║   ██║██╔══██╗██║   ██║     ╚██╔╝  
-    ╚██████╗   ██║   ██████╔╝███████╗██║  ██║    ███████║███████╗╚██████╗╚██████╔╝██║  ██║██║   ██║      ██║   
-     ╚═════╝   ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝    ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝   
+     ██████╗██╗   ██╗██████╗ ███████╗██████╗ ███████╗███████╗ ██████╗██╗   ██╗██████╗ ██╗████████╗██╗   ██╗
+    ██╔════╝╚██╗ ██╔╝██╔══██╗██╔════╝██╔══██╗██╔════╝██╔════╝██╔════╝██║   ██║██╔══██╗██║╚══██╔══╝╚██╗ ██╔╝
+    ██║      ╚████╔╝ ██████╔╝█████╗  ██████╔╝███████╗█████╗  ██║     ██║   ██║██████╔╝██║   ██║    ╚████╔╝ 
+    ██║       ╚██╔╝  ██╔══██╗██╔══╝  ██╔══██╗╚════██║██╔══╝  ██║     ██║   ██║██╔══██╗██║   ██║     ╚██╔╝  
+    ╚██████╗   ██║   ██████╔╝███████╗██║  ██║███████║███████╗╚██████╗╚██████╔╝██║  ██║██║   ██║      ██║   
+     ╚═════╝   ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝   
     """,
     style="bold cyan",
     border_style="blue",
@@ -49,12 +49,12 @@ def display_menu():
     )
     rich_print(panel, "\n")
     
-    print(Fore.GREEN + "Welcome to RaidScanner CLI!\n")
+    print(Fore.GREEN + "[ RaidScanner ]\n")
     print(Fore.CYAN + "Available Scanners:")
-    print(Fore.YELLOW + "  1. LFI Scanner" + Fore.RESET + "        - Local File Inclusion")
-    print(Fore.YELLOW + "  2. Open Redirect" + Fore.RESET + "      - Unvalidated Redirects")
+    print(Fore.YELLOW + "  1. LFI Scanner" + Fore.RESET + "       - Local File Inclusion")
+    print(Fore.YELLOW + "  2. Open Redirect" + Fore.RESET + "     - Unvalidated Redirects")
     print(Fore.YELLOW + "  3. SQL Injection" + Fore.RESET + "     - Database Injection")
-    print(Fore.YELLOW + "  4. XSS Scanner" + Fore.RESET + "        - Cross-Site Scripting")
+    print(Fore.YELLOW + "  4. XSS Scanner" + Fore.RESET + "       - Cross-Site Scripting")
     print(Fore.YELLOW + "  5. CRLF Injection" + Fore.RESET + "    - HTTP Response Splitting")
     print(Fore.RED + "  6. Exit\n")
 
@@ -125,10 +125,43 @@ def save_report_prompt(scan_type, results):
             print(Fore.RED + f"[✗] Error saving report: {e}")
 
 
+def create_realtime_callback():
+    """Create a callback function for real-time payload testing display"""
+    def progress_callback(data):
+        """Display real-time testing results"""
+        if 'results' in data and data['results']:
+            for result in data['results']:
+                url = result.get('url', 'N/A')
+                payload = result.get('payload', 'N/A')
+                vulnerable = result.get('vulnerable', False)
+                status_code = result.get('status_code', 'N/A')
+                response_time = result.get('response_time', 'N/A')
+                
+                # Truncate URL if too long for display
+                display_url = url[:90] + '...' if len(url) > 90 else url
+                
+                if vulnerable:
+                    print(Fore.RED + Style.BRIGHT + f"[VULN] " + Style.RESET_ALL + 
+                          Fore.WHITE + f"Status: {status_code} | " + 
+                          Fore.YELLOW + f"Time: {response_time}s")
+                    print(Fore.RED + f"       URL: {display_url}")
+                else:
+                    if 'error' in result:
+                        print(Fore.MAGENTA + f"[ERROR] " + 
+                              Fore.WHITE + f"{str(result['error'])[:40]}...")
+                        print(Fore.CYAN + f"        URL: {display_url}")
+                    else:
+                        print(Fore.GREEN + f"[SAFE]  " + 
+                              Fore.WHITE + f"Status: {status_code} | " + 
+                              Fore.YELLOW + f"Time: {response_time}s")
+                        print(Fore.CYAN + f"        URL: {display_url}")
+    return progress_callback
+
+
 def run_lfi_scanner():
     """Run LFI scanner"""
     clear_screen()
-    print(Fore.GREEN + "LFI Scanner\n")
+    print(Fore.GREEN + Style.BRIGHT + "LFI Scanner\n" + Style.RESET_ALL)
     
     urls = get_urls()
     if not urls:
@@ -141,9 +174,16 @@ def run_lfi_scanner():
     try:
         payloads = payload_loader.load_lfi_payloads()
         print(Fore.YELLOW + f"\n[*] Loaded {len(payloads)} payloads")
-        print(Fore.YELLOW + f"[*] Starting scan with {threads} threads...\n")
+        print(Fore.YELLOW + f"[*] Starting scan with {threads} threads...")
+        print(Fore.CYAN + f"[*] Target: {urls[0]}\n")
+        print(Fore.WHITE + "=" * 100)
+        
+        # Use real-time callback
+        scanner.add_progress_callback(create_realtime_callback())
         
         results = scanner.scan_lfi(urls, payloads, threads=threads)
+        
+        print(Fore.WHITE + "=" * 100)
         display_results(results)
         save_report_prompt('LFI', results)
         
@@ -153,10 +193,12 @@ def run_lfi_scanner():
     input(Fore.YELLOW + "\nPress Enter to continue...")
 
 
+
+
 def run_or_scanner():
     """Run Open Redirect scanner"""
     clear_screen()
-    print(Fore.GREEN + "Open Redirect Scanner\n")
+    print(Fore.GREEN + Style.BRIGHT + "Open Redirect Scanner\n" + Style.RESET_ALL)
     
     urls = get_urls()
     if not urls:
@@ -169,9 +211,13 @@ def run_or_scanner():
     try:
         payloads = payload_loader.load_or_payloads()
         print(Fore.YELLOW + f"\n[*] Loaded {len(payloads)} payloads")
-        print(Fore.YELLOW + f"[*] Starting scan with {threads} threads...\n")
+        print(Fore.YELLOW + f"[*] Starting scan with {threads} threads...")
+        print(Fore.CYAN + f"[*] Target: {urls[0]}\n")
+        print(Fore.WHITE + "=" * 100)
         
+        scanner.add_progress_callback(create_realtime_callback())
         results = scanner.scan_or(urls, payloads, threads=threads)
+        print(Fore.WHITE + "=" * 100)
         display_results(results)
         save_report_prompt('Open Redirect', results)
         
@@ -184,7 +230,7 @@ def run_or_scanner():
 def run_sql_scanner():
     """Run SQL Injection scanner"""
     clear_screen()
-    print(Fore.GREEN + "SQL Injection Scanner\n")
+    print(Fore.GREEN + Style.BRIGHT + "SQL Injection Scanner\n" + Style.RESET_ALL)
     
     urls = get_urls()
     if not urls:
@@ -197,9 +243,13 @@ def run_sql_scanner():
     try:
         payloads = payload_loader.load_sqli_payloads()
         print(Fore.YELLOW + f"\n[*] Loaded {len(payloads)} payloads")
-        print(Fore.YELLOW + f"[*] Starting scan with {threads} threads...\n")
+        print(Fore.YELLOW + f"[*] Starting scan with {threads} threads...")
+        print(Fore.CYAN + f"[*] Target: {urls[0]}\n")
+        print(Fore.WHITE + "=" * 100)
         
+        scanner.add_progress_callback(create_realtime_callback())
         results = scanner.scan_sqli(urls, payloads, threads=threads)
+        print(Fore.WHITE + "=" * 100)
         display_results(results)
         save_report_prompt('SQLi', results)
         
@@ -212,7 +262,7 @@ def run_sql_scanner():
 def run_xss_scanner():
     """Run XSS scanner"""
     clear_screen()
-    print(Fore.GREEN + "XSS Scanner\n")
+    print(Fore.GREEN + Style.BRIGHT + "XSS Scanner\n" + Style.RESET_ALL)
     
     urls = get_urls()
     if not urls:
@@ -225,9 +275,13 @@ def run_xss_scanner():
     try:
         payloads = payload_loader.load_xss_payloads()
         print(Fore.YELLOW + f"\n[*] Loaded {len(payloads)} payloads")
-        print(Fore.YELLOW + f"[*] Starting scan with {threads} threads (Selenium-based)...\n")
+        print(Fore.YELLOW + f"[*] Starting scan with {threads} threads (Selenium-based)...")
+        print(Fore.CYAN + f"[*] Target: {urls[0]}\n")
+        print(Fore.WHITE + "=" * 100)
         
+        scanner.add_progress_callback(create_realtime_callback())
         results = scanner.scan_xss(urls, payloads, threads=threads)
+        print(Fore.WHITE + "=" * 100)
         display_results(results)
         save_report_prompt('XSS', results)
         
@@ -240,7 +294,7 @@ def run_xss_scanner():
 def run_crlf_scanner():
     """Run CRLF Injection scanner"""
     clear_screen()
-    print(Fore.GREEN + "CRLF Injection Scanner\n")
+    print(Fore.GREEN + Style.BRIGHT + "CRLF Injection Scanner\n" + Style.RESET_ALL)
     
     urls = get_urls()
     if not urls:
@@ -252,9 +306,13 @@ def run_crlf_scanner():
     
     try:
         print(Fore.YELLOW + f"\n[*] Using built-in CRLF payloads")
-        print(Fore.YELLOW + f"[*] Starting scan with {threads} threads...\n")
+        print(Fore.YELLOW + f"[*] Starting scan with {threads} threads...")
+        print(Fore.CYAN + f"[*] Target: {urls[0]}\n")
+        print(Fore.WHITE + "=" * 100)
         
+        scanner.add_progress_callback(create_realtime_callback())
         results = scanner.scan_crlf(urls, threads=threads)
+        print(Fore.WHITE + "=" * 100)
         display_results(results)
         save_report_prompt('CRLF', results)
         
@@ -262,6 +320,28 @@ def run_crlf_scanner():
         print(Fore.RED + f"[✗] Error: {e}")
     
     input(Fore.YELLOW + "\nPress Enter to continue...")
+
+def display_exit_screen():
+    """Display exit screen with ASCII art and quote"""
+    clear_screen()
+    
+    exit_art = r"""
+    ███████╗██╗  ██╗██╗████████╗
+    ██╔════╝╚██╗██╔╝██║╚══██╔══╝
+    █████╗   ╚███╔╝ ██║   ██║   
+    ██╔══╝   ██╔██╗ ██║   ██║   
+    ███████╗██╔╝ ██╗██║   ██║   
+    ╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝   
+    """
+    
+    panel = Panel(
+        exit_art + "\n" + Fore.CYAN + '"Ethical Hacking for a valuable future"',
+        style="bold red",
+        border_style="red",
+        expand=False
+    )
+    rich_print(panel)
+    sys.exit(0)
 
 
 def run_scanner():
@@ -282,15 +362,13 @@ def run_scanner():
             elif choice == '5':
                 run_crlf_scanner()
             elif choice == '6':
-                print(Fore.RED + "\nExiting RaidScanner...")
-                sys.exit(0)
+                display_exit_screen()
             else:
                 print(Fore.RED + "\n[!] Invalid option. Please choose 1-6.")
                 input(Fore.YELLOW + "\nPress Enter to continue...")
                 
         except KeyboardInterrupt:
-            print(Fore.RED + "\n\nExiting RaidScanner...")
-            sys.exit(0)
+            display_exit_screen()
         except Exception as e:
             print(Fore.RED + f"\n[!] Error: {e}")
             input(Fore.YELLOW + "\nPress Enter to continue...")

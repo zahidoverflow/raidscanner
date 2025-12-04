@@ -80,11 +80,28 @@ class ScannerEngine:
                 response_time = round(time.time() - start_time, 2)
                 
                 is_vulnerable = False
-                if response.status_code == 200:
-                    is_vulnerable = any(
-                        pattern in response.text 
-                        for pattern in success_criteria
-                    )
+                # Check response regardless of status code
+                # Check for success criteria (case-insensitive)
+                response_text_lower = response.text.lower()
+                
+                is_vulnerable = any(
+                    pattern.lower() in response_text_lower 
+                    for pattern in success_criteria
+                )
+                    
+                # Also check for common LFI indicators/warnings
+                if not is_vulnerable:
+                    lfi_indicators = [
+                        "path traversal detected",
+                        "vulnerable to local file inclusion",
+                        "warning: include(",
+                        "failed to open stream",
+                        "root:x:0:0",
+                        "[boot loader]",
+                        "drivers",
+                        "intentionally vulnerable application"
+                    ]
+                    is_vulnerable = any(indicator in response_text_lower for indicator in lfi_indicators)
                 
                 results['total_scanned'] += 1
                 
@@ -122,13 +139,14 @@ class ScannerEngine:
                     if result:
                         results['results'].append(result)
                         
-                        # Notify progress
+                        # Notify progress with individual result
                         progress_data = {
                             'type': 'lfi',
                             'current_url': url,
                             'scanned': results['total_scanned'],
                             'total': len(urls) * len(payloads),
-                            'found': results['total_found']
+                            'found': results['total_found'],
+                            'results': [result]  # Send individual result for real-time display
                         }
                         self._notify_progress(progress_data)
         
@@ -206,7 +224,8 @@ class ScannerEngine:
                             'current_url': url,
                             'scanned': results['total_scanned'],
                             'total': len(urls) * len(payloads),
-                            'found': results['total_found']
+                            'found': results['total_found'],
+                            'results': [result]
                         }
                         self._notify_progress(progress_data)
         
@@ -310,7 +329,8 @@ class ScannerEngine:
                             'current_url': url,
                             'scanned': results['total_scanned'],
                             'total': len(urls) * len(payloads),
-                            'found': results['total_found']
+                            'found': results['total_found'],
+                            'results': [result]
                         }
                         self._notify_progress(progress_data)
         
@@ -402,7 +422,8 @@ class ScannerEngine:
                             'current_url': url,
                             'scanned': results['total_scanned'],
                             'total': len(urls) * len(payloads),
-                            'found': results['total_found']
+                            'found': results['total_found'],
+                            'results': [result]
                         }
                         self._notify_progress(progress_data)
         
@@ -499,7 +520,8 @@ class ScannerEngine:
                             'current_url': url,
                             'scanned': results['total_scanned'],
                             'total': len(urls) * len(payloads),
-                            'found': results['total_found']
+                            'found': results['total_found'],
+                            'results': [result]
                         }
                         self._notify_progress(progress_data)
         
