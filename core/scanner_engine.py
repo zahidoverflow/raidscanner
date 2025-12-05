@@ -99,7 +99,8 @@ class ScannerEngine:
                         "root:x:0:0",
                         "[boot loader]",
                         "drivers",
-                        "intentionally vulnerable application"
+                        "intentionally vulnerable application",
+                        "failed to open stream"
                     ]
                     is_vulnerable = any(indicator in response_text_lower for indicator in lfi_indicators)
                 
@@ -158,7 +159,7 @@ class ScannerEngine:
     def scan_sqli(self, urls: List[str], payloads: List[str], 
                   threads: int = 5, time_threshold: int = 10) -> Dict[str, Any]:
         """
-        Time-based SQL Injection scanner
+        SQL Injection scanner (Time-based + Error-based)
         Returns: dict with results and statistics
         """
         results = {
@@ -172,7 +173,7 @@ class ScannerEngine:
         
         def check_sqli(url: str, payload: str) -> Optional[dict]:
             """Check single SQLi payload"""
-            url_with_payload = f"{url}{payload}"
+            url_with_payload = f"{url}{urllib.parse.quote(payload.strip())}"
             start_time = time.time()
             
             try:
@@ -183,7 +184,24 @@ class ScannerEngine:
                 )
                 response_time = time.time() - start_time
                 
+                # Check 1: Time-based detection
                 is_vulnerable = response_time >= time_threshold
+
+                # Check 2: Error-based detection (if not already found)
+                if not is_vulnerable:
+                    # Common SQL error patterns (including DVWU specific)
+                    sql_errors = [
+                        "sql error",
+                        "mysql error",
+                        "syntax error",
+                        "ora-", 
+                        "unclosed quotation mark",
+                        "detected injection attempt", # DVWU specific
+                        "vulnerable to sql injection" # DVWU specific
+                    ]
+                    response_text_lower = response.text.lower()
+                    is_vulnerable = any(error in response_text_lower for error in sql_errors)
+
                 results['total_scanned'] += 1
                 
                 if is_vulnerable:
@@ -280,6 +298,7 @@ class ScannerEngine:
                     is_vulnerable = True
                 except TimeoutException:
                     # Also check if payload appears unescaped in source
+                    # DVWU returns hybrid HTML, check if raw payload exists
                     page_source = driver.page_source
                     if payload.strip() in page_source:
                         is_vulnerable = True
@@ -343,7 +362,7 @@ class ScannerEngine:
                 threads: int = 5) -> Dict[str, Any]:
         """
         Open Redirect Scanner
-        Checks if Location header or meta refresh contains payload
+        Checks if Location header, meta refresh, or JS redirect contains payload
         """
         results = {
             'scan_type': 'Open Redirect',
@@ -356,7 +375,10 @@ class ScannerEngine:
         
         def check_or(url: str, payload: str) -> Optional[dict]:
             """Check single Open Redirect payload"""
+            # Ensure payload is URL-encoded for the request
             target_url = f"{url}{urllib.parse.quote(payload.strip())}"
+            # For checking in response, we use the raw payload
+            raw_payload = payload.strip()
             
             try:
                 response = requests.get(
@@ -369,19 +391,36 @@ class ScannerEngine:
                 is_vulnerable = False
                 redirect_location = None
                 
-                # Check Location header
+                # Method 1: Check Location header (Server-side redirect)
                 if 'Location' in response.headers:
                     location = response.headers['Location']
-                    # Check if our payload domain appears in redirect
-                    if payload.strip() in location:
+                    if raw_payload in location:
                         is_vulnerable = True
                         redirect_location = location
                 
-                # Check meta refresh in HTML
+                # Method 2: Check Client-side redirects (Meta + JS)
                 if not is_vulnerable and response.status_code == 200:
-                    if payload.strip() in response.text:
-                        is_vulnerable = True
-                
+                    response_text = response.text
+                    
+                    # Check for JS redirects (window.location = ...)
+                    # Common patterns: window.location.href =, window.location =, location.href =
+                    js_redirect_patterns = [
+                        f'window.location.href = "{raw_payload}"',
+                        f"window.location.href = '{raw_payload}'",
+                        f'window.location = "{raw_payload}"',
+                        f'location.href = "{raw_payload}"'
+                    ]
+                    
+                    if raw_payload in response_text:
+                        # Loose check first, then verify if it looks like a redirect structure
+                        if any(pattern in response_text for pattern in js_redirect_patterns):
+                             is_vulnerable = True
+                        elif f'meta http-equiv="refresh" content="0;url={raw_payload}"' in response_text.lower():
+                             is_vulnerable = True
+                        # Fallback: simple match if we suspect it's just reflected in a script tag (DVWU specific)
+                        elif f'<script>window.location.href = "{raw_payload}"</script>' in response_text:
+                             is_vulnerable = True
+
                 results['total_scanned'] += 1
                 
                 if is_vulnerable:
