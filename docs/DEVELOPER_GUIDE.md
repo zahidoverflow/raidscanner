@@ -9,6 +9,7 @@
 - [API Documentation](#api-documentation)
 - [Development Workflow](#development-workflow)
   - [Adding New Scanners](#adding-new-scanners)
+  - [Testing](#testing)
 
 ---
 
@@ -73,6 +74,7 @@ raidscanner/
 │   └── payload_loader.py       # Payload management
 │
 ├── docs/                       # Documentation
+│   ├── CONTEXT.md              # Complete project context for LLMs
 │   ├── USER_GUIDE.md           # Complete user documentation
 │   └── DEVELOPER_GUIDE.md      # Architecture & contribution guide
 │
@@ -209,6 +211,50 @@ docker compose build --no-cache
 1. Add script to `scripts/`
 2. Make executable: `chmod +x scripts/your-script.sh`
 3. Document in `docs/`
+
+### Testing
+
+#### Test All Scanners
+
+**CLI Mode:**
+```bash
+docker compose run --rm raidscanner-cli
+```
+
+**Web Mode:**
+```bash
+# Start web server
+docker compose up -d raidscanner-web
+
+# Test LFI scanner via API
+curl -X POST http://localhost:5000/api/scan/lfi \
+  -H "Content-Type: application/json" \
+  -d '{"urls": ["http://testphp.vulnweb.com/"], "threads": 5}'
+```
+
+#### Verify Reports
+- Check `./reports/` folder for HTML and JSON files
+- Verify timestamps and scan results
+- Ensure proper formatting and data accuracy
+
+#### Test Volume Mounts
+- Add custom payloads to `./payloads/`
+- Verify they appear in payload selection
+- Test that reports are saved to `./reports/`
+- Confirm output files appear in `./output/`
+
+#### Safe Testing Targets
+1. **DVWA (Damn Vulnerable Web Application)**
+   ```bash
+   docker run -d -p 80:80 vulnerables/web-dvwa
+   ```
+
+2. **OWASP WebGoat**
+   ```bash
+   docker run -p 8080:8080 webgoat/goatandwolf
+   ```
+
+3. **TestPHP Vulnweb** - http://testphp.vulnweb.com (public testing site)
 
 ### Build & Deployment
 
