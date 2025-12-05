@@ -332,10 +332,12 @@ def display_exit_screen():
     ██╔══╝   ██╔██╗ ██║   ██║   
     ███████╗██╔╝ ██╗██║   ██║   
     ╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝   
+
+    [cyan]"Ethical Hacking for a valuable future"[/cyan]
     """
     
     panel = Panel(
-        exit_art + "\n" + Fore.CYAN + '"Ethical Hacking for a valuable future"',
+        exit_art,
         style="bold red",
         border_style="red",
         expand=False
