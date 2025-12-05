@@ -99,8 +99,8 @@ raidscanner/
 │   └── static/                 # JS/CSS
 │
 ├── app.py                      # Flask web application entry point
-├── main.py                     # CLI application entry point
-├── compose.yml                 # Symlink to .docker/compose.yml
+├── scanner_cli.py              # CLI application entry point
+├── compose.yml                 # Docker Compose configuration
 ├── requirements.txt            # Python dependencies (all)
 └── requirements-docker.txt     # Docker-specific dependencies
 ```
@@ -171,7 +171,7 @@ The Web GUI exposes a REST API and WebSocket interface.
 pip install -r requirements.txt
 
 # Run CLI mode
-python main.py
+python scanner_cli.py
 
 # Run web GUI
 python app.py
@@ -198,7 +198,7 @@ docker compose build --no-cache
 1. Add scanner logic to `core/scanner_engine.py`
 2. Add payloads to `payloads/`
 3. Create API endpoint in `app.py` (web mode)
-4. Add CLI option to `main.py` (CLI mode)
+4. Add CLI option to `scanner_cli.py` (CLI mode)
 
 #### New Web Page
 1. Create HTML in `web/templates/`

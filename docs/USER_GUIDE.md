@@ -107,7 +107,7 @@ Docker provides a fully isolated environment with all dependencies (Chrome, Pyth
    python app.py
 
    # CLI
-   python main.py
+   python scanner_cli.py
    ```
 
 ---
