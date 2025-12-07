@@ -38,10 +38,9 @@ class PayloadLoader:
         """Load Open Redirect payloads"""
         return self.load_payloads('or.txt')
     
-    def load_sqli_payloads(self, db_type: str = 'generic') -> List[str]:
+    def load_sqli_payloads(self) -> List[str]:
         """Load SQL injection payloads"""
-        filename = f'sqli/{db_type}.txt'
-        return self.load_payloads(filename)
+        return self.load_payloads('sqli.txt')
     
     def load_xss_payloads(self) -> List[str]:
         """Load XSS payloads"""

@@ -61,7 +61,7 @@ class Config:
         defaults = {
             'lfi': 'lfi-payloads.txt',
             'or': 'or.txt',
-            'sqli': 'sqli/generic.txt',
+            'sqli': 'sqli.txt',
             'xss': 'xss.txt',
             'crlf': 'crlf.txt'
         }

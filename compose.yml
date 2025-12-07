@@ -43,7 +43,7 @@ services:
       dockerfile: .docker/Dockerfile
     container_name: raidscanner-web
     ports:
-      - "5000:5000"
+      - "5001:5000"
     volumes:
       - ./output:/app/output
       - ./reports:/app/reports
@@ -53,7 +53,11 @@ services:
       - PYTHONUNBUFFERED=1
       - PYTHONDONTWRITEBYTECODE=1
       - MODE=web
+      - DEBUG=true
     shm_size: '2gb'
+    # Enable host.docker.internal on Linux
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     deploy:
       resources:
         limits:
