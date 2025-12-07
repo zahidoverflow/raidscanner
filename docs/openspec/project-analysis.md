@@ -40,8 +40,8 @@ A modern, automated vulnerability scanner for ethical hacking and security testi
    - `reports.html` - Reports viewer
 
 ### Access URLs
-- **Web GUI**: http://localhost:5001
-- **Scanner API**: http://localhost:5001/api/scan/{type}
+- **Web GUI**: http://localhost:5000
+- **Scanner API**: http://localhost:5000/api/scan/{type}
 
 ---
 
@@ -110,7 +110,7 @@ docker compose up -d raidscanner-web
 
 ### Testing Example
 
-1. Open RaidScanner: http://localhost:5001
+1. Open RaidScanner: http://localhost:5000
 2. Click "LFI Scanner"
 3. Enter target URL: `http://host.docker.internal:3001/api/notices?file=FUZZ`
 4. Start scan to detect LFI vulnerability
@@ -160,6 +160,6 @@ Both projects are designed for authorized security testing and education:
 | Service | Host Port | Container Port |
 |---------|-----------|----------------|
 | DVWU | 3001 | 3000 |
-| RaidScanner Web | 5001 | 5000 |
+| RaidScanner Web | 5000 | 5000 |
 
 *Note: Ports were modified from defaults (3000, 5000) to avoid conflicts with other services.*

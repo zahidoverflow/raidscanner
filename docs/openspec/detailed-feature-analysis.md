@@ -200,20 +200,19 @@ cd ../raidscanner
 docker compose up -d raidscanner-web
 
 # Access
-# RaidScanner: http://localhost:5001
-# DVWU: http://localhost:3001
+# RaidScanner: http://localhost:5000
+# DVWU: http://localhost:3000
 ```
 
 ### Test Target URLs for Scanning
 
 | Scanner | Target URL |
 |---------|-----------|
-| LFI | `http://host.docker.internal:3001/api/notices?file=` |
-| SQLi | `http://host.docker.internal:3001/api/search?q=` |
-| XSS | `http://host.docker.internal:3001/api/comments?comment=` |
-| Open Redirect | `http://host.docker.internal:3001/api/redirect?url=` |
-| CRLF | `http://host.docker.internal:3001/api/newsletter?email=` |
-
+| LFI | `http://host.docker.internal:3000/api/notices?file=` |
+| SQLi | `http://host.docker.internal:3000/api/search?q=` |
+| XSS | `http://host.docker.internal:3000/api/comments?comment=` |
+| Open Redirect | `http://host.docker.internal:3000/api/redirect?url=` |
+| CRLF | `http://host.docker.internal:3000/api/newsletter?email=` |
 ---
 
 ## Conclusion

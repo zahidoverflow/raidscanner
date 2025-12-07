@@ -1,0 +1,31 @@
+Test URLs for the CLI (using ist-edu-bd.vercel.app):
+
+1. LFI Scanner:
+
+https://ist-edu-bd.vercel.app/notices?file=
+
+2. Open Redirect Scanner:
+
+https://ist-edu-bd.vercel.app/redirect?url=
+
+3. SQL Injection Scanner:
+
+https://ist-edu-bd.vercel.app/search?q=
+
+4. XSS Scanner:
+
+https://ist-edu-bd.vercel.app/comments?comment=
+
+5. CRLF Injection Scanner:
+
+https://ist-edu-bd.vercel.app/newsletter?email=
+
+  
+
+
+
+
+
+To run the CLI interactively:
+
+docker exec -it raidscanner-cli python scanner_cli.py

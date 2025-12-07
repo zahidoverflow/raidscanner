@@ -14,7 +14,7 @@
 
 | Service | URL | Status |
 |---------|-----|--------|
-| RaidScanner Web | http://localhost:5001 | Running |
+| RaidScanner Web | http://localhost:5000 | Running |
 | DVWU (Test Target) | http://localhost:3001 | Running |
 
 ---
@@ -61,7 +61,7 @@
 - [x] Create `server.cjs` for DVWU local API endpoints
 - [x] Fix DVWU Dockerfile (`npm ci` without `--only=production`)
 - [x] Fix ES module compatibility (renamed to `.cjs`)
-- [x] Update ports to avoid conflicts (3001, 5001)
+- [x] Update ports to avoid conflicts (3001, 5000)
 
 ### Critical Bugs Fixed (Session 2)
 
@@ -117,7 +117,7 @@ curl -I 'http://localhost:3001/api/redirect?url=https://evil.com'
 
 ### Using RaidScanner
 
-1. Open http://localhost:5001
+1. Open http://localhost:5000
 2. Select scanner type (LFI, SQLi, XSS, etc.)
 3. Enter target URLs
 4. Configure threads
@@ -134,7 +134,7 @@ curl -I 'http://localhost:3001/api/redirect?url=https://evil.com'
 | `web/templates/index.html` | Created | Main dashboard template |
 | `web/templates/scanner.html` | Created | Scanner configuration page |
 | `web/templates/reports.html` | Created | Reports viewer page |
-| `compose.yml` | Modified | Changed port from 5000 to 5001 |
+| `compose.yml` | Modified | Port mapping 5000:5000 |
 
 ### DVWU
 
@@ -157,7 +157,7 @@ curl -I 'http://localhost:3001/api/redirect?url=https://evil.com'
         ▼                           ▼
 ┌───────────────────┐      ┌───────────────────┐
 │   RaidScanner     │      │      DVWU         │
-│   (Port 5001)     │─────▶│   (Port 3001)     │
+│   (Port 5000)     │─────▶│   (Port 3001)     │
 │                   │ scan │                   │
 │  Flask + Socket.IO│      │  Express + React  │
 │  Selenium/Chrome  │      │                   │

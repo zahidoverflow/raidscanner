@@ -26,7 +26,7 @@ All scanner features were tested through the web frontend. The following table s
 
 ### 1. LFI Scanner
 
-**URL**: `http://localhost:5001/scanner/lfi`
+**URL**: `http://localhost:5000/scanner/lfi`
 **Target**: `http://host.docker.internal:3001/api/notices?file=`
 
 **Results**:
@@ -55,7 +55,7 @@ All scanner features were tested through the web frontend. The following table s
 
 ### 2. SQLi Scanner
 
-**URL**: `http://localhost:5001/scanner/sqli`
+**URL**: `http://localhost:5000/scanner/sqli`
 **Target**: `http://host.docker.internal:3001/api/search?q=`
 
 **Results**:
@@ -79,7 +79,7 @@ All scanner features were tested through the web frontend. The following table s
 
 ### 3. XSS Scanner
 
-**URL**: `http://localhost:5001/scanner/xss`
+**URL**: `http://localhost:5000/scanner/xss`
 **Target**: `http://host.docker.internal:3001/api/comments?comment=`
 
 **Results** (partial - scan still running):
@@ -105,7 +105,7 @@ All scanner features were tested through the web frontend. The following table s
 
 ### 4. Open Redirect Scanner
 
-**URL**: `http://localhost:5001/scanner/or`
+**URL**: `http://localhost:5000/scanner/or`
 **Target**: `http://host.docker.internal:3001/api/redirect?url=`
 
 **Results**:
@@ -124,7 +124,7 @@ All scanner features were tested through the web frontend. The following table s
 
 ### 5. CRLF Scanner
 
-**URL**: `http://localhost:5001/scanner/crlf`
+**URL**: `http://localhost:5000/scanner/crlf`
 **Target**: `http://host.docker.internal:3001/api/newsletter?email=`
 
 **Results**:
@@ -148,7 +148,7 @@ The DVWU newsletter endpoint detects CRLF characters but returns an HTML page in
 
 ### 6. Reports Page
 
-**URL**: `http://localhost:5001/reports`
+**URL**: `http://localhost:5000/reports`
 
 **Results**:
 - Page loads successfully
