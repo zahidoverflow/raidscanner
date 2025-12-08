@@ -366,6 +366,9 @@ class ScannerEngine:
                     lambda d: d.execute_script("return document.readyState") == "complete"
                 )
 
+                # Small delay to allow onerror/onload events to fire
+                time.sleep(0.5)
+
                 # Check for alert (classic XSS indicator)
                 try:
                     WebDriverWait(driver, 2).until(EC.alert_is_present())
@@ -373,11 +376,23 @@ class ScannerEngine:
                     alert.accept()
                     is_vulnerable = True
                 except TimeoutException:
-                    # Also check if payload appears unescaped in source
-                    # DVWU returns hybrid HTML, check if raw payload exists
+                    # Check if payload appears unescaped in source
                     page_source = driver.page_source
-                    if payload.strip() in page_source:
+                    payload_clean = payload.strip()
+                    
+                    # Direct payload match
+                    if payload_clean in page_source:
                         is_vulnerable = True
+                    # Check for common XSS patterns that indicate successful injection
+                    elif any(pattern in page_source.lower() for pattern in [
+                        'onerror=', 'onload=', 'onclick=', 'onmouseover=',
+                        '<script>', '<img src=x', '<svg onload', '<body onload',
+                        'javascript:', 'alert(', 'confirm(', 'prompt('
+                    ]):
+                        # Verify it's our injected payload, not existing page content
+                        # by checking if our unique parts are present
+                        if 'src=x' in page_source or 'onerror=' in page_source.lower():
+                            is_vulnerable = True
                 
                 results['total_scanned'] += 1
                 

@@ -10,11 +10,11 @@ https://ist-edu-bd.vercel.app/redirect?url=
 
 3. SQL Injection Scanner:
 
-https://ist-edu-bd.vercel.app/search?q=
+https://ist-edu-bd.vercel.app/portal?username=
 
 4. XSS Scanner:
 
-https://ist-edu-bd.vercel.app/comments?comment=
+https://ist-edu-bd.vercel.app/search?q=
 
 5. CRLF Injection Scanner:
 
