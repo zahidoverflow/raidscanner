@@ -1,7 +1,7 @@
 # 🎯 RaidScanner - Project Context
 
 **Version**: 2.0 (Production Ready)  
-**Last Updated**: 2025-12-05  
+**Last Updated**: 2025-12-08  
 **Purpose**: Comprehensive context for AI assistants working with this codebase.
 
 ---
@@ -106,10 +106,24 @@ raidscanner/
 ├── docs/                           # Documentation
 │   ├── CONTEXT.md                  # LLM Context
 │   ├── DEVELOPER_GUIDE.md          # Dev guide
-│   └── USER_GUIDE.md               # User guide
+│   ├── USER_GUIDE.md               # User guide
+│   └── openspec/                   # OpenSpec documentation
+│       ├── AGENTS.md               # Agent guidelines
+│       ├── bugs-and-issues.md      # Known issues
+│       ├── detailed-feature-analysis.md
+│       ├── frontend-test-results.md
+│       ├── project-analysis.md
+│       ├── to-do.md                # Task tracking
+│       ├── changes/                # Change proposals
+│       └── specs/                  # Specifications
 │
 ├── output/                         # Raw scan output
 ├── payloads/                       # Payload text files
+│   ├── lfi-payloads.txt            # LFI payloads
+│   ├── or.txt                      # Open Redirect payloads
+│   ├── sqli.txt                    # SQL Injection payloads
+│   ├── xss.txt                     # XSS payloads (optimized)
+│   └── sqli/                       # Additional SQLi payloads
 ├── reports/                        # Generated reports
 ├── scripts/                        # Utility scripts
 ├── utils/                          # Helper modules
@@ -171,8 +185,9 @@ raidscanner/
 - **Display**: Xvfb for headless execution
 - **Security**: Runs as non-root `scanner` user
 - **Volumes**: Maps `output`, `reports`, `payloads`
+- **Ports**: Web GUI runs on port `5000` (host:container `5000:5000`)
 - **Modes**:
-  - `web`: Nginx/Flask app
+  - `web`: Flask app on port 5000
   - `cli`: Interactive terminal
 
 ---
