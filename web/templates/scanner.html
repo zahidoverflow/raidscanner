@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ scan_type|upper }} Scanner - RaidScanner</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        h1 { margin: 30px 0; font-size: 2rem; }
+        h1 span { color: #e94560; }
+        a { color: #e94560; text-decoration: none; }
+        .back { margin-bottom: 20px; display: inline-block; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #aaa; }
+        textarea, input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        textarea { min-height: 150px; resize: vertical; }
+        input[type="number"] { max-width: 100px; }
+        button {
+            background: #e94560;
+            color: #fff;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover { background: #ff6b6b; transform: scale(1.02); }
+        button:disabled { background: #666; cursor: not-allowed; }
+        .results {
+            margin-top: 30px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .result-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+        .result-item.vuln { background: rgba(233, 69, 96, 0.2); border-left: 3px solid #e94560; }
+        .result-item.safe { background: rgba(100, 255, 100, 0.1); border-left: 3px solid #4CAF50; }
+        .result-item.info { background: rgba(100, 100, 255, 0.1); border-left: 3px solid #2196F3; }
+        .progress {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .status { color: #aaa; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back">← Back to Dashboard</a>
+        <h1><span>{{ scan_type|upper }}</span> Scanner</h1>
+
+        <form id="scanForm">
+            <div class="form-group">
+                <label>Target URLs (one per line)</label>
+                <textarea id="urls" placeholder="http://target.com/page?id=1&#10;http://target.com/api/search?q=test"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Threads (1-10)</label>
+                <input type="number" id="threads" value="5" min="1" max="10">
+            </div>
+
+            <button type="submit" id="scanBtn">Start Scan</button>
+        </form>
+
+        <div id="statsPanel" style="display: none; margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px;">
+            <div style="display: flex; gap: 30px;">
+                <div>
+                    <span style="color: #aaa;">Scanned:</span>
+                    <span id="statScanned" style="font-weight: bold; color: #2196F3;">0</span>
+                </div>
+                <div>
+                    <span style="color: #aaa;">Vulnerabilities:</span>
+                    <span id="statVuln" style="font-weight: bold; color: #e94560;">0</span>
+                </div>
+                <div>
+                    <span style="color: #aaa;">Safe:</span>
+                    <span id="statSafe" style="font-weight: bold; color: #4CAF50;">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress" id="progressContainer" style="display: none;">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <p class="status" id="status"></p>
+
+        <div class="results" id="results" style="display: none;">
+            <h3>Scan Results</h3>
+            <div id="resultsList"></div>
+        </div>
+    </div>
+
+    <script>
+        const socket = io();
+        const scanType = '{{ scan_type }}';
+        let currentScanId = null;  // Track the current scan session
+
+        socket.on('connect', () => {
+            console.log('Connected to server');
+        });
+
+        socket.on('scan_progress', (data) => {
+            // Only process results for our current scan session
+            // If no scan is active (currentScanId is null), ignore all events
+            // If scan is active, only accept events with matching scan_id
+            if (!currentScanId || data.scan_id !== currentScanId) {
+                return;  // Ignore results from other scans or when no scan is active
+            }
+
+            document.getElementById('progressContainer').style.display = 'block';
+
+            // Calculate progress percentage from scanned/total or use provided progress
+            const progress = data.progress || (data.total > 0 ? Math.round((data.scanned / data.total) * 100) : 0);
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('status').textContent = data.message || `Scanned ${data.scanned || 0}/${data.total || '?'} - Found: ${data.found || 0} vulnerabilities`;
+
+            // Handle both 'result' (singular) and 'results' (array) formats
+            if (data.result) {
+                addResult(data.result);
+            }
+            if (data.results && Array.isArray(data.results)) {
+                data.results.forEach(r => addResult(r));
+            }
+        });
+
+        socket.on('scan_complete', (data) => {
+            // Only process completion for our current scan session
+            // If no scan is active or scan_id doesn't match, ignore
+            if (!currentScanId || data.scan_id !== currentScanId) {
+                return;  // Ignore completion from other scans or when no scan is active
+            }
+
+            document.getElementById('scanBtn').disabled = false;
+            document.getElementById('scanBtn').textContent = 'Start Scan';
+            document.getElementById('status').textContent = 'Scan complete!';
+            document.getElementById('progressBar').style.width = '100%';
+
+            // Handle results - could be array or object with 'results' property
+            if (data.results) {
+                const resultsArray = Array.isArray(data.results) ? data.results : (data.results.results || []);
+                resultsArray.forEach(r => addResult(r));
+            }
+
+            currentScanId = null;  // Clear the scan ID
+        });
+
+        socket.on('scan_error', (data) => {
+            // Only process errors for our current scan session
+            // If no scan is active or scan_id doesn't match, ignore
+            if (!currentScanId || data.scan_id !== currentScanId) {
+                return;  // Ignore errors from other scans or when no scan is active
+            }
+
+            document.getElementById('scanBtn').disabled = false;
+            document.getElementById('scanBtn').textContent = 'Start Scan';
+            document.getElementById('status').textContent = 'Error: ' + data.error;
+            currentScanId = null;  // Clear the scan ID
+        });
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        let vulnCount = 0;
+        let safeCount = 0;
+
+        function addResult(result) {
+            const list = document.getElementById('resultsList');
+            document.getElementById('results').style.display = 'block';
+
+            const item = document.createElement('div');
+            item.className = 'result-item ' + (result.vulnerable ? 'vuln' : 'safe');
+            
+            // Update stats
+            if (result.vulnerable) {
+                vulnCount++;
+            } else {
+                safeCount++;
+            }
+            document.getElementById('statVuln').textContent = vulnCount;
+            document.getElementById('statSafe').textContent = safeCount;
+            document.getElementById('statScanned').textContent = vulnCount + safeCount;
+            
+            item.innerHTML = `
+                <strong>${result.vulnerable ? 'VULNERABLE' : 'Safe'}</strong>: ${escapeHtml(result.url || result.target || 'Unknown')}
+                ${result.payload ? '<br>Payload: <code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 3px;">' + escapeHtml(result.payload) + '</code>' : ''}
+            `;
+            list.appendChild(item);
+            list.scrollTop = list.scrollHeight;
+        }
+
+        document.getElementById('scanForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const urls = document.getElementById('urls').value.trim().split('\n').filter(u => u.trim());
+            const threads = parseInt(document.getElementById('threads').value) || 5;
+
+            if (!urls.length) {
+                alert('Please enter at least one URL');
+                return;
+            }
+
+            // Generate a unique scan ID for this session
+            currentScanId = 'scan_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+
+            // Reset stats
+            vulnCount = 0;
+            safeCount = 0;
+            document.getElementById('statVuln').textContent = '0';
+            document.getElementById('statSafe').textContent = '0';
+            document.getElementById('statScanned').textContent = '0';
+            document.getElementById('statsPanel').style.display = 'block';
+
+            document.getElementById('scanBtn').disabled = true;
+            document.getElementById('scanBtn').textContent = 'Scanning...';
+            document.getElementById('resultsList').innerHTML = '';
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('status').textContent = 'Starting scan...';
+            document.getElementById('progressContainer').style.display = 'block';
+
+            try {
+                const response = await fetch(`/api/scan/${scanType}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ urls, threads, scan_id: currentScanId })
+                });
+
+                const data = await response.json();
+                if (!data.success) {
+                    throw new Error(data.error || 'Scan failed');
+                }
+            } catch (err) {
+                document.getElementById('status').textContent = 'Error: ' + err.message;
+                document.getElementById('scanBtn').disabled = false;
+                document.getElementById('scanBtn').textContent = 'Start Scan';
+                currentScanId = null;
+            }
+        });
+    </script>
+</body>
+</html>

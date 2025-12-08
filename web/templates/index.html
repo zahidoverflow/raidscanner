@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RaidScanner - Web Vulnerability Scanner</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1 { text-align: center; margin: 40px 0; font-size: 2.5rem; }
+        h1 span { color: #e94560; }
+        .subtitle { text-align: center; color: #aaa; margin-bottom: 40px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.1);
+            border-color: #e94560;
+        }
+        .card h3 { color: #e94560; margin-bottom: 10px; font-size: 1.5rem; }
+        .card p { color: #aaa; line-height: 1.6; }
+        .card .icon { font-size: 3rem; margin-bottom: 15px; }
+        footer { text-align: center; margin-top: 60px; color: #666; padding: 20px; }
+        a { color: #e94560; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Raid<span>Scanner</span></h1>
+        <p class="subtitle">Modern Web Vulnerability Scanner for Ethical Hacking</p>
+
+        <div class="grid">
+            <a href="/scanner/lfi" class="card">
+                <div class="icon">📁</div>
+                <h3>LFI Scanner</h3>
+                <p>Local File Inclusion vulnerability detection. Tests for path traversal and file access vulnerabilities.</p>
+            </a>
+
+            <a href="/scanner/sqli" class="card">
+                <div class="icon">💉</div>
+                <h3>SQLi Scanner</h3>
+                <p>SQL Injection vulnerability detection. Tests for authentication bypass and data extraction.</p>
+            </a>
+
+            <a href="/scanner/xss" class="card">
+                <div class="icon">⚡</div>
+                <h3>XSS Scanner</h3>
+                <p>Cross-Site Scripting vulnerability detection. Tests for reflected and stored XSS.</p>
+            </a>
+
+            <a href="/scanner/or" class="card">
+                <div class="icon">🔗</div>
+                <h3>Open Redirect</h3>
+                <p>Open Redirect vulnerability detection. Tests for URL redirection flaws.</p>
+            </a>
+
+            <a href="/scanner/crlf" class="card">
+                <div class="icon">📝</div>
+                <h3>CRLF Injection</h3>
+                <p>HTTP Response Splitting detection. Tests for header injection vulnerabilities.</p>
+            </a>
+
+            <a href="/reports" class="card">
+                <div class="icon">📊</div>
+                <h3>Reports</h3>
+                <p>View and download scan reports. Historical vulnerability data and analysis.</p>
+            </a>
+        </div>
+
+        <footer>
+            <p>RaidScanner - For educational and authorized security testing only.</p>
+            <p><a href="https://github.com/zahidoverflow/raidscanner">GitHub</a></p>
+        </footer>
+    </div>
+</body>
+</html>
