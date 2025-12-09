@@ -515,7 +515,16 @@ class ScannerEngine:
                     redirect_location = raw_payload
 
                 # Method 2: Check if browser actually navigated to payload URL
-                if not is_vulnerable and raw_payload in current_url:
+                # Fix: Check if URL actually changed to avoid false positives 
+                # (where payload is just visible in the query params of the current page)
+                
+                # Normalize for comparison
+                cur_decoded = urllib.parse.unquote(current_url).rstrip('/')
+                tgt_decoded = urllib.parse.unquote(target_url).rstrip('/')
+                
+                url_changed = cur_decoded != tgt_decoded
+
+                if not is_vulnerable and url_changed and raw_payload in current_url:
                     is_vulnerable = True
                     redirect_location = current_url
 
