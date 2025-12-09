@@ -1000,7 +1000,8 @@ SOFTWARE.
 
 ## 📧 Contact & Support
 
-- **Author**: Zahid Hasan Polash (zahidoverflow)
+- **Author**: Md. Zahidul Islam ([zahidoverflow](https://github.com/zahidoverflow))
+- **Contributor**: Osman Faruque ([osmanfaruque](https://github.com/osmanfaruque)), Md Mehrab hossain ([0xmehr4b](https://github.com/0xmehr4b))
 - **GitHub**: [https://github.com/zahidoverflow/raidscanner](https://github.com/zahidoverflow/raidscanner)
 - **Docker Hub**: [https://hub.docker.com/r/zahidoverflow/raidscanner](https://hub.docker.com/r/zahidoverflow/raidscanner)
 - **Issues**: [GitHub Issues](https://github.com/zahidoverflow/raidscanner/issues)
